@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" width="520" height="90">
+  <defs>
+    <!-- Gold Foil Gradients -->
+    <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="35%" stop-color="#F59E0B"/>
+      <stop offset="70%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#92400E"/>
+    </linearGradient>
+    <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A2B"/>
+      <stop offset="50%" stop-color="#14532D"/>
+      <stop offset="100%" stop-color="#064E3B"/>
+    </linearGradient>
+    <filter id="goldGlow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.28" flood-color="#064E3B"/>
+    </filter>
+  </defs>
+
+  <!-- OPTION 1: LUXURY FOREST GREEN SHIELD WITH 3D GOLD MONOGRAM & LAUREL WREATH -->
+  <g transform="translate(10, 6)" filter="url(#goldGlow)">
+    <!-- Laurel Wreath (Left & Right) -->
+    <!-- Left Wreath -->
+    <path d="M12 60 C-2 44, 0 26, 16 14" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="6" cy="46" rx="6" ry="3.5" fill="#166534" transform="rotate(-35 6 46)"/>
+    <ellipse cx="4" cy="32" rx="6" ry="3.5" fill="#166534" transform="rotate(-20 4 32)"/>
+    <ellipse cx="9" cy="20" rx="6" ry="3.5" fill="#166534" transform="rotate(5 9 20)"/>
+
+    <!-- Right Wreath -->
+    <path d="M68 60 C82 44, 80 26, 64 14" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="74" cy="46" rx="6" ry="3.5" fill="#166534" transform="rotate(35 74 46)"/>
+    <ellipse cx="76" cy="32" rx="6" ry="3.5" fill="#166534" transform="rotate(20 76 32)"/>
+    <ellipse cx="71" cy="20" rx="6" ry="3.5" fill="#166534" transform="rotate(-5 71 20)"/>
+
+    <!-- Forest Green Luxury Shield -->
+    <path d="M18 16 C18 16, 40 12, 40 12 C40 12, 62 16, 62 16 C62 46, 40 68, 40 68 C40 68, 18 46, 18 16 Z" fill="url(#shieldBg)" stroke="url(#goldMetallic)" stroke-width="2.5"/>
+    <path d="M22 20 C22 20, 40 16.5, 40 16.5 C40 16.5, 58 20, 58 20 C58 44, 40 62, 40 62 C40 62, 22 44, 22 20 Z" fill="none" stroke="#22C55E" stroke-width="0.8" opacity="0.4"/>
+
+    <!-- Golden 5-Point North Star -->
+    <path d="M40 20 L41.5 24.5 L46 26 L41.5 27.5 L40 32 L38.5 27.5 L34 26 L38.5 24.5 Z" fill="url(#goldMetallic)"/>
+
+    <!-- 3D Gold Embossed Monogram 'PNK' -->
+    <text x="40" y="49" font-family="'Playfair Display', Georgia, serif" font-size="20" font-weight="900" fill="url(#goldMetallic)" text-anchor="middle" letter-spacing="0.05em">PNK</text>
+  </g>
+
+  <!-- LUXURY BRAND TYPOGRAPHY -->
+  <text x="108" y="45" font-family="'Playfair Display', Georgia, 'Times New Roman', serif" font-size="33" font-weight="800" letter-spacing="0.14em" fill="#0F172A">
+    PNK KITCHEN
+  </text>
+  
+  <line x1="110" y1="55" x2="495" y2="55" stroke="#166534" stroke-width="1.2" opacity="0.3"/>
+
+  <!-- SUB-SLOGAN -->
+  <text x="110" y="72" font-family="'Outfit', -apple-system, BlinkMacSystemFont, sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.22em" fill="#166534">
+    PURE LIVING <tspan fill="#D97706">•</tspan> NATURAL HEALTH <tspan fill="#D97706">•</tspan> KITCHEN PERFECTED
+  </text>
+</svg>
