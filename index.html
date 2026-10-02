@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PNK D2C Flagship AutoBuilder | 1-Click Store Automation Engine</title>
+  <meta name="description" content="미국 상위 1% D2C 플래그십 스토어 완전 자동화 빌더 엔진. 유료 앱 $0, 100% 실물 무왜곡 소싱, 0.1초 로딩.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+<body>
+  <!-- Top Global Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-mark">
+        <span class="compass-icon">✦</span>
+      </div>
+      <div class="header-title-wrap">
+        <div class="brand-title">
+          <span class="highlight">PNK D2C</span> AUTOBUILDER <span class="version-tag">PRO v5.0</span>
+        </div>
+        <div class="brand-subtitle">Universal Flagship Store Engine • Parent House: <strong>PNK FINDS</strong></div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>ZERO HALLUCINATION & 100% FAITHFUL ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="api-sync-btn" id="btn-open-sync-modal">
+        <span class="sync-icon">🔗</span> 쇼피파이 API 직접 연동
+      </button>
+      <div class="pill-badge">⚡ 0.1s Native Liquid</div>
+      <div class="pill-badge">💵 Zero App Fee ($0)</div>
+      <div class="pill-badge">🐧 POSIX Certified</div>
+    </div>
+  </header>
+
+  <!-- Master Security Gate (Password & Expiry Date Protection) -->
+  <div class="modal-overlay active" id="auth-modal-overlay" style="z-index: 9999; background: rgba(5, 7, 12, 0.96); backdrop-filter: blur(25px);">
+    <div class="modal-card" style="max-width: 440px; border: 1px solid rgba(217, 119, 6, 0.4); box-shadow: 0 0 50px rgba(217, 119, 6, 0.25); text-align: center; padding: 32px 28px;">
+      <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d97706, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);">
+        🔒
+      </div>
+      <h2 style="font-size: 20px; font-weight: 900; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.02em;">PNK D2C AUTOBUILDER</h2>
+      <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">인가된 파트너 및 운영자 전용 보안 제어 콘솔</p>
+
+      <div id="auth-expired-box" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 16px; color: #f87171; font-size: 13px; font-weight: 700;">
+        ⚠️ 접속 유효기간이 만료되었습니다.<br>
+        <span style="font-size: 11px; color: #94a3b8; font-weight: normal; display: block; margin-top: 4px;">관리자에게 재발급을 요청하세요: bagnamgyu8920@gmail.com</span>
+      </div>
+
+      <div id="auth-input-container">
+        <div class="form-group" style="margin-bottom: 12px; text-align: left;">
+          <label for="auth-password-input" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">마스터 액세스 키 (비밀번호)</label>
+          <input type="password" id="auth-password-input" class="form-input" placeholder="비밀번호를 입력하세요" style="text-align: center; font-size: 16px; letter-spacing: 0.15em; font-family: var(--font-mono); border-color: rgba(217, 119, 6, 0.4); background: rgba(0,0,0,0.6);">
+        </div>
+        <div id="auth-error-msg" style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-bottom: 12px;">
+          ❌ 비밀번호가 올바르지 않습니다.
+        </div>
+        <button type="button" id="btn-submit-auth" class="build-action-btn" style="width: 100%; padding: 14px; font-size: 14px; border-radius: 8px;">
+          보안 인증 및 스튜디오 입장 🔓
+        </button>
+        <div style="margin-top: 14px; font-size: 11px; color: #64748b;">
+          🛡️ 256-Bit 암호화 세션 • 무단 복제 및 유출 금지
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shopify Direct API Sync Modal -->
+  <div class="modal-overlay" id="sync-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="icon">🔗</span> 쇼피파이 스토어 API 직접 연동 설정
+        </div>
+        <button class="modal-close-btn" id="btn-close-sync-modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="api-guide-box">
+          <h4>💡 쇼피파이 직접 연동이란?</h4>
+          <p>내 쇼피파이 스토어 URL과 Admin API 토큰을 연결하면, ZIP이나 CSV를 수동으로 다운로드할 필요 없이 <strong>버튼 한 번에 테마, 상품 6종, 법적 정책이 사장님의 실제 스토어로 1초 만에 자동 전송 및 배포</strong>됩니다.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="sync-store-domain">내 쇼피파이 스토어 주소 (myshopify.com URL)</label>
+          <input type="text" id="sync-store-domain" class="form-input" placeholder="예: sswdcp-ny.myshopify.com" value="sswdcp-ny.myshopify.com">
+        </div>
+
+        <div class="form-group">
+          <label for="sync-access-token">Shopify Admin API Access Token (shpat_... / atkn_...)</label>
+          <input type="password" id="sync-access-token" class="form-input" placeholder="shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+          <span class="input-hint">발급 방법: 쇼피파이 관리자 > 설정 > 앱 및 판매 채널 > 앱 개발 > API 자격 증명</span>
+        </div>
+
+        <div class="sync-actions-row">
+          <button class="btn-secondary" id="btn-test-connection">🔍 1. 연결 상태 테스트</button>
+          <button class="btn-primary-glow" id="btn-deploy-now">🚀 2. 내 스토어로 1-Click 즉시 배포</button>
+        </div>
+
+        <div class="sync-status-box" id="sync-status-box">
+          <div class="sync-status-text" id="sync-status-text">상태: 연결 대기 중 (정보 입력 후 테스트를 눌러주세요)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Workspace Container -->
+  <main class="main-layout">
+    <!-- Left Control Panel -->
+    <aside class="control-panel">
+      <div class="panel-card">
+        <div class="panel-section-title">
+          <span class="icon">🏷️</span> 1. 카테고리 플래그십 선택
+        </div>
+        <div class="category-grid">
+          <button class="cat-btn" data-cat="office" id="btn-cat-office">
+            <span class="cat-icon">💼</span>
+            <span class="cat-name">오피스 & 데스크 (1탄)</span>
+            <span class="cat-sub">인체공학 모니터암/마우스</span>
+          </button>
+          <button class="cat-btn" data-cat="garden" id="btn-cat-garden">
+            <span class="cat-icon">🌿</span>
+            <span class="cat-name">가든 & 홈케어 (2탄)</span>
+            <span class="cat-sub">스마트 호스/정원 기어</span>
+          </button>
+          <button class="cat-btn" data-cat="pet" id="btn-cat-pet">
+            <span class="cat-icon">🐾</span>
+            <span class="cat-name">펫 & 스마트리빙 (3탄)</span>
+            <span class="cat-sub">Petkit/럭셔리 펫테크</span>
+          </button>
+          <button class="cat-btn active" data-cat="outdoor" id="btn-cat-outdoor">
+            <span class="cat-icon">🏕️</span>
+            <span class="cat-name">아웃도어 (4탄)</span>
+            <span class="cat-sub">Solo Stove/Snow Peak급</span>
+          </button>
+          <button class="cat-btn" data-cat="kitchen" id="btn-cat-kitchen">
+            <span class="cat-icon">🍳</span>
+            <span class="cat-name">키친 & 쿡웨어 (5탄)</span>
+            <span class="cat-sub">Our Place/Caraway급</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Brand Configuration Panel -->
+      <div class="panel-card">
+        <div class="panel-section-title">
+          <span class="icon">🏛️</span> 2. 브랜드 정밀 설정
+        </div>
+        <div class="form-group">
+          <label for="input-brand-name">브랜드 명칭 (Brand Name)</label>
+          <input type="text" id="input-brand-name" class="form-input" value="PNK OUTDOOR">
+        </div>
+        <div class="form-group">
+          <label for="input-brand-slogan">브랜드 메인 슬로건 (Slogan)</label>
+          <input type="text" id="input-brand-slogan" class="form-input" value="Elevate Your Campfire Experience">
+        </div>
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="input-cs-email">공식 고객센터 CS 이메일</label>
+            <input type="email" id="input-cs-email" class="form-input" value="bagnamgyu8920@gmail.com">
+          </div>
+          <div class="form-group flex-1">
+            <label for="input-year">카피라이트 연도</label>
+            <input type="text" id="input-year" class="form-input" value="2026">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="input-color-primary">프라이머리 컬러</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="input-color-primary" value="#0f172a">
+              <span id="label-color-primary">#0F172A</span>
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label for="input-color-accent">액센트 골드/하이라이트</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="input-color-accent" value="#d97706">
+              <span id="label-color-accent">#D97706</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clean Action Buttons (No unneeded text) -->
+        <div class="config-action-row" style="margin-top: 14px; display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+          <button type="button" class="btn-primary-glow" id="btn-save-settings" style="padding: 10px 14px; font-size: 13px; font-weight: 700; white-space: nowrap;">
+            💾 설정 저장
+          </button>
+          <button type="button" class="btn-secondary" id="btn-reset-settings" style="padding: 10px 14px; font-size: 13px; white-space: nowrap;">
+            🔄 초기화
+          </button>
+        </div>
+      </div>
+
+      <!-- Smart Profit & ROAS / Spark Cost Unified Fast Calculator Widget -->
+      <div class="panel-card" id="calc-panel-card">
+        <div class="panel-section-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span><span class="icon">📊</span> 3. 스마트 마진 & ROAS 광고 수익률 시뮬레이터</span>
+          <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 7px; border-radius: 4px; font-weight: 700;">PRO ALL-IN-ONE</span>
+        </div>
+
+        <!-- Unified Fast Inputs Row 1: Selling Price & Sourcing Cost (Two-Way Synced) -->
+        <div class="form-row" style="margin-bottom: 8px;">
+          <div class="form-group flex-1">
+            <label for="calc-price" style="color: #38bdf8; font-weight: 700; display: flex; justify-content: space-between;">
+              <span>쇼피파이 판매가 ($)</span>
+              <span style="font-size: 10px; color: #64748b;">역산 입력</span>
+            </label>
+            <input type="number" id="calc-price" class="form-input" value="206.67" step="0.01" style="border-color: rgba(56, 189, 248, 0.4); font-weight: 800; font-size: 14px; color: #38bdf8;">
+          </div>
+          <div class="form-group flex-1">
+            <label for="calc-cost" style="color: #10b981; font-weight: 700; display: flex; justify-content: space-between;">
+              <span>소싱 원가 ($)</span>
+              <span style="font-size: 10px; color: #64748b;">정방향 입력</span>
+            </label>
+            <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" style="border-color: rgba(16, 185, 129, 0.4); font-weight: 800; font-size: 14px; color: #10b981;">
+          </div>
+        </div>
+
+        <!-- Unified Fast Inputs Row 2: Spark Margin, Buffer & Ad CPA -->
+        <div class="form-row" style="margin-bottom: 12px;">
+          <div class="form-group" style="width: 75px;">
+            <label for="calc-margin">마진 (%)</label>
+            <input type="number" id="calc-margin" class="form-input" value="65" step="1">
+          </div>
+          <div class="form-group" style="width: 80px;">
+            <label for="calc-buffer">안전마진 ($)</label>
+            <input type="number" id="calc-buffer" class="form-input" value="50.00" step="5">
+          </div>
+          <div class="form-group flex-1">
+            <label for="calc-cpa" style="color: #f59e0b; font-weight: 700;">건당 광고비 (CPA $)</label>
+            <input type="number" id="calc-cpa" class="form-input" value="25.00" step="1.00">
+          </div>
+        </div>
+
+        <!-- 6-Pill Real-Time Profit & ROAS Metric Matrix -->
+        <div class="profit-summary-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px;">
+          <div class="profit-pill" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); padding: 8px 6px;">
+            <span class="p-lbl" style="color: #38bdf8; font-size: 10px;">권장 판매가 ($)</span>
+            <input type="number" id="res-retail" class="pill-input" value="209.99" step="0.50" style="background: transparent; border: none; color: #38bdf8; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+          </div>
+          <div class="profit-pill" style="padding: 8px 6px;">
+            <span class="p-lbl" style="font-size: 10px;">할인 정가 (COMPARE $)</span>
+            <input type="number" id="res-compare" class="pill-input" value="279.99" step="1.00" style="background: transparent; border: none; color: #f8fafc; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+          </div>
+          <div class="profit-pill highlight" style="padding: 8px 6px;">
+            <span class="p-lbl" style="font-size: 10px;">개당 총마진</span>
+            <span class="p-val" id="res-profit" style="font-size: 13px;">$111.72 (54%)</span>
+          </div>
+        </div>
+
+        <!-- ROAS & Net Profit Tier -->
+        <div class="roas-summary-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px;">
+          <div class="roas-pill b-bep" style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+            <span style="font-size: 10px; color: #f87171; font-weight: 700; display: block; text-transform: uppercase;">손익분기 ROAS</span>
+            <span id="res-bep-roas" style="font-size: 13px; font-weight: 800; color: #ef4444; font-variant-numeric: tabular-nums;">185% (1.8x)</span>
+          </div>
+          <div class="roas-pill b-target" style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+            <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block; text-transform: uppercase;">실전 예상 ROAS</span>
+            <span id="res-target-roas" style="font-size: 13px; font-weight: 800; color: #38bdf8; font-variant-numeric: tabular-nums;">840% (8.4x)</span>
+          </div>
+          <div class="roas-pill b-net" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 4px; text-align: center;">
+            <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block; text-transform: uppercase;">광고 차감 순수익</span>
+            <span id="res-net-after-ad" style="font-size: 13px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; display: block;">+$86.72</span>
+            <span id="res-net-krw" style="font-size: 9px; font-weight: 800; color: #34d399; display: block;">(약 11.7만 원)</span>
+          </div>
+        </div>
+
+        <!-- Supplier Cost Copy Bar -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 입력값:</span>
+            <span id="out-supplier-cost" style="font-size: 18px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums;">$94.95</span>
+          </div>
+          <button type="button" id="btn-quick-copy-cost" style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            📋 원가 복사
+          </button>
+        </div>
+
+        <!-- 4-Stage ROAS Traffic Light Action Navigator -->
+        <div class="traffic-light-container" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px;">
+          <div style="font-size: 11px; font-weight: 700; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span>🚦 실전 광고 판단 신호등</span>
+            <span id="traffic-status-badge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢 위닝 (+20% 증액)</span>
+          </div>
+
+          <!-- 4 Lamps Row -->
+          <div class="traffic-lamps" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
+            <div class="traffic-lamp" id="lamp-kill" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-red" style="width: 12px; height: 12px; border-radius: 50%; background: #450a0a; margin: 0 auto 4px auto;"></div>
+              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">&lt; 2.0x</div>
+              <div style="font-size: 9px; color: #64748b;">즉시 OFF</div>
+            </div>
+
+            <div class="traffic-lamp" id="lamp-opt" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-yellow" style="width: 12px; height: 12px; border-radius: 50%; background: #451a03; margin: 0 auto 4px auto;"></div>
+              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">2.0~3.5x</div>
+              <div style="font-size: 9px; color: #64748b;">소재 개선</div>
+            </div>
+
+            <div class="traffic-lamp active" id="lamp-scale" style="padding: 6px 4px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; text-align: center;">
+              <div class="t-bulb bulb-green" style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; margin: 0 auto 4px auto;"></div>
+              <div style="font-size: 9px; font-weight: 700; color: #10b981;">3.5~6.9x</div>
+              <div style="font-size: 9px; color: #34d399;">+20% 증액</div>
+            </div>
+
+            <div class="traffic-lamp" id="lamp-super" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-blue" style="width: 12px; height: 12px; border-radius: 50%; background: #0c4a6e; margin: 0 auto 4px auto;"></div>
+              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">7.0x+</div>
+              <div style="font-size: 9px; color: #64748b;">대량 증액</div>
+            </div>
+          </div>
+
+          <!-- Dynamic Action Guidance Box -->
+          <div class="traffic-guide-box" id="traffic-guide-text" style="font-size: 11px; color: #cbd5e1; line-height: 1.4; padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 12px;">
+            💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!
+          </div>
+        </div>
+
+        <!-- 🚀 3단 볼륨 번들 실전 순수익 증폭 시뮬레이터 (1-Pack vs Buy 2 vs Buy 3) -->
+        <div style="margin-top: 12px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 800; color: #38bdf8;">🚀 3단 번들 순수익 증폭 시뮬레이터</span>
+            <span style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">앱 비용 $0 내장</span>
+          </div>
+
+          <!-- 3-Column Bundle Matrix -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center;">
+            <!-- Single 1-Pack -->
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 4px;">
+              <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
+              <span id="bndl-rev-1" style="font-size: 12px; font-weight: 800; color: #f8fafc; display: block;">$209.99</span>
+              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25</span>
+              <span id="bndl-net-1" style="font-size: 12px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
+              <span id="bndl-krw-1" style="font-size: 9px; font-weight: 700; color: #34d399; display: block;">약 10.9만 원</span>
+            </div>
+
+            <!-- Buy 2 (15% OFF) -->
+            <div style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 4px;">
+              <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">Buy 2 (15%↓)</span>
+              <span id="bndl-rev-2" style="font-size: 12px; font-weight: 800; color: #38bdf8; display: block;">$356.98</span>
+              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
+              <span id="bndl-net-2" style="font-size: 12px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
+              <span id="bndl-krw-2" style="font-size: 9px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원 (1.6배)</span>
+            </div>
+
+            <!-- Buy 3 (25% OFF) -->
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; padding: 6px 4px;">
+              <span style="font-size: 10px; color: #f59e0b; font-weight: 700; display: block;">Buy 3 (25%↓)</span>
+              <span id="bndl-rev-3" style="font-size: 12px; font-weight: 800; color: #f59e0b; display: block;">$472.48</span>
+              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
+              <span id="bndl-net-3" style="font-size: 12px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
+              <span id="bndl-krw-3" style="font-size: 9px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원 (1.8배)</span>
+            </div>
+          </div>
+          <div style="font-size: 9px; color: #94a3b8; margin-top: 6px; text-align: center;">
+            💡 <strong>원리:</strong> 광고비($25)는 1번만 나가므로 번들 구매 시 사장님 순이익이 폭발합니다!
+          </div>
+        </div>
+
+        <!-- 📋 스토어 고정비 & 건당 실비용 투명 명세표 (입력 연동) -->
+        <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 10px 12px;">
+          <div style="font-size: 11px; font-weight: 800; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <span>📋 고정비 & 건당 실비용 명세표</span>
+            <span id="exp-fixed-badge" style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">월 고정비 $40.20 완벽 방어</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px;">
+            <!-- 월 고정 지출 (입력 연동) -->
+            <div style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">🏢 월 고정 지출 (입력 가능)</span>
+              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span>• 쇼피파이 플랜:</span>
+                <input type="number" id="exp-fixed-shopify" value="39.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+              </div>
+              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span>• 도메인(.com):</span>
+                <input type="number" id="exp-fixed-domain" value="1.20" step="0.10" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+              </div>
+              <div style="color: #10b981; display: flex; justify-content: space-between; align-items: center; font-weight: 700; margin-bottom: 4px;">
+                <span>• 번들앱/기타:</span>
+                <input type="number" id="exp-fixed-apps" value="0.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+              </div>
+              <div style="color: #38bdf8; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                <span>총 월 고정비:</span> <span id="exp-monthly-fixed" style="font-size: 11px; font-weight: 900; color: #38bdf8;">$40.20/월</span>
+              </div>
+            </div>
+            <!-- 건당 변동 지출 (입력 연동) -->
+            <div style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">💸 건당 변동 지출 (입력 가능)</span>
+              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span>• PG 수수료:</span> <span id="exp-pg-fee" style="font-weight: 700;">$6.30</span>
+              </div>
+              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span>• 미국 판매세 ($):</span>
+                <input type="number" id="exp-tax" value="0.00" step="0.50" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+              </div>
+              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span>• 공급사 배송비 ($):</span>
+                <input type="number" id="exp-shipping" value="0.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+              </div>
+              <div style="color: #10b981; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                <span>총 건당 변동비:</span> <span id="exp-variable-total" style="font-size: 11px; font-weight: 900; color: #10b981;">$6.30/건</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Physical Catalog Inspector -->
+      <div class="panel-card">
+        <div class="panel-section-title">
+          <span class="icon">📦</span> 4. 검증된 실물 라인업 (에셋 1:1 결합 완료)
+        </div>
+        <div class="catalog-list" id="catalog-list-container">
+          <!-- Dynamic Catalog Cards loaded via app.js -->
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button class="build-action-btn" id="btn-run-build">
+        <span class="btn-glow"></span>
+        <span class="btn-text">🚀 1-CLICK D2C 플래그십 패키지 빌드</span>
+      </button>
+    </aside>
+
+    <!-- Right Live Preview & Release Studio -->
+    <section class="preview-studio">
+      <div class="studio-header">
+        <div class="studio-tabs">
+          <button class="tab-btn active" id="tab-home">🏠 스토어 홈</button>
+          <button class="tab-btn" id="tab-pdp">🛍️ PDP A+ 도면</button>
+          <button class="tab-btn" id="tab-collections">📁 컬렉션 허브</button>
+          <button class="tab-btn" id="tab-cart">🛒 장바구니 & 결제</button>
+          <button class="tab-btn" id="tab-legal">⚖️ 4대 법적 정책</button>
+        </div>
+        <div class="device-switcher">
+          <button class="device-btn active" id="btn-view-desktop">🖥️ 데스크탑</button>
+          <button class="device-btn" id="btn-view-mobile">📱 모바일</button>
+        </div>
+      </div>
+
+      <!-- Live Mockup Screen Container -->
+      <div class="screen-viewport" id="screen-viewport">
+        <!-- Live Storefront Mock -->
+        <div class="store-mock" id="store-mock-container">
+          <!-- Announcement Bar -->
+          <div class="mock-top-bar" id="mock-top-bar">
+            <span>🏕️ 30-Day Risk-Free Field Trial</span>
+            <span>🚀 Free US Express Over $50</span>
+            <span>🔒 256-Bit SSL Checkout</span>
+            <span>💬 24/7 CS (<span id="mock-email-span">bagnamgyu8920@gmail.com</span>)</span>
+          </div>
+
+          <!-- Store Header -->
+          <nav class="mock-nav" id="mock-nav">
+            <div class="mock-logo" id="mock-logo" style="display: flex; align-items: center; gap: 8px;">
+              <img src="logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">
+            </div>
+            <div class="mock-menu">
+              <span>Shop All</span>
+              <span>Best Sellers</span>
+              <span>Hardware Division</span>
+              <span>About Us</span>
+              <span>FAQ</span>
+            </div>
+            <div class="mock-actions">
+              <span>🔍 Search</span>
+              <span>🛒 Cart (0)</span>
+            </div>
+          </nav>
+
+          <!-- Store Hero Banner -->
+          <div class="mock-hero" id="mock-hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <span class="hero-tag" id="mock-hero-tag">ENGINEERED FOR THE UNTAMED WILD</span>
+              <h1 id="mock-hero-title">ELEVATE YOUR CAMPFIRE EXPERIENCE</h1>
+              <p id="mock-hero-desc">100% Solid 304 Marine Stainless Steel Smokeless Secondary Combustion & Pure Titanium Warmth.</p>
+              <div class="hero-btn-wrap">
+                <button class="mock-cta-btn" id="mock-cta-btn">EXPLORE 6 CORE HARDWARES</button>
+                <button class="mock-sec-btn">30-DAY FIELD TRIAL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Grid Section -->
+          <div class="mock-products-section">
+            <div class="section-title-wrap">
+              <span class="sub-label">PRECISION SOURCED EXPEDITION HARDWARE</span>
+              <h2>THE CORE VERIFIED LINEUP</h2>
+              <p>100% Faithful Manufacturer Specifications • Heavy-Duty Field Tested</p>
+            </div>
+            <div class="mock-products-grid" id="mock-products-grid">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+
+          <!-- Trust Badges Section -->
+          <div class="mock-trust-section">
+            <div class="trust-box">
+              <div class="t-icon">🛡️</div>
+              <h4>30-Day Field Trial</h4>
+              <p>Test in the wild for 30 full days. Hassle-free prepaid RMA returns.</p>
+            </div>
+            <div class="trust-box">
+              <div class="t-icon">🚀</div>
+              <h4>$50+ Free Express Shipping</h4>
+              <p>Dispatched within 24h with full end-to-end US tracking.</p>
+            </div>
+            <div class="trust-box">
+              <div class="t-icon">⚙️</div>
+              <h4>1-Year Heavy-Duty Warranty</h4>
+              <p>Unconditional replacement against any material or structural defects.</p>
+            </div>
+            <div class="trust-box">
+              <div class="t-icon">💬</div>
+              <h4>Dedicated 24/7 Concierge</h4>
+              <p>Direct assistance within 24h at <span class="cs-mail-target">bagnamgyu8920@gmail.com</span></p>
+            </div>
+          </div>
+
+          <!-- Store Footer -->
+          <footer class="mock-footer" id="mock-footer">
+            <div class="footer-top">
+              <div class="footer-col">
+                <div class="f-logo" id="mock-footer-brand" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <img src="logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR" style="height: 38px; width: auto; object-fit: contain; filter: brightness(1.1);">
+                </div>
+                <p class="f-motto">Born from the founder's visionary spirit of "Pioneering New Horizons". A specialized luxury division curated by PNK FINDS.</p>
+              </div>
+              <div class="footer-col">
+                <h5>Shop Essentials</h5>
+                <ul>
+                  <li>Smokeless Fire Pits</li>
+                  <li>Titanium Wood Stoves</li>
+                  <li>4-Season Bell Tents</li>
+                  <li>Ultralight Camp Chairs</li>
+                </ul>
+              </div>
+              <div class="footer-col">
+                <h5>Customer Care</h5>
+                <ul>
+                  <li>30-Day Return & RMA Policy</li>
+                  <li>$50+ Free Express Shipping</li>
+                  <li>1-Year Limited Warranty</li>
+                  <li>Contact: <span class="cs-mail-target">bagnamgyu8920@gmail.com</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-bottom" id="mock-footer-copyright">
+              © 2026, PNK OUTDOOR (A PNK FINDS Brand). All rights reserved.
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      <!-- Build Terminal & Asset Release Hub -->
+      <div class="build-release-panel">
+        <div class="terminal-header">
+          <div class="term-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="term-title">⚡ PNK BUILD ENGINE CONSOLE & RELEASE HUB</div>
+          <div class="term-time" id="term-timestamp">READY</div>
+        </div>
+
+        <div class="terminal-body" id="term-body">
+          <div class="log-line text-muted">> Engine initialized. Select category and click '1-CLICK D2C 플래그십 패키지 빌드' to generate.</div>
+        </div>
+
+        <!-- Release Cards (Hidden by default, shown upon build) -->
+        <div class="release-cards" id="release-cards" style="display: none;">
+          <div class="release-card">
+            <div class="r-icon">📦</div>
+            <div class="r-info">
+              <div class="r-title" id="r-zip-title">pnk-outdoor-dawn.zip</div>
+              <div class="r-sub">22.36 MB • POSIX Clean • Zero Paid Apps ($0)</div>
+            </div>
+            <button class="download-btn" id="btn-dl-zip">다운로드</button>
+          </div>
+
+          <div class="release-card">
+            <div class="r-icon">📄</div>
+            <div class="r-info">
+              <div class="r-title">Master Catalog CSVs (8종)</div>
+              <div class="r-sub">100% Sourced Real Physical Specs • Active Inventory</div>
+            </div>
+            <button class="download-btn" id="btn-dl-csv">CSV 다운로드</button>
+          </div>
+
+          <div class="release-card">
+            <div class="r-icon">⚖️</div>
+            <div class="r-info">
+              <div class="r-title" id="r-legal-title">PNK_OUTDOOR_LEGAL_POLICIES.md</div>
+              <div class="r-sub">US D2C Standard 4대 신뢰 정책 및 RMA 규정</div>
+            </div>
+            <button class="download-btn" id="btn-dl-legal">문서 다운로드</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js?v=5.0"></script>
+</body>
+</html>
