@@ -22,8 +22,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-office-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_OFFICE_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/1_PNK_OFFICE_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/1_PNK_OFFICE/favicon.png",
     defaultCost: 32.00,
     defaultPrice: 99.99,
     products: [
@@ -80,8 +80,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-garden-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_GARDEN_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/2_PNK_GARDEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/2_PNK_GARDEN/favicon.png",
     defaultCost: 38.00,
     defaultPrice: 119.99,
     products: [
@@ -131,8 +131,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-pet-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_PET_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/3_PNK_PET_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/3_PNK_PET/favicon.png",
     defaultCost: 28.50,
     defaultPrice: 89.99,
     products: [
@@ -247,8 +247,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-kitchen-dawn.zip",
     zipSize: "2.43 MB",
     legalFile: "PNK_KITCHEN_LEGAL_POLICIES.md",
-    logoImg: "logos/5_PNK_KITCHEN_OFFICIAL_LOGO.png",
-    faviconImg: "logos/5_PNK_KITCHEN_OFFICIAL_FAVICON.png",
+    logoImg: "logos/5_PNK_KITCHEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/5_PNK_KITCHEN/favicon.png",
     defaultCost: 78.50,
     defaultPrice: 189.99,
     products: [
