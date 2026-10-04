@@ -1943,7 +1943,7 @@ body {
           <button class="tab-btn" id="tab-collections">📁 컬렉션 허브</button>
           <button class="tab-btn" id="tab-cart">🛒 장바구니 & 결제</button>
           <button class="tab-btn" id="tab-legal">⚖️ 4대 법적 정책</button>
-          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 차지백 & CS 방어</button>
+          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 법적 분쟁 & 리스크 방어</button>
         </div>
         <div class="device-switcher">
           <button class="device-btn active" id="btn-view-desktop">🖥️ 데스크탑</button>
@@ -3292,8 +3292,11 @@ function renderLegalView(b) {
 }
 
 // ==========================================================================
-// 🛡️ 6. Render Chargeback & Dispute Defense Hub (76대 스파미 실전 운영 가이드라인 융합)
+// 🛡️ 6. Universal Risk & Legal Defense Tower (전사 4대 법적 분쟁 & 리스크 통합 방어 센터)
 // ==========================================================================
+let activeRiskModule = "chargeback"; // "chargeback" | "ip_scam" | "supplier" | "compliance"
+
+// 1. Chargeback Sub-module State & Scenarios
 let currentDisputeScenario = "case1";
 let disputeFormValues = {
   orderNo: "#1084",
@@ -3471,49 +3474,133 @@ ${b.email}`
   }
 };
 
+// 2. IP & Scam Defense Sub-module State
+let scamInspectorValues = {
+  sender: "legal-counsel-notice@gmail.com",
+  body: "URGENT LEGAL DEMAND: We represent the copyright owner of the images on your store. You are in direct violation of US Copyright Law. Download our Cease & Desist lawsuit evidence package here: http://bit.ly/lawsuit-evidence-doc.zip and pay $1,500 settlement to avoid Federal Court proceedings.",
+  analyzed: false
+};
+
+let dmcaAppealValues = {
+  claimNo: "DMCA-2026-9812",
+  productName: "",
+  noticeDate: "2026-10-01"
+};
+
+// 3. Supplier Risk & CS Sub-module State
+let supplierCsValues = {
+  mode: "upgrade", // "upgrade" | "refund"
+  orderNo: "#1084",
+  customerName: "Michael Scott",
+  originalItem: "",
+  upgradeItem: "",
+  refundAmount: "$139.99"
+};
+
+// ==========================================================================
+// Main Universal Risk Tower Renderer
+// ==========================================================================
 function renderDisputeView(b) {
   if (!storeMockContainer) return;
 
   if (!disputeFormValues.productName) {
     disputeFormValues.productName = b.products[selectedProductIndex]?.title || b.products[0].title;
   }
-
-  const scenario = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
-  const rebuttalText = scenario.getRebuttal(b, disputeFormValues);
+  if (!dmcaAppealValues.productName) {
+    dmcaAppealValues.productName = b.products[selectedProductIndex]?.title || b.products[0].title;
+  }
+  if (!supplierCsValues.originalItem) {
+    supplierCsValues.originalItem = b.products[selectedProductIndex]?.title || b.products[0].title;
+    supplierCsValues.upgradeItem = (b.products[1] || b.products[0]).title + " (Flagship Pro Edition)";
+  }
 
   storeMockContainer.innerHTML = `
     ${getMockHeaderHTML(b)}
 
-    <div style="padding: 24px 20px; background: #090d16; color: #f8fafc; font-family: Outfit, sans-serif; min-height: 650px;">
+    <div style="padding: 24px 20px; background: #090d16; color: #f8fafc; font-family: Outfit, sans-serif; min-height: 700px;">
       
-      <!-- Top Title & Golden Rule Alert Banner -->
+      <!-- Top Title & Universal Risk Control Tower Header -->
       <div style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 18px 20px; box-shadow: 0 4px 25px rgba(239, 68, 68, 0.15);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
           <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 24px;">🛡️</span>
+            <span style="font-size: 26px;">🛡️</span>
             <div>
-              <h1 style="font-size: 20px; font-weight: 900; margin: 0; color: #f87171;">${b.name} 차지백(Chargeback) & CS 법적 방어 센터</h1>
-              <span style="font-size: 11px; color: #94a3b8;">76대 스파미 실전 운영 가이드라인 융합 • 1초 만에 100% 승소용 공식 영문 소명서 생성</span>
+              <h1 style="font-size: 20px; font-weight: 900; margin: 0; color: #f87171;">${b.name} 전사 법적 분쟁 & 리스크 통합 방어 센터</h1>
+              <span style="font-size: 11px; color: #94a3b8;">76대 스파미 실전 운영 가이드라인 융합 • 4대 전방위 리스크(차지백 / IP / 공급사 / 미국 연방법) 1초 방어 타워</span>
             </div>
           </div>
-          <span style="font-size: 10px; background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); padding: 4px 10px; border-radius: 20px; font-weight: 800;">
-            🚨 승소율 극대화 가동 중
+          <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 10px; border-radius: 20px; font-weight: 800;">
+            ✅ 전사 법적 방어망 100% 가동
           </span>
         </div>
 
-        <!-- Golden Rules Row -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-top: 12px; font-size: 11px; line-height: 1.5;">
-          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
-            <strong style="color: #fca5a5;">⚠️ 제1철칙: 절대 'Accept dispute (분쟁 수락)' 금지</strong><br>
-            수락 시 패소 확정 + $15~$20 수수료 강제 부과. 무조건 'Submit response'로 100% 소명서 제출!
-          </div>
-          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
-            <strong style="color: #38bdf8;">💡 제2철칙: 고객 사전 설득 CS 메일 병행 발송</strong><br>
-            환불을 해주더라도 고객이 카드사에 차지백 취소(Withdraw)를 먼저 접수하도록 유도(Case 5 활용).
-          </div>
+        <!-- 4-Pillar Master Navigation Switcher -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px;">
+          <button type="button" class="risk-nav-btn ${activeRiskModule === 'chargeback' ? 'active' : ''}" data-mod="chargeback" style="
+            background: ${activeRiskModule === 'chargeback' ? 'linear-gradient(135deg, #ef4444, #991b1b)' : 'rgba(0,0,0,0.4)'};
+            border: 1px solid ${activeRiskModule === 'chargeback' ? '#ef4444' : 'rgba(255,255,255,0.1)'};
+            color: #fff; padding: 10px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+          ">
+            <span>💳 1. 차지백(Chargeback) 소명</span>
+          </button>
+
+          <button type="button" class="risk-nav-btn ${activeRiskModule === 'ip_scam' ? 'active' : ''}" data-mod="ip_scam" style="
+            background: ${activeRiskModule === 'ip_scam' ? 'linear-gradient(135deg, #f59e0b, #b45309)' : 'rgba(0,0,0,0.4)'};
+            border: 1px solid ${activeRiskModule === 'ip_scam' ? '#f59e0b' : 'rgba(255,255,255,0.1)'};
+            color: #fff; padding: 10px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+          ">
+            <span>⚖️ 2. 지재권(IP) & 가짜소송 판별</span>
+          </button>
+
+          <button type="button" class="risk-nav-btn ${activeRiskModule === 'supplier' ? 'active' : ''}" data-mod="supplier" style="
+            background: ${activeRiskModule === 'supplier' ? 'linear-gradient(135deg, #38bdf8, #0284c7)' : 'rgba(0,0,0,0.4)'};
+            border: 1px solid ${activeRiskModule === 'supplier' ? '#38bdf8' : 'rgba(255,255,255,0.1)'};
+            color: #fff; padding: 10px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+          ">
+            <span>📦 3. 공급사 계정락 & 품절대응 CS</span>
+          </button>
+
+          <button type="button" class="risk-nav-btn ${activeRiskModule === 'compliance' ? 'active' : ''}" data-mod="compliance" style="
+            background: ${activeRiskModule === 'compliance' ? 'linear-gradient(135deg, #10b981, #047857)' : 'rgba(0,0,0,0.4)'};
+            border: 1px solid ${activeRiskModule === 'compliance' ? '#10b981' : 'rgba(255,255,255,0.1)'};
+            color: #fff; padding: 10px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+          ">
+            <span>♿ 4. 미국 연방법(ADA/FTC) 검역</span>
+          </button>
         </div>
       </div>
 
+      <!-- Dynamic Active Risk Module View Container -->
+      <div id="risk-module-content">
+        ${getRiskModuleHTML(b)}
+      </div>
+
+    </div>
+
+    ${getMockFooterHTML(b)}
+  `;
+
+  // Attach Top Risk Navigation Switcher Handlers
+  document.querySelectorAll(".risk-nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeRiskModule = btn.dataset.mod;
+      renderDisputeView(b);
+    });
+  });
+
+  // Attach module-specific event bindings
+  attachRiskModuleListeners(b);
+}
+
+// ==========================================================================
+// Dynamic HTML Generators for 4 Risk Modules
+// ==========================================================================
+function getRiskModuleHTML(b) {
+  if (activeRiskModule === "chargeback") {
+    const scenario = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+    const rebuttalText = scenario.getRebuttal(b, disputeFormValues);
+
+    return `
       <!-- 5-Scenario Switcher Tabs -->
       <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px;">
         ${Object.values(DISPUTE_SCENARIOS).map(sc => `
@@ -3544,7 +3631,6 @@ function renderDisputeView(b) {
         
         <!-- Left: Dynamic Parameters & 5-Point Evidence Checklist -->
         <div>
-          <!-- Parameter Input Form -->
           <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <span style="font-size: 12px; font-weight: 800; color: #38bdf8;">📝 실시간 소명 파라미터 입력</span>
@@ -3675,62 +3761,492 @@ function renderDisputeView(b) {
         </div>
 
       </div>
+    `;
+  }
 
-    </div>
+  else if (activeRiskModule === "ip_scam") {
+    const dmcaLetter = `Subject: Formal Appeal & Response to Notice ${dmcaAppealValues.claimNo} - Store: ${b.name}
 
-    ${getMockFooterHTML(b)}
-  `;
+Dear Shopify Trust & Safety / Legal Compliance Team,
 
-  // Attach Scenario Switcher Event Listeners
-  document.querySelectorAll(".dispute-tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      currentDisputeScenario = btn.dataset.sc;
-      renderDisputeView(b);
+We are submitting this formal response and appeal regarding Notice ${dmcaAppealValues.claimNo} concerning ${dmcaAppealValues.productName || b.products[0].title} on our store (${b.name}).
+
+1. IMMEDIATE REMEDIATION & PRODUCT REMOVAL:
+Upon receiving this notification, we immediately acted in good faith and permanently removed the flagged product (${dmcaAppealValues.productName || b.products[0].title}) and all associated media assets from our active catalog. 
+
+2. LACK OF INFRINGEMENT INTENT & SOURCING CONTEXT:
+As an independent D2C curated retail brand, we sourced product catalog specifications through standard manufacturing supplier feeds. There was zero intention to infringe upon any third-party intellectual property or copyright. 
+
+3. PERMANENT CORRECTIVE ACTIONS & SOURCING AUDIT:
+To guarantee full long-term compliance, we have implemented the following strict protocols:
+• Completed a comprehensive audit of all remaining catalog items to verify zero proprietary trademark or copyright conflicts.
+• Enforced proprietary brand modeling, unique product nomenclature, and sanitized technical diagrams.
+• Re-confirmed full adherence to Shopify's Acceptable Use Policy (AUP) and Intellectual Property Guidelines.
+
+We respectfully request that you review our immediate remediation and maintain our merchant store in full active standing.
+
+Sincerely,
+${b.name} Compliance Desk
+Parent House: PNK FINDS ("Pioneering New Horizons")
+Contact: ${b.email}`;
+
+    return `
+      <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; align-items: start;">
+        
+        <!-- Left: Fake Legal Threat / Scam Inspector -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 10px; padding: 18px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 13px; font-weight: 900; color: #f59e0b;">🔍 가짜 변호사/저작권 피싱 메일 3초 감별기</span>
+              <span style="font-size: 9px; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스파미 64번 SOP</span>
+            </div>
+
+            <p style="font-size: 11px; color: #94a3b8; line-height: 1.5; margin-bottom: 12px;">
+              스토어 문의메일로 "저작권 침해 소송" 협박을 받았을 때, 아래에 발신자 이메일과 본문을 넣고 분석을 누르세요.
+            </p>
+
+            <div style="font-size: 11px; margin-bottom: 10px;">
+              <label style="display: block; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">발신자 이메일 주소</label>
+              <input type="text" id="scam-input-from" value="${scamInspectorValues.sender}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+            </div>
+
+            <div style="font-size: 11px; margin-bottom: 12px;">
+              <label style="display: block; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">의심되는 메일 본문</label>
+              <textarea id="scam-input-body" style="width: 100%; height: 100px; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px; border-radius: 6px; font-size: 11px; line-height: 1.5; resize: vertical;">${scamInspectorValues.body}</textarea>
+            </div>
+
+            <button type="button" id="btn-run-scam-analysis" style="width: 100%; padding: 10px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-size: 12px; font-weight: 900; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
+              ⚡ 피싱 위험 지표 즉시 분석하기 ➔
+            </button>
+
+            <!-- Dynamic Result Verdict Box -->
+            <div id="scam-result-box" style="margin-top: 14px; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 8px; font-size: 11px; line-height: 1.6;">
+              <div style="font-weight: 900; color: #f87171; font-size: 12px; margin-bottom: 4px;">🚨 [판정] 100% 가짜 피싱 악성코드 협박 사기입니다!</div>
+              <div style="color: #cbd5e1;">
+                • <strong>발신자 위조:</strong> 실제 미국 로펌은 @gmail.com 등 무료 메일을 절대 쓰지 않습니다.<br>
+                • <strong>랜섬웨어 유포:</strong> 본문의 .zip/.exe 파일이나 단축 URL은 PC 해킹용 악성코드입니다.<br>
+                • <strong>행동 요령:</strong> <strong style="color:#ef4444;">절대 링크를 클릭하지 마시고</strong>, 즉시 스팸 차단 및 영구 삭제하세요!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Official Shopify DMCA Appeal Generator -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-size: 13px; font-weight: 900; color: #38bdf8;">📜 쇼피파이 공식 DMCA / 지재권 통보 항소문 생성기</span>
+                <p style="font-size: 10px; color: #94a3b8; margin: 3px 0 0 0;">스파미 05번/07번 가이드 기반 • 즉시 삭제 조치 및 고의성 없음 공식 소명</p>
+              </div>
+              <button type="button" id="btn-copy-dmca" style="background: linear-gradient(135deg, #38bdf8, #0284c7); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer;">
+                📋 [공식 항소문 복사]
+              </button>
+            </div>
+
+            <!-- Inputs for DMCA -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 11px;">
+              <div>
+                <label style="display: block; color: #94a3b8; font-weight: 700; margin-bottom: 2px;">통지 번호 (Claim #)</label>
+                <input type="text" id="dmca-input-claim" value="${dmcaAppealValues.claimNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; font-weight: 700; margin-bottom: 2px;">해당 상품명</label>
+                <input type="text" id="dmca-input-prod" value="${dmcaAppealValues.productName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 11px;">
+              </div>
+            </div>
+
+            <textarea id="dmca-textarea" readonly style="width: 100%; height: 320px; box-sizing: border-box; background: #040711; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f1f5f9; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 11px; line-height: 1.6; padding: 14px; resize: vertical; outline: none;">${dmcaLetter}</textarea>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  else if (activeRiskModule === "supplier") {
+    const isUpgrade = supplierCsValues.mode === "upgrade";
+    const csLetter = isUpgrade ? `Subject: Good News: Complimentary Premium Upgrade for Your ${b.name} Order ${supplierCsValues.orderNo}
+
+Hi ${supplierCsValues.customerName},
+
+Thank you for choosing ${b.name}. We are reaching out with an important and exciting update regarding your recent order ${supplierCsValues.orderNo}.
+
+Due to an overwhelming surge in demand, our standard batch of ${supplierCsValues.originalItem || b.products[0].title} temporarily reached capacity at our fulfillment hub. 
+
+🎁 YOUR FREE COMPLIMENTARY UPGRADE:
+Rather than making you wait, we have automatically upgraded your order to our Flagship Premium Edition — ${supplierCsValues.upgradeItem} — at absolutely ZERO extra charge to you!
+
+• Upgraded Model: ${supplierCsValues.upgradeItem} (Premium Tier)
+• Additional Cost: $0.00 (100% Fully covered by ${b.name})
+• Dispatch Speed: Dispatched via Priority Express Tracking
+
+Your upgraded order is being processed right now and will dispatch on schedule. If you have any questions, please reply directly to this email.
+
+Warm regards,
+${b.name} Priority Fulfillment Desk
+${b.email}` : `Subject: Important Update & Immediate Full Refund for Order ${supplierCsValues.orderNo} - ${b.name}
+
+Hi ${supplierCsValues.customerName},
+
+Thank you for shopping with ${b.name}. We are contacting you regarding your order ${supplierCsValues.orderNo} for ${supplierCsValues.originalItem || b.products[0].title}.
+
+During our strict pre-shipment quality inspection, our logistics team identified a supply chain fulfillment delay that does not meet our high standards for fast delivery. Because we refuse to make our valued customers wait indefinitely, we have processed a 100% FULL REFUND of ${supplierCsValues.refundAmount} back to your original payment method immediately.
+
+• Refund Amount: ${supplierCsValues.refundAmount} (100% Full Refund Processed)
+• Processing Window: 1-3 business days depending on your bank
+
+🎁 A TOKEN OF OUR SINCERE APOLOGY:
+We truly value your trust. Please enjoy an exclusive 10% OFF VIP coupon code on your next visit: [ PNK10VIP ].
+
+We sincerely apologize for any inconvenience caused and hope to welcome you back soon!
+
+Warm regards,
+Customer Relations Team
+${b.name}
+${b.email}`;
+
+    return `
+      <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; align-items: start;">
+        
+        <!-- Left: Amazon Account Lock Prevention SOP -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 18px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 13px; font-weight: 900; color: #38bdf8;">🔒 아마존 구매 계정 잠금(Account Lock) 방지 5대 수칙</span>
+              <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스파미 25/54번 SOP</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 11px; line-height: 1.5; color: #cbd5e1;">
+              <div style="background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+                <strong>1. 1일 발주 한도 및 계정 분산:</strong> 하루 10건 이상 주문 시, 단일 아마존 프라임 계정 대신 2~3개의 비즈니스 계정으로 분산 발주.
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+                <strong>2. 결제 신용/체크카드 분리:</strong> 동일 카드 과다 결제로 인한 금융사 보안 FDS 차단을 방지하기 위해 복수 법인/개인 카드 교차 사용.
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+                <strong>3. 기프트(Gift) 발주 옵션 활용:</strong> 아마존 박스 내 영수증/인보이스 가격 노출을 방지하기 위해 'This is a gift' 체크.
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+                <strong>4. 수취인 주소 포맷 표준화:</strong> 배송지 주소에 고객 성명과 고유 주문번호(PNK-1084)를 병기하여 배송 혼선 원천 방지.
+              </div>
+              <div style="background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+                <strong>5. 24시간 내 쇼피파이 송장 맵핑:</strong> 아마존 TBA 또는 배송사 트래킹 번호가 뜨는 즉시 쇼피파이 주문에 즉시 매핑.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Out-of-Stock / Price Spike Live CS Generator -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-size: 13px; font-weight: 900; color: #38bdf8;">📦 공급사 품절 / 가격 폭등 시 실전 1초 고객 CS 생성기</span>
+                <p style="font-size: 10px; color: #94a3b8; margin: 3px 0 0 0;">상위 모델 무상 업그레이드 또는 정중한 즉시 전액 환불 & VIP 쿠폰 발급</p>
+              </div>
+              <button type="button" id="btn-copy-supplier-cs" style="background: linear-gradient(135deg, #38bdf8, #0284c7); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer;">
+                📋 [CS 영문 이메일 복사]
+              </button>
+            </div>
+
+            <!-- Mode Selector Pills -->
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <button type="button" class="sup-mode-btn ${isUpgrade ? 'active' : ''}" data-smode="upgrade" style="
+                flex: 1; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer;
+                background: ${isUpgrade ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.05)'};
+                border: 1px solid ${isUpgrade ? '#10b981' : 'rgba(255,255,255,0.1)'};
+                color: ${isUpgrade ? '#10b981' : '#94a3b8'};
+              ">🎁 A안: 상위 모델 무상 업그레이드 발송</button>
+
+              <button type="button" class="sup-mode-btn ${!isUpgrade ? 'active' : ''}" data-smode="refund" style="
+                flex: 1; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer;
+                background: ${!isUpgrade ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255,255,255,0.05)'};
+                border: 1px solid ${!isUpgrade ? '#ef4444' : 'rgba(255,255,255,0.1)'};
+                color: ${!isUpgrade ? '#f87171' : '#94a3b8'};
+              ">💸 B안: 즉시 전액 환불 & 10% 쿠폰 발급</button>
+            </div>
+
+            <!-- Dynamic Input Fields -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 11px;">
+              <div>
+                <label style="display: block; color: #94a3b8; font-weight: 700; margin-bottom: 2px;">주문 번호</label>
+                <input type="text" id="sup-input-order" value="${supplierCsValues.orderNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; font-weight: 700; margin-bottom: 2px;">고객 성명</label>
+                <input type="text" id="sup-input-cust" value="${supplierCsValues.customerName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 11px;">
+              </div>
+              <div style="grid-column: span 2;">
+                <label style="display: block; color: #94a3b8; font-weight: 700; margin-bottom: 2px;">${isUpgrade ? '업그레이드 발송 모델명' : '환불 금액 ($)'}</label>
+                <input type="text" id="sup-input-item" value="${isUpgrade ? supplierCsValues.upgradeItem : supplierCsValues.refundAmount}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 11px;">
+              </div>
+            </div>
+
+            <textarea id="supplier-cs-textarea" readonly style="width: 100%; height: 300px; box-sizing: border-box; background: #040711; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f1f5f9; font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 11px; line-height: 1.6; padding: 14px; resize: vertical; outline: none;">${csLetter}</textarea>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  else if (activeRiskModule === "compliance") {
+    return `
+      <!-- Compliance Self-Audit Hub -->
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: start;">
+        
+        <!-- Left: 4-Domain Legal Audit Matrix -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <span style="font-size: 13px; font-weight: 900; color: #10b981;">♿ 미국 D2C 4대 연방법 자가 진단 매트릭스</span>
+            <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 3px 8px; border-radius: 4px; font-weight: 900;">100/100 A+ PASS</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 11px; line-height: 1.5; color: #cbd5e1;">
+            
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #10b981;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="color: #10b981; font-size: 12px;">1. ADA Web Accessibility (미국 장애인 차별 금지법)</strong>
+                <span style="color: #10b981; font-weight: 800;">[100% 방어 완료]</span>
+              </div>
+              • 모든 상품 이미지/로고에 스크린 리더용 의미론적 <code>alt</code> 속성 자동 탑재.<br>
+              • WCAG 2.1 AA 기준 4.5:1 이상 고대비 다크모드 색상 시스템 준수.
+            </div>
+
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #10b981;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="color: #10b981; font-size: 12px;">2. FTC Truth in Advertising (연방 허위/과장광고 방지)</strong>
+                <span style="color: #10b981; font-weight: 800;">[100% 방어 완료]</span>
+              </div>
+              • 가짜 Mock 데이터 0% 배제 (실제 1:1 공급사 제원표와 실측 치수 도면 결합).<br>
+              • 표준 배송 일정(3~7 영업일)을 체크아웃 전 명확하게 정직 고지.
+            </div>
+
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #10b981;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="color: #10b981; font-size: 12px;">3. CPSC Product Safety & Disclaimers (제조물 안전 면책)</strong>
+                <span style="color: #10b981; font-weight: 800;">[100% 방어 완료]</span>
+              </div>
+              • 야외 화로대/고온 조리 기구 하단에 '야외 전용, 방열 장갑 착용' 안전 면책 고지 탑재.<br>
+              • 1-Year Limited Manufacturer Warranty 약관을 통해 책임 한계 명확화.
+            </div>
+
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #10b981;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="color: #10b981; font-size: 12px;">4. Privacy & Consumer Rights (CCPA / GDPR)</strong>
+                <span style="color: #10b981; font-weight: 800;">[100% 방어 완료]</span>
+              </div>
+              • 256-Bit SSL 결제 암호화 및 30일 안심 RMA 반품/환불 규정 허브 완비.<br>
+              • 공식 고객센터 이메일(<code>${b.email}</code>)을 푸터 및 헤더에 1:1 직결.
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Real-time Compliance Seal & Legal Audit Report -->
+        <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 20px; text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 8px;">🛡️</div>
+          <h3 style="font-size: 18px; font-weight: 900; color: #10b981; margin: 0 0 6px 0;">PNK D2C LEGAL COMPLIANCE SEAL</h3>
+          <p style="font-size: 11px; color: #94a3b8; margin-bottom: 16px;">미국 D2C 상위 1% 법률 방어 표준 100% 충족</p>
+
+          <div style="background: rgba(0,0,0,0.4); padding: 14px; border-radius: 8px; text-align: left; font-size: 11px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 6px;">
+              <span>• 스토어 브랜드:</span> <strong style="color: #fff;">${b.name}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 6px;">
+              <span>• 모회사 지배구조:</span> <strong style="color: #38bdf8;">PNK FINDS</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 6px;">
+              <span>• ADA 소송 방어:</span> <strong style="color: #10b981;">100% Alt 태그 탑재</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 6px;">
+              <span>• 4대 신뢰 정책:</span> <strong style="color: #10b981;">RMA, $50+ Free, 1-Yr, 24/7</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>• 종합 리스크 지수:</span> <strong style="color: #10b981; font-size: 13px;">0.00% (최고 안전 등급)</strong>
+            </div>
+          </div>
+
+          <button type="button" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 12px; font-weight: 900; border: none; border-radius: 6px; cursor: pointer;" onclick="alert('🏛️ [${b.name}] 법률 준수 인증이 완료되었습니다. 4대 연방법 위반 및 기획 소송 리스크가 0%로 차단되어 있습니다.');">
+            📜 전사 법률 인증서 검증 확인 ➔
+          </button>
+        </div>
+
+      </div>
+    `;
+  }
+
+  return '';
+}
+
+// ==========================================================================
+// Event Listeners for 4 Risk Modules
+// ==========================================================================
+function attachRiskModuleListeners(b) {
+  if (activeRiskModule === "chargeback") {
+    // Scenario buttons
+    document.querySelectorAll(".dispute-tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentDisputeScenario = btn.dataset.sc;
+        renderDisputeView(b);
+      });
     });
-  });
 
-  // Attach Live Input Real-Time Binding Listeners
-  const bindInput = (id, key) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener("input", (e) => {
-        disputeFormValues[key] = e.target.value;
-        const ta = document.getElementById("rebuttal-textarea");
-        const sc = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
-        if (ta) ta.value = sc.getRebuttal(b, disputeFormValues);
+    // Inputs binding
+    const bindInput = (id, key) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("input", (e) => {
+          disputeFormValues[key] = e.target.value;
+          const ta = document.getElementById("rebuttal-textarea");
+          const sc = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+          if (ta) ta.value = sc.getRebuttal(b, disputeFormValues);
+        });
+      }
+    };
+
+    bindInput("disp-order-no", "orderNo");
+    bindInput("disp-cust-name", "customerName");
+    bindInput("disp-prod-name", "productName");
+    bindInput("disp-carrier", "carrier");
+    bindInput("disp-tracking", "trackingNo");
+    bindInput("disp-order-date", "orderDate");
+    bindInput("disp-delivery-date", "deliveryDate");
+    bindInput("disp-address", "shippingAddr");
+
+    // Copy Button
+    const btnCopy = document.getElementById("btn-copy-rebuttal");
+    const ta = document.getElementById("rebuttal-textarea");
+    if (btnCopy && ta) {
+      btnCopy.addEventListener("click", () => {
+        navigator.clipboard.writeText(ta.value).then(() => {
+          const origText = btnCopy.innerHTML;
+          btnCopy.innerHTML = "✅ 복사 완료! (클립보드 저장됨)";
+          btnCopy.style.background = "#10b981";
+          setTimeout(() => {
+            btnCopy.innerHTML = origText;
+            const sc = DISPUTE_SCENARIOS[currentDisputeScenario];
+            btnCopy.style.background = `linear-gradient(135deg, ${sc.tagColor}, #0284c7)`;
+          }, 2000);
+        }).catch(() => {
+          ta.select();
+          document.execCommand("copy");
+          alert("📋 소명서가 복사되었습니다!");
+        });
       });
     }
-  };
+  }
 
-  bindInput("disp-order-no", "orderNo");
-  bindInput("disp-cust-name", "customerName");
-  bindInput("disp-prod-name", "productName");
-  bindInput("disp-carrier", "carrier");
-  bindInput("disp-tracking", "trackingNo");
-  bindInput("disp-order-date", "orderDate");
-  bindInput("disp-delivery-date", "deliveryDate");
-  bindInput("disp-address", "shippingAddr");
+  else if (activeRiskModule === "ip_scam") {
+    const btnAnalyze = document.getElementById("btn-run-scam-analysis");
+    const scamFrom = document.getElementById("scam-input-from");
+    const scamBody = document.getElementById("scam-input-body");
+    const resultBox = document.getElementById("scam-result-box");
 
-  // Attach 1-Click Copy Listener
-  const btnCopy = document.getElementById("btn-copy-rebuttal");
-  const ta = document.getElementById("rebuttal-textarea");
-  if (btnCopy && ta) {
-    btnCopy.addEventListener("click", () => {
-      navigator.clipboard.writeText(ta.value).then(() => {
-        const origText = btnCopy.innerHTML;
-        btnCopy.innerHTML = "✅ 복사 완료! (클립보드 저장됨)";
-        btnCopy.style.background = "#10b981";
-        setTimeout(() => {
-          btnCopy.innerHTML = origText;
-          const sc = DISPUTE_SCENARIOS[currentDisputeScenario];
-          btnCopy.style.background = `linear-gradient(135deg, ${sc.tagColor}, #0284c7)`;
-        }, 2000);
-      }).catch(() => {
-        ta.select();
-        document.execCommand("copy");
-        alert("📋 소명서가 복사되었습니다!");
+    if (btnAnalyze && resultBox) {
+      btnAnalyze.addEventListener("click", () => {
+        const fromVal = (scamFrom ? scamFrom.value : "").toLowerCase();
+        const bodyVal = (scamBody ? scamBody.value : "").toLowerCase();
+        
+        const isFreeMail = fromVal.includes("@gmail") || fromVal.includes("@yahoo") || fromVal.includes("@outlook") || fromVal.includes("@hotmail");
+        const hasBadLink = bodyVal.includes(".zip") || bodyVal.includes(".exe") || bodyVal.includes("bit.ly") || bodyVal.includes("drive.google");
+
+        if (isFreeMail || hasBadLink) {
+          resultBox.style.background = "rgba(239, 68, 68, 0.15)";
+          resultBox.style.borderColor = "#ef4444";
+          resultBox.innerHTML = `
+            <div style="font-weight: 900; color: #f87171; font-size: 12px; margin-bottom: 4px;">🚨 [판정] 100% 가짜 피싱 악성코드 협박 사기입니다!</div>
+            <div style="color: #cbd5e1;">
+              • <strong>발신자 무료 메일 도메인:</strong> 실제 로펌은 @gmail/@yahoo 등 무료 메일을 쓰지 않습니다.<br>
+              • <strong>랜섬웨어 유포:</strong> 첨부된 링크/파일은 PC 해킹용 악성코드입니다.<br>
+              • <strong>행동 요령:</strong> <strong style="color:#ef4444;">절대 링크를 클릭하지 마시고</strong>, 즉시 스팸 차단 및 영구 삭제하세요!
+            </div>
+          `;
+        } else {
+          resultBox.style.background = "rgba(56, 189, 248, 0.15)";
+          resultBox.style.borderColor = "#38bdf8";
+          resultBox.innerHTML = `
+            <div style="font-weight: 900; color: #38bdf8; font-size: 12px; margin-bottom: 4px;">⚠️ [판정] 공식 DMCA / 지재권 통지일 수 있습니다.</div>
+            <div style="color: #cbd5e1;">
+              • 우측 <strong>'쇼피파이 공식 DMCA 항소문 생성기'</strong>를 활용하여 해당 상품을 즉시 비활성화/삭제하고 공식 소명서를 제출하세요.
+            </div>
+          `;
+        }
+      });
+    }
+
+    const btnCopyDmca = document.getElementById("btn-copy-dmca");
+    const dmcaTa = document.getElementById("dmca-textarea");
+    const dmcaClaim = document.getElementById("dmca-input-claim");
+    const dmcaProd = document.getElementById("dmca-input-prod");
+
+    const refreshDmca = () => {
+      dmcaAppealValues.claimNo = dmcaClaim ? dmcaClaim.value : "DMCA-2026-9812";
+      dmcaAppealValues.productName = dmcaProd ? dmcaProd.value : b.products[0].title;
+      renderDisputeView(b);
+    };
+
+    if (dmcaClaim) dmcaClaim.addEventListener("input", refreshDmca);
+    if (dmcaProd) dmcaProd.addEventListener("input", refreshDmca);
+
+    if (btnCopyDmca && dmcaTa) {
+      btnCopyDmca.addEventListener("click", () => {
+        navigator.clipboard.writeText(dmcaTa.value).then(() => {
+          btnCopyDmca.innerHTML = "✅ 복사 완료!";
+          btnCopyDmca.style.background = "#10b981";
+          setTimeout(() => {
+            btnCopyDmca.innerHTML = "📋 [공식 항소문 복사]";
+            btnCopyDmca.style.background = "linear-gradient(135deg, #38bdf8, #0284c7)";
+          }, 2000);
+        });
+      });
+    }
+  }
+
+  else if (activeRiskModule === "supplier") {
+    document.querySelectorAll(".sup-mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        supplierCsValues.mode = btn.dataset.smode;
+        renderDisputeView(b);
       });
     });
+
+    const supOrder = document.getElementById("sup-input-order");
+    const supCust = document.getElementById("sup-input-cust");
+    const supItem = document.getElementById("sup-input-item");
+
+    const refreshSup = () => {
+      if (supOrder) supplierCsValues.orderNo = supOrder.value;
+      if (supCust) supplierCsValues.customerName = supCust.value;
+      if (supItem) {
+        if (supplierCsValues.mode === "upgrade") {
+          supplierCsValues.upgradeItem = supItem.value;
+        } else {
+          supplierCsValues.refundAmount = supItem.value;
+        }
+      }
+      renderDisputeView(b);
+    };
+
+    if (supOrder) supOrder.addEventListener("input", refreshSup);
+    if (supCust) supCust.addEventListener("input", refreshSup);
+    if (supItem) supItem.addEventListener("input", refreshSup);
+
+    const btnCopySup = document.getElementById("btn-copy-supplier-cs");
+    const supTa = document.getElementById("supplier-cs-textarea");
+    if (btnCopySup && supTa) {
+      btnCopySup.addEventListener("click", () => {
+        navigator.clipboard.writeText(supTa.value).then(() => {
+          btnCopySup.innerHTML = "✅ CS 이메일 복사 완료!";
+          btnCopySup.style.background = "#10b981";
+          setTimeout(() => {
+            btnCopySup.innerHTML = "📋 [CS 영문 이메일 복사]";
+            btnCopySup.style.background = "linear-gradient(135deg, #38bdf8, #0284c7)";
+          }, 2000);
+        });
+      });
+    }
   }
 }
 
