@@ -21,6 +21,7 @@
    ========================================================================== */
 
 :root {
+  color-scheme: dark;
   --bg-main: #07090e;
   --bg-surface: #0e131f;
   --bg-card: rgba(18, 24, 38, 0.75);
@@ -63,6 +64,17 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   line-height: 1.5;
+  color-scheme: dark;
+}
+
+input, select, textarea {
+  color-scheme: dark;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  opacity: 0.7;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -1729,16 +1741,23 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
               </div>
             </div>
 
-            <!-- Compare-at (MSRP) & Discount % Badge -->
-            <div style="background: rgba(0,0,0,0.35); padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <span style="font-size: 9px; color: #94a3b8;">할인 전 정가 (MSRP): </span>
-                <span id="sidebar-res-compare" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-decoration: line-through;">$279.99</span>
-              </div>
-              <div>
-                <span id="sidebar-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+            <!-- Interactive Compare-at (MSRP) & Discount % Controller -->
+            <div style="background: rgba(0,0,0,0.4); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.25); margin-bottom: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 10px; font-weight: 800; color: #f59e0b;">🏷️ 정가 & 할인율 연동 변환</span>
+                <span id="sidebar-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
                   🔥 25% OFF ($70.00 절약)
                 </span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6px;">
+                <div>
+                  <label style="font-size: 9px; color: #94a3b8; display: block; margin-bottom: 2px;">할인 전 정가 (MSRP $)</label>
+                  <input type="number" id="calc-compare" class="form-input" value="279.99" step="1.00" style="font-size: 11px; padding: 3px 6px; font-weight: 700; color: #cbd5e1;">
+                </div>
+                <div>
+                  <label style="font-size: 9px; color: #f59e0b; display: block; margin-bottom: 2px;">할인율 (% 조절 시 판매가 변환)</label>
+                  <input type="number" id="calc-discount-pct" class="form-input" value="25" min="1" max="95" step="1" style="font-size: 11px; padding: 3px 6px; font-weight: 800; color: #f59e0b; border-color: rgba(245, 158, 11, 0.4);">
+                </div>
               </div>
             </div>
 
@@ -2377,6 +2396,8 @@ const elCost = document.getElementById("calc-cost");
 const elMargin = document.getElementById("calc-margin");
 const elBuffer = document.getElementById("calc-buffer");
 const elCpa = document.getElementById("calc-cpa");
+const elCalcCompare = document.getElementById("calc-compare");
+const elCalcDiscountPct = document.getElementById("calc-discount-pct");
 
 const elRetail = document.getElementById("res-retail");
 const elCompare = document.getElementById("res-compare");
@@ -2702,6 +2723,9 @@ function runUnifiedSync(triggerSource) {
   let activeBuffer = buffer;
   let activeCpa = cpa;
 
+  let currentCompareVal = parseFloat(elCalcCompare ? elCalcCompare.value : 0) || 0;
+  let currentDiscountVal = parseFloat(elCalcDiscountPct ? elCalcDiscountPct.value : 25) || 25;
+
   if (triggerSource === 'preset') {
     // Preset button clicked: compute suggested max allowed sourcing cost
     if (price > 0 && (buffer >= price * 0.35 || buffer >= price)) {
@@ -2714,6 +2738,25 @@ function runUnifiedSync(triggerSource) {
     }
     cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
     if (elCost) elCost.value = cost.toFixed(2);
+  } else if (triggerSource === 'discount') {
+    // Discount % changed: compute new selling price from compare-at price
+    const disc = Math.min(95, Math.max(1, currentDiscountVal));
+    if (currentCompareVal <= 0) {
+      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+      if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
+    }
+    price = Math.max(0.99, Math.floor(currentCompareVal * (1 - (disc / 100))) + 0.99);
+    if (elPrice) elPrice.value = price.toFixed(2);
+    if (currentCalcMode === 'auto') {
+      cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
+      if (elCost) elCost.value = cost.toFixed(2);
+    }
+  } else if (triggerSource === 'compare') {
+    // Compare-at (MSRP) changed: compute discount % based on current price
+    if (currentCompareVal > price && currentCompareVal > 0) {
+      currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+      if (elCalcDiscountPct) elCalcDiscountPct.value = currentDiscountVal;
+    }
   } else if (triggerSource === 'margin' || triggerSource === 'buffer') {
     // Recompute recommended price when user explicitly tweaks margin or buffer
     price = (cost * (1 + (marginPct / 100))) + activeBuffer;
@@ -2738,7 +2781,17 @@ function runUnifiedSync(triggerSource) {
 
   let cleanPrice = Math.floor(price) + 0.99;
   if (cleanPrice < price) cleanPrice += 1.0;
-  const cleanCompare = Math.ceil(cleanPrice * 1.35 / 10) * 10 - 0.01;
+
+  // Calculate cleanCompare and discount amount
+  let cleanCompare = currentCompareVal;
+  if (triggerSource !== 'compare' && triggerSource !== 'discount') {
+    const disc = Math.min(95, Math.max(1, currentDiscountVal));
+    cleanCompare = Math.ceil((cleanPrice / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    if (cleanCompare <= cleanPrice) {
+      cleanCompare = Math.ceil(cleanPrice * 1.35 / 10) * 10 - 0.01;
+    }
+    if (elCalcCompare) elCalcCompare.value = cleanCompare.toFixed(2);
+  }
 
   if (elRetail && triggerSource !== 'retail') elRetail.value = cleanPrice.toFixed(2);
   if (elCompare) elCompare.value = cleanCompare.toFixed(2);
@@ -2746,6 +2799,9 @@ function runUnifiedSync(triggerSource) {
   // Compare-at MSRP & Discount % Calculation
   const discountAmount = Math.max(0, cleanCompare - cleanPrice);
   const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+  if (elCalcDiscountPct && triggerSource !== 'discount') {
+    elCalcDiscountPct.value = discountPct;
+  }
 
   const elSideCompare = document.getElementById("sidebar-res-compare");
   const elSideDiscount = document.getElementById("sidebar-discount-badge");
@@ -2914,6 +2970,8 @@ const inputConfigs = [
   { el: elMargin, type: 'margin' },
   { el: elBuffer, type: 'buffer' },
   { el: elCpa, type: 'cpa' },
+  { el: elCalcCompare, type: 'compare' },
+  { el: elCalcDiscountPct, type: 'discount' },
   { el: elRetail, type: 'retail' },
   { el: elTax, type: 'tax' },
   { el: elShipping, type: 'shipping' },
@@ -4495,7 +4553,7 @@ function renderCalculatorStudioView(b) {
               </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #38bdf8; display: block; margin-bottom: 4px;">쇼피파이 판매가 ($)</label>
                 <input type="number" id="cs-price" class="form-input" value="${parsedPrice.toFixed(2)}" step="0.01" style="font-size: 16px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
@@ -4503,6 +4561,26 @@ function renderCalculatorStudioView(b) {
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #10b981; display: block; margin-bottom: 4px;">공급사 소싱 원가 ($)</label>
                 <input type="number" id="cs-cost" class="form-input" value="${cost.toFixed(2)}" step="0.01" style="font-size: 16px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+              </div>
+            </div>
+
+            <!-- Studio Compare-at (MSRP) & Discount % Controller -->
+            <div style="background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.25); margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11px; font-weight: 800; color: #f59e0b;">🏷️ 정가 & 할인율 연동 변환기</span>
+                <span id="cs-discount-badge" style="font-size: 10px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                  🔥 25% OFF
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
+                <div>
+                  <label style="font-size: 10px; color: #94a3b8; display: block; margin-bottom: 4px;">할인 전 정가 (MSRP $)</label>
+                  <input type="number" id="cs-compare" class="form-input" value="${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}" step="1.00" style="font-size: 12px; padding: 4px 8px; font-weight: 700; color: #cbd5e1;">
+                </div>
+                <div>
+                  <label style="font-size: 10px; color: #f59e0b; display: block; margin-bottom: 4px;">할인율 (% 조절 시 판매가 변환)</label>
+                  <input type="number" id="cs-discount-pct" class="form-input" value="25" min="1" max="95" step="1" style="font-size: 12px; padding: 4px 8px; font-weight: 800; color: #f59e0b; border-color: rgba(245, 158, 11, 0.4);">
+                </div>
               </div>
             </div>
 
@@ -4759,6 +4837,11 @@ function runCalculatorStudioSync(triggerSource) {
   let activeBuffer = buffer;
   let activeCpa = cpa;
 
+  const csCompare = document.getElementById("cs-compare");
+  const csDiscountPct = document.getElementById("cs-discount-pct");
+  let currentCompareVal = parseFloat(csCompare ? csCompare.value : 0) || 0;
+  let currentDiscountVal = parseFloat(csDiscountPct ? csDiscountPct.value : 25) || 25;
+
   if (triggerSource === 'preset') {
     // Smart Auto-Proportional Guard: 판매가 대비 안전마진이 과다(>=35%)하거나 초과하면 25% 비율로 자동 리밸런싱
     if (price > 0 && (buffer >= price * 0.35 || buffer >= price)) {
@@ -4772,6 +4855,25 @@ function runCalculatorStudioSync(triggerSource) {
     }
     cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
     csCost.value = cost.toFixed(2);
+  } else if (triggerSource === 'discount') {
+    // Discount % changed in Studio: compute new price from compare-at price
+    const disc = Math.min(95, Math.max(1, currentDiscountVal));
+    if (currentCompareVal <= 0) {
+      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+      if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
+    }
+    price = Math.max(0.99, Math.floor(currentCompareVal * (1 - (disc / 100))) + 0.99);
+    if (csPrice) csPrice.value = price.toFixed(2);
+    if (currentCalcMode === 'auto') {
+      cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
+      if (csCost) csCost.value = cost.toFixed(2);
+    }
+  } else if (triggerSource === 'compare') {
+    // Compare-at (MSRP) changed in Studio: compute discount %
+    if (currentCompareVal > price && currentCompareVal > 0) {
+      currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+      if (csDiscountPct) csDiscountPct.value = currentDiscountVal;
+    }
   } else if (triggerSource === 'margin' || triggerSource === 'buffer') {
     price = (cost * (1 + (marginPct / 100))) + activeBuffer;
     csPrice.value = price.toFixed(2);
@@ -4794,7 +4896,17 @@ function runCalculatorStudioSync(triggerSource) {
 
   let cleanPrice = Math.floor(price) + 0.99;
   if (cleanPrice < price) cleanPrice += 1.0;
-  const cleanCompare = Math.ceil(cleanPrice * 1.35 / 10) * 10 - 0.01;
+
+  // Compute cleanCompare
+  let cleanCompare = currentCompareVal;
+  if (triggerSource !== 'compare' && triggerSource !== 'discount') {
+    const disc = Math.min(95, Math.max(1, currentDiscountVal));
+    cleanCompare = Math.ceil((cleanPrice / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    if (cleanCompare <= cleanPrice) {
+      cleanCompare = Math.ceil(cleanPrice * 1.35 / 10) * 10 - 0.01;
+    }
+    if (csCompare) csCompare.value = cleanCompare.toFixed(2);
+  }
 
   const pgFee1 = cleanPrice * 0.029 + 0.30;
   const totalVar = pgFee1 + tax + shipping;
@@ -4803,6 +4915,12 @@ function runCalculatorStudioSync(triggerSource) {
   const bepRoas = realMargin > 0 ? (100 / realMargin) * 100 : 100;
   const targetRoas = cpa > 0 ? (cleanPrice / cpa) * 100 : 0;
   const netAfterAd = cleanPrice - cost - pgFee1 - cpa - tax - shipping;
+
+  const discountAmount = Math.max(0, cleanCompare - cleanPrice);
+  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+  if (csDiscountPct && triggerSource !== 'discount') {
+    csDiscountPct.value = discountPct;
+  }
 
   // Outputs
   const elCostVal = document.getElementById("cs-supplier-cost-val");
@@ -4972,6 +5090,8 @@ function bindCalculatorStudioInputs(b) {
   const csMargin = document.getElementById("cs-margin");
   const csBuffer = document.getElementById("cs-buffer");
   const csCpa = document.getElementById("cs-cpa");
+  const csCompare = document.getElementById("cs-compare");
+  const csDiscountPct = document.getElementById("cs-discount-pct");
   const csShopify = document.getElementById("cs-exp-shopify");
   const csDomain = document.getElementById("cs-exp-domain");
   const csApps = document.getElementById("cs-exp-apps");
@@ -4984,6 +5104,8 @@ function bindCalculatorStudioInputs(b) {
   if (csMargin) ['input', 'change', 'keyup'].forEach(e => csMargin.addEventListener(e, () => runCalculatorStudioSync('margin')));
   if (csBuffer) ['input', 'change', 'keyup'].forEach(e => csBuffer.addEventListener(e, () => runCalculatorStudioSync('buffer')));
   if (csCpa) ['input', 'change', 'keyup'].forEach(e => csCpa.addEventListener(e, () => runCalculatorStudioSync('cpa')));
+  if (csCompare) ['input', 'change', 'keyup'].forEach(e => csCompare.addEventListener(e, () => runCalculatorStudioSync('compare')));
+  if (csDiscountPct) ['input', 'change', 'keyup'].forEach(e => csDiscountPct.addEventListener(e, () => runCalculatorStudioSync('discount')));
   if (csShopify) ['input', 'change', 'keyup'].forEach(e => csShopify.addEventListener(e, () => runCalculatorStudioSync('fixed')));
   if (csDomain) ['input', 'change', 'keyup'].forEach(e => csDomain.addEventListener(e, () => runCalculatorStudioSync('fixed')));
   if (csApps) ['input', 'change', 'keyup'].forEach(e => csApps.addEventListener(e, () => runCalculatorStudioSync('fixed')));
