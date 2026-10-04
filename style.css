@@ -1369,5 +1369,53 @@ body {
   50% { transform: scale(1.25); box-shadow: 0 0 20px #38bdf8, 0 0 30px rgba(56,189,248,0.7); }
 }
 
+/* ==========================================================================
+   Panel Accordions & Collapsible Dieting Architecture
+   ========================================================================== */
+details.panel-card, details.sub-accordion-box {
+  transition: all 0.25s ease-in-out;
+}
 
+summary.panel-section-title, summary.sub-accordion-title {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary.panel-section-title::after, summary.sub-accordion-title::after {
+  content: '▼';
+  font-size: 10px;
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+  margin-left: 8px;
+}
+
+details[open] > summary.panel-section-title::after, details[open] > summary.sub-accordion-title::after {
+  transform: rotate(180deg);
+  color: var(--accent-amber);
+}
+
+.sub-accordion-box {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.sub-accordion-box[open] {
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.sub-accordion-box:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+}
