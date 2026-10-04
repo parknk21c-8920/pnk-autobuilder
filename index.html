@@ -4045,6 +4045,8 @@ function attachRiskModuleListeners(b) {
 function renderCalculatorStudioView(b) {
   if (!storeMockContainer) return;
   const p = b.products[selectedProductIndex] || b.products[0];
+  const parsedPrice = parseFloat(p.price.replace(/[^0-9.]/g, '')) || b.defaultPrice || 206.67;
+  const cost = b.defaultCost || 94.95;
   
   storeMockContainer.innerHTML = `
     ${getMockHeaderHTML(b)}
@@ -4068,12 +4070,12 @@ function renderCalculatorStudioView(b) {
         </div>
       </div>
 
-      <!-- 2-Column Responsive Dashboard Layout -->
-      <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 20px;">
+      <!-- 2-Column Balanced Dashboard Layout (Top Row: 50% / 50%) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; align-items: stretch;">
         <!-- Left Column: Inputs & Expense Table -->
-        <div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
           <!-- Card 1: Core Pricing Inputs -->
-          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex: 1;">
             <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
               <span>💵 판매가 & 소싱원가 실시간 연동 입력</span>
               <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-weight: 800;">2-Way Synced</span>
@@ -4082,26 +4084,26 @@ function renderCalculatorStudioView(b) {
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #38bdf8; display: block; margin-bottom: 4px;">쇼피파이 판매가 ($)</label>
-                <input type="number" id="cs-price" class="form-input" value="${elPrice ? elPrice.value : '206.67'}" step="0.01" style="font-size: 16px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+                <input type="number" id="cs-price" class="form-input" value="${parsedPrice.toFixed(2)}" step="0.01" style="font-size: 16px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #10b981; display: block; margin-bottom: 4px;">공급사 소싱 원가 ($)</label>
-                <input type="number" id="cs-cost" class="form-input" value="${elCost ? elCost.value : '94.95'}" step="0.01" style="font-size: 16px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+                <input type="number" id="cs-cost" class="form-input" value="${cost.toFixed(2)}" step="0.01" style="font-size: 16px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 10px; margin-bottom: 12px;">
               <div>
                 <label style="font-size: 10px; color: #94a3b8; display: block; margin-bottom: 4px;">목표 마진율 (%)</label>
-                <input type="number" id="cs-margin" class="form-input" value="${elMargin ? elMargin.value : '65'}" step="1">
+                <input type="number" id="cs-margin" class="form-input" value="65" step="1">
               </div>
               <div>
                 <label style="font-size: 10px; color: #94a3b8; display: block; margin-bottom: 4px;">안전마진 ($)</label>
-                <input type="number" id="cs-buffer" class="form-input" value="${elBuffer ? elBuffer.value : '50.00'}" step="5">
+                <input type="number" id="cs-buffer" class="form-input" value="50.00" step="5">
               </div>
               <div>
                 <label style="font-size: 10px; font-weight: 700; color: #f59e0b; display: block; margin-bottom: 4px;">건당 광고비 (CPA $)</label>
-                <input type="number" id="cs-cpa" class="form-input" value="${elCpa ? elCpa.value : '25.00'}" step="1.00">
+                <input type="number" id="cs-cpa" class="form-input" value="25.00" step="1.00">
               </div>
             </div>
 
@@ -4109,7 +4111,7 @@ function renderCalculatorStudioView(b) {
             <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center;">
               <div>
                 <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 복사용 값:</span>
-                <span id="cs-supplier-cost-val" style="font-size: 20px; font-weight: 900; color: #10b981;">${elCost ? elCost.value : '94.95'}</span>
+                <span id="cs-supplier-cost-val" style="font-size: 20px; font-weight: 900; color: #10b981;">${cost.toFixed(2)}</span>
               </div>
               <button type="button" id="btn-cs-copy-cost" style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 8px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                 📋 원가 1초 복사
@@ -4118,7 +4120,7 @@ function renderCalculatorStudioView(b) {
           </div>
 
           <!-- Card 2: Fixed & Variable Expenses Checklist -->
-          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex: 1;">
             <div style="font-size: 13px; font-weight: 800; color: #cbd5e1; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
               <span>📋 월 고정비 & 건당 실비용 투명 명세표</span>
               <span id="cs-fixed-badge" style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 3px 8px; border-radius: 4px;">
@@ -4132,15 +4134,15 @@ function renderCalculatorStudioView(b) {
                 <div style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-bottom: 8px;">🏢 월 고정 지출 (수정 가능)</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 11px;">
                   <span>• 쇼피파이 플랜:</span>
-                  <input type="number" id="cs-exp-shopify" value="${elFixedShopify ? elFixedShopify.value : '39.00'}" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
+                  <input type="number" id="cs-exp-shopify" value="39.00" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 11px;">
                   <span>• 도메인 (.com):</span>
-                  <input type="number" id="cs-exp-domain" value="${elFixedDomain ? elFixedDomain.value : '1.20'}" step="0.10" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
+                  <input type="number" id="cs-exp-domain" value="1.20" step="0.10" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px; color: #10b981;">
                   <span>• 번들앱/기타 유료앱:</span>
-                  <input type="number" id="cs-exp-apps" value="${elFixedApps ? elFixedApps.value : '0.00'}" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
+                  <input type="number" id="cs-exp-apps" value="0.00" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 6px; font-size: 12px; font-weight: 900; color: #38bdf8;">
                   <span>총 월 고정비:</span> <span id="cs-exp-fixed-total">$40.20/월</span>
@@ -4155,11 +4157,11 @@ function renderCalculatorStudioView(b) {
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 11px;">
                   <span>• 미국 판매세 ($):</span>
-                  <input type="number" id="cs-exp-tax" value="${elTax ? elTax.value : '0.00'}" step="0.50" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
+                  <input type="number" id="cs-exp-tax" value="0.00" step="0.50" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px;">
                   <span>• 공급사 배송비 ($):</span>
-                  <input type="number" id="cs-exp-shipping" value="${elShipping ? elShipping.value : '0.00'}" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
+                  <input type="number" id="cs-exp-shipping" value="0.00" step="1.00" style="width: 65px; background: rgba(0,0,0,0.6); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; text-align: right;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 6px; font-size: 12px; font-weight: 900; color: #10b981;">
                   <span>총 건당 변동비:</span> <span id="cs-exp-variable-total">$6.30/건</span>
@@ -4169,10 +4171,10 @@ function renderCalculatorStudioView(b) {
           </div>
         </div>
 
-        <!-- Right Column: Results, Traffic Lamps & 3-Tier Bundle Simulator -->
-        <div>
+        <!-- Right Column: Results & Traffic Lamps (Balanced with Left) -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
           <!-- Card 3: 6-Pill Live Profit Matrix -->
-          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex: 1;">
             <div style="font-size: 13px; font-weight: 800; color: #10b981; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
               <span>📈 실시간 수익률 & 손익분기 지표 매트릭스</span>
               <span style="font-size: 10px; background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 2px 8px; border-radius: 4px; font-weight: 800;">Live Output</span>
@@ -4181,15 +4183,15 @@ function renderCalculatorStudioView(b) {
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
               <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
                 <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">권장 판매가</span>
-                <span id="cs-res-retail" style="font-size: 16px; font-weight: 900; color: #38bdf8;">$209.99</span>
+                <span id="cs-res-retail" style="font-size: 16px; font-weight: 900; color: #38bdf8;">${parsedPrice.toFixed(2)}</span>
               </div>
               <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px; text-align: center;">
                 <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">할인 정가 (COMPARE)</span>
-                <span id="cs-res-compare" style="font-size: 16px; font-weight: 900; color: #f8fafc;">$279.99</span>
+                <span id="cs-res-compare" style="font-size: 16px; font-weight: 900; color: #f8fafc;">${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}</span>
               </div>
               <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px; text-align: center;">
                 <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block;">개당 총마진</span>
-                <span id="cs-res-profit" style="font-size: 16px; font-weight: 900; color: #10b981;">$111.72 (54%)</span>
+                <span id="cs-res-profit" style="font-size: 16px; font-weight: 900; color: #10b981;">${(parsedPrice - cost).toFixed(2)}</span>
               </div>
             </div>
 
@@ -4204,14 +4206,14 @@ function renderCalculatorStudioView(b) {
               </div>
               <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.5); border-radius: 8px; padding: 8px; text-align: center;">
                 <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block;">광고 차감 순수익</span>
-                <span id="cs-res-net" style="font-size: 16px; font-weight: 900; color: #10b981; display: block;">+$86.72</span>
-                <span id="cs-res-krw" style="font-size: 10px; font-weight: 800; color: #34d399; display: block;">(약 11.7만 원)</span>
+                <span id="cs-res-net" style="font-size: 16px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
+                <span id="cs-res-krw" style="font-size: 10px; font-weight: 800; color: #34d399; display: block;">(약 10.9만 원)</span>
               </div>
             </div>
           </div>
 
           <!-- Card 4: 4-Stage ROAS Traffic Light Navigator -->
-          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex: 1;">
             <div style="font-size: 13px; font-weight: 800; color: #cbd5e1; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
               <span>🚦 실전 광고 판단 신호등 (ROAS Action Navigator)</span>
               <span id="cs-traffic-badge" style="font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">
@@ -4246,49 +4248,49 @@ function renderCalculatorStudioView(b) {
               💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Card 5: 3-Tier Volume Bundle Profit Multiplier -->
-          <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-            <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-              <span>🚀 3단 번들 순수익 증폭 시뮬레이터 (앱 비용 $0 내장)</span>
-              <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 8px; border-radius: 4px; font-weight: 800;">
-                Zero App Fee
-              </span>
-            </div>
+      <!-- Bottom Row: Full-Width 3-Tier Volume Bundle Profit Multiplier -->
+      <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 18px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="font-size: 14px; font-weight: 800; color: #38bdf8; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="display: flex; align-items: center; gap: 6px;">🚀 3단 번들 순수익 증폭 시뮬레이터 (앱 비용 $0 내장)</span>
+          <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 3px 10px; border-radius: 4px; font-weight: 800;">
+            Zero App Fee
+          </span>
+        </div>
 
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
-              <!-- 1-Pack -->
-              <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 6px;">
-                <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
-                <span id="cs-bndl-rev-1" style="font-size: 14px; font-weight: 900; color: #f8fafc; display: block; margin: 2px 0;">$209.99</span>
-                <span style="font-size: 10px; color: #64748b; display: block; margin-bottom: 4px;">광고비 -$25</span>
-                <span id="cs-bndl-net-1" style="font-size: 14px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
-                <span id="cs-bndl-krw-1" style="font-size: 10px; font-weight: 700; color: #34d399; display: block;">약 10.9만 원</span>
-              </div>
-
-              <!-- Buy 2 (15% OFF) -->
-              <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; padding: 10px 6px;">
-                <span style="font-size: 11px; color: #38bdf8; font-weight: 800; display: block;">Buy 2 (15%↓)</span>
-                <span id="cs-bndl-rev-2" style="font-size: 14px; font-weight: 900; color: #38bdf8; display: block; margin: 2px 0;">$356.98</span>
-                <span style="font-size: 10px; color: #64748b; display: block; margin-bottom: 4px;">광고비 -$25 (1회)</span>
-                <span id="cs-bndl-net-2" style="font-size: 14px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
-                <span id="cs-bndl-krw-2" style="font-size: 10px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원 (1.6배)</span>
-              </div>
-
-              <!-- Buy 3 (25% OFF) -->
-              <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 10px 6px;">
-                <span style="font-size: 11px; color: #f59e0b; font-weight: 800; display: block;">Buy 3 (25%↓)</span>
-                <span id="cs-bndl-rev-3" style="font-size: 14px; font-weight: 900; color: #f59e0b; display: block; margin: 2px 0;">$472.48</span>
-                <span style="font-size: 10px; color: #64748b; display: block; margin-bottom: 4px;">광고비 -$25 (1회)</span>
-                <span id="cs-bndl-net-3" style="font-size: 14px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
-                <span id="cs-bndl-krw-3" style="font-size: 10px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원 (1.8배)</span>
-              </div>
-            </div>
-
-            <div style="font-size: 10px; color: #94a3b8; margin-top: 10px; text-align: center;">
-              💡 <strong>D2C 원리:</strong> 광고비($25)는 1번만 나가므로 번들 구매 시 사장님의 순이익이 최대 1.8배~3배까지 폭발적으로 증가합니다!
-            </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; text-align: center;">
+          <!-- 1-Pack -->
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 10px;">
+            <span style="font-size: 12px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
+            <span id="cs-bndl-rev-1" style="font-size: 17px; font-weight: 900; color: #f8fafc; display: block; margin: 4px 0;">$209.99</span>
+            <span style="font-size: 11px; color: #64748b; display: block; margin-bottom: 6px;">광고비 -$25</span>
+            <span id="cs-bndl-net-1" style="font-size: 16px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
+            <span id="cs-bndl-krw-1" style="font-size: 11px; font-weight: 700; color: #34d399; display: block; margin-top: 2px;">약 10.9만 원</span>
           </div>
+
+          <!-- Buy 2 (15% OFF) -->
+          <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 14px 10px;">
+            <span style="font-size: 12px; color: #38bdf8; font-weight: 800; display: block;">Buy 2 (15%↓)</span>
+            <span id="cs-bndl-rev-2" style="font-size: 17px; font-weight: 900; color: #38bdf8; display: block; margin: 4px 0;">$356.98</span>
+            <span style="font-size: 11px; color: #64748b; display: block; margin-bottom: 6px;">광고비 -$25 (1회)</span>
+            <span id="cs-bndl-net-2" style="font-size: 16px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
+            <span id="cs-bndl-krw-2" style="font-size: 11px; font-weight: 700; color: #7dd3fc; display: block; margin-top: 2px;">약 17.1만 원 (1.6배)</span>
+          </div>
+
+          <!-- Buy 3 (25% OFF) -->
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 10px; padding: 14px 10px;">
+            <span style="font-size: 12px; color: #f59e0b; font-weight: 800; display: block;">Buy 3 (25%↓)</span>
+            <span id="cs-bndl-rev-3" style="font-size: 17px; font-weight: 900; color: #f59e0b; display: block; margin: 4px 0;">$472.48</span>
+            <span style="font-size: 11px; color: #64748b; display: block; margin-bottom: 6px;">광고비 -$25 (1회)</span>
+            <span id="cs-bndl-net-3" style="font-size: 16px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
+            <span id="cs-bndl-krw-3" style="font-size: 11px; font-weight: 700; color: #fde68a; display: block; margin-top: 2px;">약 19.2만 원 (1.8배)</span>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #94a3b8; margin-top: 12px; text-align: center;">
+          💡 <strong>D2C 원리:</strong> 광고비($25)는 1번만 나가므로 번들 구매 시 사장님의 순이익이 최대 1.8배~3배까지 폭발적으로 증가합니다!
         </div>
       </div>
     </div>
@@ -4297,7 +4299,210 @@ function renderCalculatorStudioView(b) {
   `;
 
   bindCalculatorStudioInputs(b);
-  syncCalculatorStudioOutputs();
+  runCalculatorStudioSync('init');
+}
+
+// Self-Contained Direct Reactive Calculator Engine
+function runCalculatorStudioSync(triggerSource) {
+  const csPrice = document.getElementById("cs-price");
+  const csCost = document.getElementById("cs-cost");
+  const csMargin = document.getElementById("cs-margin");
+  const csBuffer = document.getElementById("cs-buffer");
+  const csCpa = document.getElementById("cs-cpa");
+  const csShopify = document.getElementById("cs-exp-shopify");
+  const csDomain = document.getElementById("cs-exp-domain");
+  const csApps = document.getElementById("cs-exp-apps");
+  const csTax = document.getElementById("cs-exp-tax");
+  const csShipping = document.getElementById("cs-exp-shipping");
+
+  if (!csPrice || !csCost) return;
+
+  let price = parseFloat(csPrice.value) || 0;
+  let cost = parseFloat(csCost.value) || 0;
+  const marginPct = parseFloat(csMargin ? csMargin.value : 65) || 65;
+  const buffer = parseFloat(csBuffer ? csBuffer.value : 50) || 50;
+  let cpa = parseFloat(csCpa ? csCpa.value : 25) || 0;
+
+  const fixedShopify = parseFloat(csShopify ? csShopify.value : 39) || 0;
+  const fixedDomain = parseFloat(csDomain ? csDomain.value : 1.2) || 0;
+  const fixedApps = parseFloat(csApps ? csApps.value : 0) || 0;
+  const tax = parseFloat(csTax ? csTax.value : 0) || 0;
+  const shipping = parseFloat(csShipping ? csShipping.value : 0) || 0;
+
+  const totalMonthlyFixed = fixedShopify + fixedDomain + fixedApps;
+
+  if (triggerSource === 'price') {
+    cost = Math.max(0, (price - buffer) / (1 + (marginPct / 100)));
+    csCost.value = cost.toFixed(2);
+  } else if (triggerSource === 'cost' || triggerSource === 'margin' || triggerSource === 'buffer') {
+    price = (cost * (1 + (marginPct / 100))) + buffer;
+    csPrice.value = price.toFixed(2);
+  }
+
+  currentCost = cost;
+
+  let cleanPrice = Math.floor(price) + 0.99;
+  if (cleanPrice < price) cleanPrice += 1.0;
+  const cleanCompare = Math.ceil(cleanPrice * 1.35 / 10) * 10 - 0.01;
+
+  const pgFee1 = cleanPrice * 0.029 + 0.30;
+  const totalVar = pgFee1 + tax + shipping;
+  const grossProfit = Math.max(0, cleanPrice - cost - tax - shipping);
+  const realMargin = cleanPrice > 0 ? (grossProfit / cleanPrice) * 100 : 0;
+  const bepRoas = realMargin > 0 ? (100 / realMargin) * 100 : 100;
+  const targetRoas = cpa > 0 ? (cleanPrice / cpa) * 100 : 0;
+  const netAfterAd = cleanPrice - cost - pgFee1 - cpa - tax - shipping;
+
+  // Outputs
+  const elCostVal = document.getElementById("cs-supplier-cost-val");
+  const elResRetail = document.getElementById("cs-res-retail");
+  const elResCompare = document.getElementById("cs-res-compare");
+  const elResProfit = document.getElementById("cs-res-profit");
+  const elResBep = document.getElementById("cs-res-bep");
+  const elResTarget = document.getElementById("cs-res-target");
+  const elResNet = document.getElementById("cs-res-net");
+  const elResKrw = document.getElementById("cs-res-krw");
+  const elExpPg = document.getElementById("cs-exp-pg");
+  const elExpFixedTotal = document.getElementById("cs-exp-fixed-total");
+  const elExpVarTotal = document.getElementById("cs-exp-variable-total");
+  const elFixedBadge = document.getElementById("cs-fixed-badge");
+  const elTrafficBadge = document.getElementById("cs-traffic-badge");
+  const elTrafficGuide = document.getElementById("cs-traffic-guide");
+
+  if (elCostVal) elCostVal.textContent = `${cost.toFixed(2)}`;
+  if (elResRetail) elResRetail.textContent = `${cleanPrice.toFixed(2)}`;
+  if (elResCompare) elResCompare.textContent = `${cleanCompare.toFixed(2)}`;
+  if (elResProfit) elResProfit.textContent = `${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
+  if (elResBep) elResBep.textContent = `${Math.round(bepRoas)}% (${(bepRoas / 100).toFixed(1)}x)`;
+  if (elResTarget) elResTarget.textContent = `${Math.round(targetRoas)}% (${(targetRoas / 100).toFixed(1)}x)`;
+  if (elResNet) {
+    elResNet.textContent = `${netAfterAd >= 0 ? '+' : ''}${netAfterAd.toFixed(2)}`;
+    elResNet.style.color = netAfterAd >= 0 ? '#10b981' : '#ef4444';
+  }
+  if (elResKrw) {
+    elResKrw.textContent = `(${formatKrw(netAfterAd)})`;
+    elResKrw.style.color = netAfterAd >= 0 ? '#34d399' : '#f87171';
+  }
+
+  if (elExpPg) elExpPg.textContent = `${pgFee1.toFixed(2)}`;
+  if (elExpFixedTotal) elExpFixedTotal.textContent = `${totalMonthlyFixed.toFixed(2)}/월`;
+  if (elExpVarTotal) elExpVarTotal.textContent = `${totalVar.toFixed(2)}/건`;
+
+  if (elFixedBadge) {
+    if (totalMonthlyFixed > 0 && netAfterAd > 0) {
+      const months = (netAfterAd / totalMonthlyFixed).toFixed(1);
+      elFixedBadge.textContent = `1건 판매 시 고정비 ${months}개월치 완벽 방어`;
+      elFixedBadge.style.color = "#10b981";
+      elFixedBadge.style.background = "rgba(16, 185, 129, 0.15)";
+    } else if (totalMonthlyFixed > 0) {
+      elFixedBadge.textContent = `월 고정비 ${totalMonthlyFixed.toFixed(2)} 방어 필요`;
+      elFixedBadge.style.color = "#ef4444";
+      elFixedBadge.style.background = "rgba(239, 68, 68, 0.15)";
+    }
+  }
+
+  // Traffic Light
+  const lk = document.getElementById("cs-lamp-kill");
+  const lo = document.getElementById("cs-lamp-opt");
+  const ls = document.getElementById("cs-lamp-scale");
+  const lsup = document.getElementById("cs-lamp-super");
+  if (lk && lo && ls && lsup) {
+    [lk, lo, ls, lsup].forEach(l => l.classList.remove("active"));
+    const roasMult = targetRoas / 100;
+    if (roasMult < 2.0 || targetRoas <= bepRoas) {
+      lk.classList.add("active");
+      if (elTrafficBadge) {
+        elTrafficBadge.textContent = "🔴 위험 (즉시 OFF)";
+        elTrafficBadge.style.background = "rgba(239, 68, 68, 0.2)";
+        elTrafficBadge.style.color = "#ef4444";
+      }
+      if (elTrafficGuide) {
+        elTrafficGuide.innerHTML = "🚨 <strong>[손실 위험]</strong> 광고비 대비 마진이 부족합니다. 24h 내 광고를 즉시 중단(OFF)하고 원가를 재협상하세요.";
+        elTrafficGuide.style.borderLeftColor = "#ef4444";
+      }
+    } else if (roasMult < 3.5) {
+      lo.classList.add("active");
+      if (elTrafficBadge) {
+        elTrafficBadge.textContent = "🟡 보통 (소재 개선)";
+        elTrafficBadge.style.background = "rgba(245, 158, 11, 0.2)";
+        elTrafficBadge.style.color = "#f59e0b";
+      }
+      if (elTrafficGuide) {
+        elTrafficGuide.innerHTML = "⚠️ <strong>[최적화 구간]</strong> 손해는 안 보지만 순이익이 적습니다. 3단 번들(Buy 2/3)을 강조하고 광고 영상을 교체하세요.";
+        elTrafficGuide.style.borderLeftColor = "#f59e0b";
+      }
+    } else if (roasMult < 7.0) {
+      ls.classList.add("active");
+      if (elTrafficBadge) {
+        elTrafficBadge.textContent = "🟢 위닝 (+20% 증액)";
+        elTrafficBadge.style.background = "rgba(16, 185, 129, 0.2)";
+        elTrafficBadge.style.color = "#10b981";
+      }
+      if (elTrafficGuide) {
+        elTrafficGuide.innerHTML = "💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!";
+        elTrafficGuide.style.borderLeftColor = "#10b981";
+      }
+    } else {
+      lsup.classList.add("active");
+      if (elTrafficBadge) {
+        elTrafficBadge.textContent = "🚀 슈퍼 위닝 (대량 증액)";
+        elTrafficBadge.style.background = "rgba(56, 189, 248, 0.25)";
+        elTrafficBadge.style.color = "#38bdf8";
+      }
+      if (elTrafficGuide) {
+        elTrafficGuide.innerHTML = "🔥 <strong>[초대박 슈퍼위닝]</strong> ROAS 7.0x 돌파! 예산을 대폭 증액하고 미국 전역으로 타겟을 즉시 확장하세요!";
+        elTrafficGuide.style.borderLeftColor = "#38bdf8";
+      }
+    }
+  }
+
+  // 3-Tier Bundle Calculations
+  const rev2 = Math.floor(cleanPrice * 2 * 0.85) + 0.98;
+  const cost2 = cost * 2;
+  const pgFee2 = rev2 * 0.029 + 0.30;
+  const tax2 = tax * 2;
+  const shipping2 = shipping > 0 ? (shipping * 1.5) : 0;
+  const net2 = rev2 - cost2 - pgFee2 - cpa - tax2 - shipping2;
+  const mult2 = netAfterAd > 0 ? (net2 / netAfterAd).toFixed(1) : "2.0";
+
+  const rev3 = Math.floor(cleanPrice * 3 * 0.75) + 0.98;
+  const cost3 = cost * 3;
+  const pgFee3 = rev3 * 0.029 + 0.30;
+  const tax3 = tax * 3;
+  const shipping3 = shipping > 0 ? (shipping * 2.0) : 0;
+  const net3 = rev3 - cost3 - pgFee3 - cpa - tax3 - shipping3;
+  const mult3 = netAfterAd > 0 ? (net3 / netAfterAd).toFixed(1) : "3.0";
+
+  const b1r = document.getElementById("cs-bndl-rev-1");
+  const b1n = document.getElementById("cs-bndl-net-1");
+  const b1k = document.getElementById("cs-bndl-krw-1");
+  const b2r = document.getElementById("cs-bndl-rev-2");
+  const b2n = document.getElementById("cs-bndl-net-2");
+  const b2k = document.getElementById("cs-bndl-krw-2");
+  const b3r = document.getElementById("cs-bndl-rev-3");
+  const b3n = document.getElementById("cs-bndl-net-3");
+  const b3k = document.getElementById("cs-bndl-krw-3");
+
+  if (b1r) b1r.textContent = `${cleanPrice.toFixed(2)}`;
+  if (b1n) {
+    b1n.textContent = `${netAfterAd >= 0 ? '+' : ''}${netAfterAd.toFixed(2)}`;
+    b1n.style.color = netAfterAd >= 0 ? '#10b981' : '#ef4444';
+  }
+  if (b1k) b1k.textContent = formatKrw(netAfterAd);
+
+  if (b2r) b2r.textContent = `${rev2.toFixed(2)}`;
+  if (b2n) {
+    b2n.innerHTML = `${net2 >= 0 ? '+' : ''}${net2.toFixed(2)} <span style="font-size: 10px;">(${mult2}배)</span>`;
+    b2n.style.color = net2 >= 0 ? '#38bdf8' : '#ef4444';
+  }
+  if (b2k) b2k.textContent = `${formatKrw(net2)} (${mult2}배)`;
+
+  if (b3r) b3r.textContent = `${rev3.toFixed(2)}`;
+  if (b3n) {
+    b3n.innerHTML = `${net3 >= 0 ? '+' : ''}${net3.toFixed(2)} <span style="font-size: 10px;">(${mult3}배)</span>`;
+    b3n.style.color = net3 >= 0 ? '#f59e0b' : '#ef4444';
+  }
+  if (b3k) b3k.textContent = `${formatKrw(net3)} (${mult3}배)`;
 }
 
 function bindCalculatorStudioInputs(b) {
@@ -4313,36 +4518,21 @@ function bindCalculatorStudioInputs(b) {
   const csShipping = document.getElementById("cs-exp-shipping");
   const btnCopy = document.getElementById("btn-cs-copy-cost");
 
-  const trigger = (type) => {
-    if (csPrice && elPrice) elPrice.value = csPrice.value;
-    if (csCost && elCost) elCost.value = csCost.value;
-    if (csMargin && elMargin) elMargin.value = csMargin.value;
-    if (csBuffer && elBuffer) elBuffer.value = csBuffer.value;
-    if (csCpa && elCpa) elCpa.value = csCpa.value;
-    if (csShopify && elFixedShopify) elFixedShopify.value = csShopify.value;
-    if (csDomain && elFixedDomain) elFixedDomain.value = csDomain.value;
-    if (csApps && elFixedApps) elFixedApps.value = csApps.value;
-    if (csTax && elTax) elTax.value = csTax.value;
-    if (csShipping && elShipping) elShipping.value = csShipping.value;
-
-    runUnifiedSync(type);
-    syncCalculatorStudioOutputs();
-  };
-
-  if (csPrice) ['input', 'change'].forEach(e => csPrice.addEventListener(e, () => trigger('price')));
-  if (csCost) ['input', 'change'].forEach(e => csCost.addEventListener(e, () => trigger('cost')));
-  if (csMargin) ['input', 'change'].forEach(e => csMargin.addEventListener(e, () => trigger('margin')));
-  if (csBuffer) ['input', 'change'].forEach(e => csBuffer.addEventListener(e, () => trigger('buffer')));
-  if (csCpa) ['input', 'change'].forEach(e => csCpa.addEventListener(e, () => trigger('cpa')));
-  if (csShopify) ['input', 'change'].forEach(e => csShopify.addEventListener(e, () => trigger('fixed')));
-  if (csDomain) ['input', 'change'].forEach(e => csDomain.addEventListener(e, () => trigger('fixed')));
-  if (csApps) ['input', 'change'].forEach(e => csApps.addEventListener(e, () => trigger('fixed')));
-  if (csTax) ['input', 'change'].forEach(e => csTax.addEventListener(e, () => trigger('tax')));
-  if (csShipping) ['input', 'change'].forEach(e => csShipping.addEventListener(e, () => trigger('shipping')));
+  if (csPrice) ['input', 'change', 'keyup'].forEach(e => csPrice.addEventListener(e, () => runCalculatorStudioSync('price')));
+  if (csCost) ['input', 'change', 'keyup'].forEach(e => csCost.addEventListener(e, () => runCalculatorStudioSync('cost')));
+  if (csMargin) ['input', 'change', 'keyup'].forEach(e => csMargin.addEventListener(e, () => runCalculatorStudioSync('margin')));
+  if (csBuffer) ['input', 'change', 'keyup'].forEach(e => csBuffer.addEventListener(e, () => runCalculatorStudioSync('buffer')));
+  if (csCpa) ['input', 'change', 'keyup'].forEach(e => csCpa.addEventListener(e, () => runCalculatorStudioSync('cpa')));
+  if (csShopify) ['input', 'change', 'keyup'].forEach(e => csShopify.addEventListener(e, () => runCalculatorStudioSync('fixed')));
+  if (csDomain) ['input', 'change', 'keyup'].forEach(e => csDomain.addEventListener(e, () => runCalculatorStudioSync('fixed')));
+  if (csApps) ['input', 'change', 'keyup'].forEach(e => csApps.addEventListener(e, () => runCalculatorStudioSync('fixed')));
+  if (csTax) ['input', 'change', 'keyup'].forEach(e => csTax.addEventListener(e, () => runCalculatorStudioSync('var')));
+  if (csShipping) ['input', 'change', 'keyup'].forEach(e => csShipping.addEventListener(e, () => runCalculatorStudioSync('var')));
 
   if (btnCopy) {
     btnCopy.addEventListener("click", () => {
-      navigator.clipboard.writeText(currentCost.toFixed(2)).then(() => {
+      const costVal = csCost ? csCost.value : currentCost.toFixed(2);
+      navigator.clipboard.writeText(costVal).then(() => {
         const orig = btnCopy.innerHTML;
         btnCopy.innerHTML = "✅ 복사 완료!";
         btnCopy.style.background = "#38bdf8";
@@ -4352,92 +4542,6 @@ function bindCalculatorStudioInputs(b) {
         }, 1800);
       });
     });
-  }
-}
-
-function syncCalculatorStudioOutputs() {
-  const csCost = document.getElementById("cs-cost");
-  const csPrice = document.getElementById("cs-price");
-  const csCostVal = document.getElementById("cs-supplier-cost-val");
-  const csRetail = document.getElementById("cs-res-retail");
-  const csCompare = document.getElementById("cs-res-compare");
-  const csProfit = document.getElementById("cs-res-profit");
-  const csBep = document.getElementById("cs-res-bep");
-  const csTarget = document.getElementById("cs-res-target");
-  const csNet = document.getElementById("cs-res-net");
-  const csKrw = document.getElementById("cs-res-krw");
-  const csFixedTotal = document.getElementById("cs-exp-fixed-total");
-  const csVarTotal = document.getElementById("cs-exp-variable-total");
-  const csPg = document.getElementById("cs-exp-pg");
-  const csFixedBadge = document.getElementById("cs-fixed-badge");
-  const csTrafficBadge = document.getElementById("cs-traffic-badge");
-  const csTrafficGuide = document.getElementById("cs-traffic-guide");
-
-  if (csCost && elCost) csCost.value = elCost.value;
-  if (csPrice && elPrice) csPrice.value = elPrice.value;
-  if (csCostVal) csCostVal.textContent = `${currentCost.toFixed(2)}`;
-  if (csRetail && elRetail) csRetail.textContent = `${elRetail.value}`;
-  if (csCompare && elCompare) csCompare.textContent = `${elCompare.value}`;
-  if (csProfit && elProfit) csProfit.textContent = elProfit.textContent;
-  if (csBep && elBep) csBep.textContent = elBep.textContent;
-  if (csTarget && elTarget) csTarget.textContent = elTarget.textContent;
-  if (csNet && elNet) {
-    csNet.textContent = elNet.textContent;
-    csNet.style.color = elNet.style.color;
-  }
-  if (csKrw && elNetKrw) csKrw.textContent = elNetKrw.textContent;
-  if (csFixedTotal && elExpMonthlyFixed) csFixedTotal.textContent = elExpMonthlyFixed.textContent;
-  if (csVarTotal && elExpVariableTotal) csVarTotal.textContent = elExpVariableTotal.textContent;
-  if (csPg && elExpPgFee) csPg.textContent = elExpPgFee.textContent;
-  if (csFixedBadge && elExpFixedBadge) {
-    csFixedBadge.textContent = elExpFixedBadge.textContent;
-    csFixedBadge.style.color = elExpFixedBadge.style.color;
-    csFixedBadge.style.background = elExpFixedBadge.style.background;
-  }
-
-  // Bundle outputs
-  const b1r = document.getElementById("cs-bndl-rev-1");
-  const b1n = document.getElementById("cs-bndl-net-1");
-  const b1k = document.getElementById("cs-bndl-krw-1");
-  const b2r = document.getElementById("cs-bndl-rev-2");
-  const b2n = document.getElementById("cs-bndl-net-2");
-  const b2k = document.getElementById("cs-bndl-krw-2");
-  const b3r = document.getElementById("cs-bndl-rev-3");
-  const b3n = document.getElementById("cs-bndl-net-3");
-  const b3k = document.getElementById("cs-bndl-krw-3");
-
-  if (b1r && elBndlRev1) b1r.textContent = elBndlRev1.textContent;
-  if (b1n && elBndlNet1) { b1n.textContent = elBndlNet1.textContent; b1n.style.color = elBndlNet1.style.color; }
-  if (b1k && elBndlKrw1) b1k.textContent = elBndlKrw1.textContent;
-  if (b2r && elBndlRev2) b2r.textContent = elBndlRev2.textContent;
-  if (b2n && elBndlNet2) { b2n.innerHTML = elBndlNet2.innerHTML; b2n.style.color = elBndlNet2.style.color; }
-  if (b2k && elBndlKrw2) b2k.textContent = elBndlKrw2.textContent;
-  if (b3r && elBndlRev3) b3r.textContent = elBndlRev3.textContent;
-  if (b3n && elBndlNet3) { b3n.innerHTML = elBndlNet3.innerHTML; b3n.style.color = elBndlNet3.style.color; }
-  if (b3k && elBndlKrw3) b3k.textContent = elBndlKrw3.textContent;
-
-  // Traffic lamps
-  const lk = document.getElementById("cs-lamp-kill");
-  const lo = document.getElementById("cs-lamp-opt");
-  const ls = document.getElementById("cs-lamp-scale");
-  const lsup = document.getElementById("cs-lamp-super");
-
-  if (lk && lo && ls && lsup) {
-    [lk, lo, ls, lsup].forEach(l => l.classList.remove("active"));
-    if (lampKill && lampKill.classList.contains("active")) lk.classList.add("active");
-    if (lampOpt && lampOpt.classList.contains("active")) lo.classList.add("active");
-    if (lampScale && lampScale.classList.contains("active")) ls.classList.add("active");
-    if (lampSuper && lampSuper.classList.contains("active")) lsup.classList.add("active");
-  }
-
-  if (csTrafficBadge && trafficBadge) {
-    csTrafficBadge.textContent = trafficBadge.textContent;
-    csTrafficBadge.style.color = trafficBadge.style.color;
-    csTrafficBadge.style.background = trafficBadge.style.background;
-  }
-  if (csTrafficGuide && trafficGuide) {
-    csTrafficGuide.innerHTML = trafficGuide.innerHTML;
-    csTrafficGuide.style.borderLeftColor = trafficGuide.style.borderLeftColor;
   }
 }
 
