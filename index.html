@@ -2733,7 +2733,8 @@ function runUnifiedSync(triggerSource) {
   let activeCpa = cpa;
 
   let currentCompareVal = parseFloat(elCalcCompare ? elCalcCompare.value : 0) || 0;
-  let currentDiscountVal = parseFloat(elCalcDiscountPct ? elCalcDiscountPct.value : 25) || 25;
+  let rawDiscStr = elCalcDiscountPct ? elCalcDiscountPct.value.trim() : '';
+  let currentDiscountVal = rawDiscStr === '' ? 0 : (isNaN(parseFloat(rawDiscStr)) ? 0 : parseFloat(rawDiscStr));
 
   if (triggerSource === 'preset') {
     // Preset button clicked: compute suggested max allowed sourcing cost
@@ -2753,31 +2754,43 @@ function runUnifiedSync(triggerSource) {
     currentCompareVal = Math.ceil((price / (1 - 0.25)) / 10) * 10 - 0.01;
     if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
   } else if (triggerSource === 'discount') {
-    // 1. 할인율(%) 변경 시: 정가 기준으로 판매가 실시간 재계산 (소싱원가는 100% 불변 보존!)
+    // 1. 할인율(%) 변경 시: 0%이면 정가=판매가, 그 외에는 정가 기준으로 판매가 실시간 재계산
     const disc = Math.min(95, Math.max(0, currentDiscountVal));
-    if (currentCompareVal <= 0) {
-      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+    if (disc === 0) {
+      // 할인율 0%일 때는 정가와 판매가가 1:1로 일치!
+      currentCompareVal = price;
       if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
+    } else {
+      if (currentCompareVal <= 0 || currentCompareVal <= price) {
+        currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+        if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
+      }
+      price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
+      if (elPrice) elPrice.value = price.toFixed(2);
     }
-    price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
-    if (elPrice) elPrice.value = price.toFixed(2);
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'compare') {
-    // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산 (소싱원가/판매가 불변!)
+    // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산
     currentCompareVal = parseFloat(elCalcCompare ? elCalcCompare.value : 0) || 0;
-    if (currentCompareVal > price && currentCompareVal > 0) {
+    if (currentCompareVal <= price) {
+      currentDiscountVal = 0;
+      if (elCalcDiscountPct) elCalcDiscountPct.value = 0;
+    } else if (currentCompareVal > 0) {
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
       if (elCalcDiscountPct) elCalcDiscountPct.value = currentDiscountVal;
     }
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'price' || triggerSource === 'retail') {
-    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산 (소싱원가 불변!)
+    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산
     if (elPrice) price = parseFloat(elPrice.value) || price;
-    if (currentCompareVal > price && currentCompareVal > 0) {
+    if (currentDiscountVal === 0) {
+      // 할인율 0% 상태에서는 정가도 판매가와 똑같이 1:1 동기화
+      currentCompareVal = price;
+      if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
+    } else if (currentCompareVal > price && currentCompareVal > 0) {
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
       if (elCalcDiscountPct) elCalcDiscountPct.value = currentDiscountVal;
     } else if (price > 0) {
-      // 판매가가 정가보다 크거나 같아지면 정가를 1.35배로 안전 상향 후 할인율 재계산
       currentCompareVal = Math.ceil((price * 1.35) / 10) * 10 - 0.01;
       if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
@@ -2790,15 +2803,23 @@ function runUnifiedSync(triggerSource) {
     if (currentCalcMode === 'auto') {
       price = Math.round(((cost * (1 + (marginPct / 100))) + activeBuffer) * 100) / 100;
       if (elPrice) elPrice.value = price.toFixed(2);
-      const disc = Math.min(95, Math.max(1, currentDiscountVal));
-      currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+      if (currentDiscountVal === 0) {
+        currentCompareVal = price;
+      } else {
+        const disc = Math.min(95, Math.max(1, currentDiscountVal));
+        currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+      }
       if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
     }
   } else if (triggerSource === 'margin' || triggerSource === 'buffer') {
     price = Math.round(((cost * (1 + (marginPct / 100))) + activeBuffer) * 100) / 100;
     if (elPrice) elPrice.value = price.toFixed(2);
-    const disc = Math.min(95, Math.max(1, currentDiscountVal));
-    currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    if (currentDiscountVal === 0) {
+      currentCompareVal = price;
+    } else {
+      const disc = Math.min(95, Math.max(1, currentDiscountVal));
+      currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    }
     if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
   }
 
@@ -2814,7 +2835,7 @@ function runUnifiedSync(triggerSource) {
 
   // Compare-at MSRP & Discount % Calculation
   const discountAmount = Math.max(0, cleanCompare - cleanPrice);
-  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+  const discountPct = cleanCompare > cleanPrice ? Math.max(0, Math.round((discountAmount / cleanCompare) * 100)) : 0;
   if (elCalcDiscountPct && triggerSource !== 'discount') {
     elCalcDiscountPct.value = discountPct;
   }
@@ -2823,7 +2844,17 @@ function runUnifiedSync(triggerSource) {
   const elSideDiscount = document.getElementById("sidebar-discount-badge");
   if (elSideCompare) elSideCompare.textContent = `$${cleanCompare.toFixed(2)}`;
   if (elSideDiscount) {
-    elSideDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
+    if (discountPct > 0 && discountAmount > 0) {
+      elSideDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
+      elSideDiscount.style.background = "rgba(245, 158, 11, 0.2)";
+      elSideDiscount.style.color = "#f59e0b";
+      elSideDiscount.style.borderColor = "rgba(245, 158, 11, 0.3)";
+    } else {
+      elSideDiscount.textContent = `✨ 정가 판매 (0% OFF / $0 절약)`;
+      elSideDiscount.style.background = "rgba(148, 163, 184, 0.15)";
+      elSideDiscount.style.color = "#94a3b8";
+      elSideDiscount.style.borderColor = "rgba(148, 163, 184, 0.25)";
+    }
   }
 
   // Gross profit & real margin
@@ -4861,7 +4892,8 @@ function runCalculatorStudioSync(triggerSource) {
   const csCompare = document.getElementById("cs-compare");
   const csDiscountPct = document.getElementById("cs-discount-pct");
   let currentCompareVal = parseFloat(csCompare ? csCompare.value : 0) || 0;
-  let currentDiscountVal = parseFloat(csDiscountPct ? csDiscountPct.value : 25) || 25;
+  let rawDiscStr = csDiscountPct ? csDiscountPct.value.trim() : '';
+  let currentDiscountVal = rawDiscStr === '' ? 0 : (isNaN(parseFloat(rawDiscStr)) ? 0 : parseFloat(rawDiscStr));
 
   if (triggerSource === 'preset') {
     // Smart Auto-Proportional Guard
@@ -4881,31 +4913,43 @@ function runCalculatorStudioSync(triggerSource) {
     currentCompareVal = Math.ceil((price / (1 - 0.25)) / 10) * 10 - 0.01;
     if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
   } else if (triggerSource === 'discount') {
-    // 1. 할인율(%) 변경 시: 정가 기준으로 판매가 실시간 재계산 (소싱원가 100% 불변!)
+    // 1. 할인율(%) 변경 시: 0%이면 정가=판매가, 그 외에는 정가 기준으로 판매가 실시간 재계산
     const disc = Math.min(95, Math.max(0, currentDiscountVal));
-    if (currentCompareVal <= 0) {
-      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+    if (disc === 0) {
+      // 할인율 0%일 때는 정가와 판매가가 1:1로 일치!
+      currentCompareVal = price;
       if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
+    } else {
+      if (currentCompareVal <= 0 || currentCompareVal <= price) {
+        currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
+        if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
+      }
+      price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
+      if (csPrice) csPrice.value = price.toFixed(2);
     }
-    price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
-    if (csPrice) csPrice.value = price.toFixed(2);
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'compare') {
-    // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산 (소싱원가/판매가 불변!)
+    // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산
     currentCompareVal = parseFloat(csCompare ? csCompare.value : 0) || 0;
-    if (currentCompareVal > price && currentCompareVal > 0) {
+    if (currentCompareVal <= price) {
+      currentDiscountVal = 0;
+      if (csDiscountPct) csDiscountPct.value = 0;
+    } else if (currentCompareVal > 0) {
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
       if (csDiscountPct) csDiscountPct.value = currentDiscountVal;
     }
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'price') {
-    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산 (소싱원가 불변!)
+    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산
     if (csPrice) price = parseFloat(csPrice.value) || price;
-    if (currentCompareVal > price && currentCompareVal > 0) {
+    if (currentDiscountVal === 0) {
+      // 할인율 0% 상태에서는 정가도 판매가와 똑같이 1:1 동기화
+      currentCompareVal = price;
+      if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
+    } else if (currentCompareVal > price && currentCompareVal > 0) {
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
       if (csDiscountPct) csDiscountPct.value = currentDiscountVal;
     } else if (price > 0) {
-      // 판매가가 정가보다 크거나 같아지면 정가를 1.35배로 안전 상향 후 할인율 재계산
       currentCompareVal = Math.ceil((price * 1.35) / 10) * 10 - 0.01;
       if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
       currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
@@ -4918,15 +4962,23 @@ function runCalculatorStudioSync(triggerSource) {
     if (currentCalcMode === 'auto') {
       price = Math.round(((cost * (1 + (marginPct / 100))) + activeBuffer) * 100) / 100;
       if (csPrice) csPrice.value = price.toFixed(2);
-      const disc = Math.min(95, Math.max(1, currentDiscountVal));
-      currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+      if (currentDiscountVal === 0) {
+        currentCompareVal = price;
+      } else {
+        const disc = Math.min(95, Math.max(1, currentDiscountVal));
+        currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+      }
       if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
     }
   } else if (triggerSource === 'margin' || triggerSource === 'buffer') {
     price = Math.round(((cost * (1 + (marginPct / 100))) + activeBuffer) * 100) / 100;
     if (csPrice) csPrice.value = price.toFixed(2);
-    const disc = Math.min(95, Math.max(1, currentDiscountVal));
-    currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    if (currentDiscountVal === 0) {
+      currentCompareVal = price;
+    } else {
+      const disc = Math.min(95, Math.max(1, currentDiscountVal));
+      currentCompareVal = Math.ceil((price / (1 - (disc / 100))) / 10) * 10 - 0.01;
+    }
     if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
   }
 
@@ -4951,7 +5003,7 @@ function runCalculatorStudioSync(triggerSource) {
   const netAfterAd = cleanPrice - cost - pgFee1 - cpa - tax - shipping;
 
   const discountAmount = Math.max(0, cleanCompare - cleanPrice);
-  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+  const discountPct = cleanCompare > cleanPrice ? Math.max(0, Math.round((discountAmount / cleanCompare) * 100)) : 0;
   if (csDiscountPct && triggerSource !== 'discount') {
     csDiscountPct.value = discountPct;
   }
@@ -4977,7 +5029,17 @@ function runCalculatorStudioSync(triggerSource) {
   if (elResRetail) elResRetail.textContent = `$${cleanPrice.toFixed(2)}`;
   if (elResCompare) elResCompare.textContent = `$${cleanCompare.toFixed(2)}`;
   if (elResDiscount) {
-    elResDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
+    if (discountPct > 0 && discountAmount > 0) {
+      elResDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
+      elResDiscount.style.background = "rgba(245, 158, 11, 0.2)";
+      elResDiscount.style.color = "#f59e0b";
+      elResDiscount.style.borderColor = "rgba(245, 158, 11, 0.3)";
+    } else {
+      elResDiscount.textContent = `✨ 정가 판매 (0% OFF / $0 절약)`;
+      elResDiscount.style.background = "rgba(148, 163, 184, 0.15)";
+      elResDiscount.style.color = "#94a3b8";
+      elResDiscount.style.borderColor = "rgba(148, 163, 184, 0.25)";
+    }
   }
   if (elResProfit) elResProfit.textContent = `$${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
   if (elResBep) elResBep.textContent = `${Math.round(bepRoas)}% (${(bepRoas / 100).toFixed(1)}x)`;
