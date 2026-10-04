@@ -1681,19 +1681,19 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
               </button>
             </div>
 
-            <!-- 1-Click D2C Pricing Presets (English Benchmarks) -->
+            <!-- 1-Click D2C Pricing Presets (English Benchmarks with Price Ranges) -->
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 8px;">
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $50 VALUE
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
+                $50 VALUE<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($30~$79)</span>
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $100 STANDARD
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
+                $100 STANDARD<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($80~$149)</span>
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $200 FLAGSHIP
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
+                $200 FLAGSHIP<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($150~$299)</span>
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $400 LUXURY
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
+                $400 LUXURY<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($300~$600+)</span>
               </button>
             </div>
 
@@ -1705,6 +1705,19 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
               <div class="form-group flex-1">
                 <label style="font-size: 10px; color: #10b981; font-weight: 700;">공급사 소싱원가 ($)</label>
                 <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" style="font-size: 13px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+              </div>
+            </div>
+
+            <!-- Compare-at (MSRP) & Discount % Badge -->
+            <div style="background: rgba(0,0,0,0.35); padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 9px; color: #94a3b8;">할인 전 정가 (MSRP): </span>
+                <span id="sidebar-res-compare" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-decoration: line-through;">$279.99</span>
+              </div>
+              <div>
+                <span id="sidebar-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                  🔥 25% OFF ($70.00 절약)
+                </span>
               </div>
             </div>
 
@@ -2672,6 +2685,17 @@ function runUnifiedSync(triggerSource) {
 
   if (elRetail && triggerSource !== 'retail') elRetail.value = cleanPrice.toFixed(2);
   if (elCompare) elCompare.value = cleanCompare.toFixed(2);
+
+  // Compare-at MSRP & Discount % Calculation
+  const discountAmount = Math.max(0, cleanCompare - cleanPrice);
+  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+
+  const elSideCompare = document.getElementById("sidebar-res-compare");
+  const elSideDiscount = document.getElementById("sidebar-discount-badge");
+  if (elSideCompare) elSideCompare.textContent = `${cleanCompare.toFixed(2)}`;
+  if (elSideDiscount) {
+    elSideDiscount.textContent = `🔥 ${discountPct}% OFF (${discountAmount.toFixed(2)} 절약)`;
+  }
 
   // Gross profit & real margin
   const grossProfit = Math.max(0, cleanPrice - cost - tax - shipping);
@@ -4379,17 +4403,17 @@ function renderCalculatorStudioView(b) {
                 <span style="color: #38bdf8; font-weight: 800;">1-Click Auto Config</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  ⚡ $50 VALUE<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf ?v=5.02 / CPA ?v=5.05</span>
+                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
+                  ⚡ $50 VALUE<br><strong style="font-size: 9px; color: #38bdf8; display: block; margin: 1px 0;">($30~$79)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf ?v=5.02 / CPA ?v=5.05</span>
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  🔥 ?v=5.000 STANDARD<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $25 / CPA $20</span>
+                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
+                  🔥 ?v=5.000 STANDARD<br><strong style="font-size: 9px; color: #10b981; display: block; margin: 1px 0;">($80~?v=5.049)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $25 / CPA $20</span>
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  👑 $200 FLAGSHIP<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $50 / CPA $25</span>
+                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
+                  👑 $200 FLAGSHIP<br><strong style="font-size: 9px; color: #f59e0b; display: block; margin: 1px 0;">(?v=5.050~$299)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $50 / CPA $25</span>
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  💎 $400 LUXURY<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $80 / CPA $35</span>
+                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
+                  💎 $400 LUXURY<br><strong style="font-size: 9px; color: #c084fc; display: block; margin: 1px 0;">($300~$600+)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $80 / CPA $35</span>
                 </button>
               </div>
             </div>
@@ -4453,9 +4477,12 @@ function renderCalculatorStudioView(b) {
               <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">권장 판매가</span>
               <span id="cs-res-retail" style="font-size: 17px; font-weight: 900; color: #38bdf8; margin-top: 4px;">${parsedPrice.toFixed(2)}</span>
             </div>
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-              <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">할인 정가 (COMPARE)</span>
-              <span id="cs-res-compare" style="font-size: 17px; font-weight: 900; color: #f8fafc; margin-top: 4px;">${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}</span>
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 6px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+              <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">할인 전 정가 (MSRP)</span>
+              <span id="cs-res-compare" style="font-size: 15px; font-weight: 900; color: #94a3b8; text-decoration: line-through; margin-top: 2px;">${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}</span>
+              <span id="cs-res-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 2px;">
+                🔥 25% OFF
+              </span>
             </div>
             <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
               <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block;">개당 총마진</span>
@@ -4704,6 +4731,7 @@ function runCalculatorStudioSync(triggerSource) {
   const elCostVal = document.getElementById("cs-supplier-cost-val");
   const elResRetail = document.getElementById("cs-res-retail");
   const elResCompare = document.getElementById("cs-res-compare");
+  const elResDiscount = document.getElementById("cs-res-discount-badge");
   const elResProfit = document.getElementById("cs-res-profit");
   const elResBep = document.getElementById("cs-res-bep");
   const elResTarget = document.getElementById("cs-res-target");
@@ -4716,9 +4744,15 @@ function runCalculatorStudioSync(triggerSource) {
   const elTrafficBadge = document.getElementById("cs-traffic-badge");
   const elTrafficGuide = document.getElementById("cs-traffic-guide");
 
+  const discountAmount = Math.max(0, cleanCompare - cleanPrice);
+  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
+
   if (elCostVal) elCostVal.textContent = `${cost.toFixed(2)}`;
   if (elResRetail) elResRetail.textContent = `${cleanPrice.toFixed(2)}`;
   if (elResCompare) elResCompare.textContent = `${cleanCompare.toFixed(2)}`;
+  if (elResDiscount) {
+    elResDiscount.textContent = `🔥 ${discountPct}% OFF (${discountAmount.toFixed(2)} 절약)`;
+  }
   if (elResProfit) elResProfit.textContent = `${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
   if (elResBep) elResBep.textContent = `${Math.round(bepRoas)}% (${(bepRoas / 100).toFixed(1)}x)`;
   if (elResTarget) elResTarget.textContent = `${Math.round(targetRoas)}% (${(targetRoas / 100).toFixed(1)}x)`;
