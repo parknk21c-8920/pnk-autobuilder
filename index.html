@@ -2708,7 +2708,8 @@ function runUnifiedSync(triggerSource) {
   if (isUpdating) return;
   isUpdating = true;
 
-  const marginPct = parseFloat(elMargin ? elMargin.value : 65) || 65;
+  try {
+    const marginPct = parseFloat(elMargin ? elMargin.value : 65) || 65;
   const buffer = parseFloat(elBuffer ? elBuffer.value : 50) || 50;
   let cpa = parseFloat(elCpa ? elCpa.value : 25.0);
   if (isNaN(cpa) || cpa < 0) cpa = 25.0;
@@ -3018,8 +3019,9 @@ function runUnifiedSync(triggerSource) {
   if (csCpa && csCpa.value !== activeCpa.toFixed(2)) csCpa.value = activeCpa.toFixed(2);
   if (csCompare && csCompare.value !== cleanCompare.toFixed(2)) csCompare.value = cleanCompare.toFixed(2);
   if (csDiscountPct && csDiscountPct.value !== discountPct.toString()) csDiscountPct.value = discountPct;
-
-  isUpdating = false;
+  } finally {
+    isUpdating = false;
+  }
 }
 
 // 1-Click Sidebar Price Tier Presets Handler
