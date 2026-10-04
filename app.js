@@ -380,6 +380,7 @@ const tabPdp = document.getElementById("tab-pdp");
 const tabCollections = document.getElementById("tab-collections");
 const tabCart = document.getElementById("tab-cart");
 const tabLegal = document.getElementById("tab-legal");
+const tabDispute = document.getElementById("tab-dispute");
 
 // Currency Formatter (USD to KRW @ 1,350 KRW/$)
 function formatKrw(usd) {
@@ -395,7 +396,7 @@ function formatKrw(usd) {
 
 // Reset Tab Active Classes
 function resetTabStyles() {
-  [tabHome, tabPdp, tabCollections, tabCart, tabLegal].forEach(t => {
+  [tabHome, tabPdp, tabCollections, tabCart, tabLegal, tabDispute].forEach(t => {
     if (t) t.classList.remove("active");
   });
 }
@@ -429,6 +430,9 @@ window.navigateToTab = function(tabName, productIdx = null) {
   } else if (tabName === "legal") {
     if (tabLegal) tabLegal.classList.add("active");
     renderLegalView(b);
+  } else if (tabName === "dispute") {
+    if (tabDispute) tabDispute.classList.add("active");
+    renderDisputeView(b);
   }
 
   // Smooth scroll viewport to top
@@ -1163,12 +1167,456 @@ function renderLegalView(b) {
   `;
 }
 
+// ==========================================================================
+// 🛡️ 6. Render Chargeback & Dispute Defense Hub (76대 스파미 실전 운영 가이드라인 융합)
+// ==========================================================================
+let currentDisputeScenario = "case1";
+let disputeFormValues = {
+  orderNo: "#1084",
+  customerName: "Michael Scott",
+  productName: "",
+  orderDate: "2026-09-28",
+  carrier: "USPS",
+  trackingNo: "9400111899562547896521",
+  deliveryDate: "2026-10-02 (Delivered at Front Porch)",
+  shippingAddr: "1725 Slough Ave, Scranton, PA 18503",
+  amount: "$139.99"
+};
+
+const DISPUTE_SCENARIOS = {
+  case1: {
+    id: "case1",
+    title: "Case 1: 배송 완료 후 미수령/사기 주장",
+    badge: "Delivered / Fraud Rebuttal",
+    icon: "📦",
+    tagColor: "#10b981",
+    desc: "배송사 공식 시스템상 'Delivered(배송 완료)' 상태이나, 고객이 물건을 받지 못했다거나 사기라며 일방적 차지백을 건 경우",
+    getRebuttal: (b, d) => `Dear Chargeback Dispute Resolution Team & Card Issuer,
+
+We are writing to formally submit comprehensive rebuttal documentation against the dispute filed for Order ${d.orderNo} placed on ${d.orderDate}.
+
+1. TRANSACTION AUTHENTICATION & FRAUD SCREENING:
+The customer, ${d.customerName}, placed an authorized order on our official store (${b.name}) for ${d.productName || b.products[0].title} in the amount of ${d.amount}. 
+At checkout, full CVV card verification matched, and the billing address aligned with the cardholder's bank credentials.
+
+2. IRREFUTABLE PROOF OF FULFILLMENT & DELIVERY:
+The physical merchandise was safely packaged and dispatched via ${d.carrier} under tracking number ${d.trackingNo}.
+According to official ${d.carrier} tracking records, the parcel was successfully DELIVERED to the cardholder's specified address:
+• Delivery Address: ${d.shippingAddr}
+• Delivery Timestamp: ${d.deliveryDate}
+
+3. ZERO PRIOR CONTACT & UNJUSTIFIED DISPUTE:
+Prior to opening this financial dispute, the customer did NOT contact our 24/7 dedicated customer care desk (${b.email}) to report missing mail, damage, or request assistance. 
+
+Given that full fulfillment is irrefutably verified by official carrier GPS timestamps and delivery logs, this transaction is 100% legitimate. We respectfully request that this chargeback be reversed and the disputed funds returned to our merchant account.
+
+Attached Evidence:
+1. Official Order Invoice PDF & Checkout Timestamp
+2. Official ${d.carrier} Proof of Delivery & Tracking Log
+3. Store Legal Shipping & 30-Day Return Policy
+4. Complete Customer Communication & Ticket Audit Log
+
+Sincerely,
+${b.name} Legal & Dispute Defense Team
+Parent House: PNK FINDS ("Pioneering New Horizons")
+Contact: ${b.email}`
+  },
+  case2: {
+    id: "case2",
+    title: "Case 2: 배송 중 지연으로 일방적 차지백",
+    badge: "In-Transit / Premature Claim",
+    icon: "🚚",
+    tagColor: "#38bdf8",
+    desc: "물건이 배송사 허브를 통해 정상 이동 중(In-Transit)인데, 조급한 마음에 배송 지연을 이유로 일방적 차지백을 제기한 경우",
+    getRebuttal: (b, d) => `Dear Dispute Resolution Officer,
+
+We are submitting formal evidence to contest the premature chargeback regarding Order ${d.orderNo} for ${d.productName || b.products[0].title}.
+
+1. ORDER DISPATCH & ACTIVE IN-TRANSIT STATUS:
+The order placed by ${d.customerName} on ${d.orderDate} was fulfilled on schedule and is currently IN ACTIVE TRANSIT with ${d.carrier} under tracking number ${d.trackingNo}.
+
+2. BINDING AGREEMENT TO PUBLISHED SHIPPING POLICY:
+During checkout, the customer reviewed and explicitly agreed to our Shipping Terms, which clearly specify a standard fulfillment & transit window of 3-7 business days. The package is progressing normally across carrier logistics hubs without abnormal delay.
+
+3. PREMATURE DISPUTE FILING:
+Filing a payment dispute while a shipment is actively moving through carrier logistics violates standard card network procedures. The merchandise is physically en route to ${d.shippingAddr}.
+
+We kindly request that this dispute be dismissed as premature fulfillment is actively proceeding.
+
+Attached Evidence:
+1. Order Invoice & Checkout Policy Agreement Record
+2. Real-Time ${d.carrier} Carrier In-Transit Tracking Snapshot
+3. Published Store Shipping & Delivery Schedule Terms
+
+Sincerely,
+${b.name} Fulfillment & Operations Desk
+Contact: ${b.email}`
+  },
+  case3: {
+    id: "case3",
+    title: "Case 3: 파손/불만족 및 사전 문의 없는 차지백",
+    badge: "Policy Bypass / Return Remedy",
+    icon: "🛠️",
+    tagColor: "#f59e0b",
+    desc: "상품 수령 후 파손이나 불만을 이유로 교환/반품 CS 문의 없이 곧바로 카드사 차지백을 신청한 경우",
+    getRebuttal: (b, d) => `Dear Dispute Review Department,
+
+We are submitting formal rebuttal documentation against the dispute regarding Order ${d.orderNo}.
+
+1. BINDING 30-DAY RMA RETURN & WARRANTY POLICY:
+${b.name} provides an unconditional 30-Day Risk-Free Return & 1-Year Limited Warranty policy clearly stated on all store pages and during checkout. To receive a replacement or full refund, customers must request a prepaid RMA authorization.
+
+2. CARDHOLDER BYPASSED MERCHANT REMEDIES:
+Carrier tracking confirms the merchandise (${d.productName || b.products[0].title}) was delivered on ${d.deliveryDate} via ${d.carrier} (${d.trackingNo}). However, the cardholder bypassed our support channel (${b.email}) entirely and filed a chargeback without requesting a return.
+
+3. MERCHANT MAINTAINS OPEN REMEDY PATHWAY:
+We remain fully prepared to process a full replacement or refund immediately upon receiving the item back per our return procedures. Initiating a bank dispute without giving the merchant opportunity to remedy the issue violates dispute operating standards.
+
+We respectfully request that you rule in favor of the merchant.
+
+Attached Evidence:
+1. Proof of Delivery & Order Confirmation Receipt
+2. Store 30-Day Return & RMA Policy Terms
+3. Support Ticket Audit Log showing zero prior dispute notice
+
+Sincerely,
+${b.name} Customer Relations & Legal Division
+Contact: ${b.email}`
+  },
+  case4: {
+    id: "case4",
+    title: "Case 4: 타인 도용/미승인 부정 거래 주장",
+    badge: "Fraud Defense / AVS Matched",
+    icon: "🔒",
+    tagColor: "#ec4899",
+    desc: "카드가 도용되었거나 본인이 승인하지 않은 거래라고 주장하여 사기(Fraud) 사유로 차지백을 제기한 경우",
+    getRebuttal: (b, d) => `Dear Fraud Investigation & Chargeback Department,
+
+We are submitting evidence to refute the 'Unauthorized Transaction' claim regarding Order ${d.orderNo} for ${d.amount}.
+
+1. MULTI-LAYER FRAUD VERIFICATION PASSED:
+This order underwent rigorous automated fraud screening via Shopify Payments:
+• CVV / CVC Security Code: VERIFIED & MATCHED
+• Address Verification System (AVS): BILLING ADDRESS MATCHED
+• Customer IP Geolocation: MATCHES Cardholder's Billing City / State
+
+2. CONSISTENT SHIPPING & BILLING PROFILES:
+The product (${d.productName || b.products[0].title}) was shipped to ${d.shippingAddr}, which matches the cardholder's verified billing profile, and was safely delivered on ${d.deliveryDate} via ${d.carrier} (${d.trackingNo}).
+
+3. AUTHENTIC FIRST-PARTY TRANSACTION:
+All digital signatures, IP records, matching billing/shipping credentials, and courier delivery scans irrefutably prove that this was an authorized purchase by the cardholder or household member.
+
+We request an immediate reversal of this chargeback and full release of funds.
+
+Attached Evidence:
+1. Shopify Payments Fraud Analysis Full Audit Report
+2. Delivery Verification & Courier Timestamp Scan
+3. Order Confirmation & E-Invoice Sent to Customer Email
+
+Sincerely,
+${b.name} Risk & Security Compliance
+Contact: ${b.email}`
+  },
+  case5: {
+    id: "case5",
+    title: "Case 5: 분쟁 철회 유도 고객 CS 이메일",
+    badge: "Pre-Dispute De-escalation CS",
+    icon: "✉️",
+    tagColor: "#8b5cf6",
+    desc: "고객에게 분쟁을 취소(Withdraw)해 주시면 즉시 전액 환불 또는 새제품 교환을 처리해 드리겠다고 안내하는 실전 CS 메일",
+    getRebuttal: (b, d) => `Subject: Important Update Regarding Your Order ${d.orderNo} with ${b.name}
+
+Hi ${d.customerName},
+
+Thank you for contacting ${b.name}. We noticed that a payment dispute was recently opened with your financial institution regarding your order ${d.orderNo} (${d.productName || b.products[0].title}).
+
+We sincerely apologize for any inconvenience or frustration you may have experienced. Your complete satisfaction is our absolute priority, and we would love to resolve this for you immediately!
+
+💡 HOW WE CAN RESOLVE THIS TOGETHER INSTANTLY:
+When a bank dispute is active, our merchant payment system is temporarily locked by the card issuer, preventing us from issuing an immediate direct refund or free expedited replacement.
+
+1. If you wish to receive a full refund or a free replacement immediately, please contact your credit card issuer or bank mobile app to withdraw / cancel the chargeback.
+2. Once the dispute is closed, simply reply to this email, and our customer care team will process your full refund or dispatch your replacement within minutes.
+
+If you have any questions or need tracking verification (${d.carrier}: ${d.trackingNo}), please reply directly to this email or reach us anytime at ${b.email}.
+
+Warm regards,
+Customer Care Team
+${b.name}
+${b.email}`
+  }
+};
+
+function renderDisputeView(b) {
+  if (!storeMockContainer) return;
+
+  if (!disputeFormValues.productName) {
+    disputeFormValues.productName = b.products[selectedProductIndex]?.title || b.products[0].title;
+  }
+
+  const scenario = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+  const rebuttalText = scenario.getRebuttal(b, disputeFormValues);
+
+  storeMockContainer.innerHTML = `
+    ${getMockHeaderHTML(b)}
+
+    <div style="padding: 24px 20px; background: #090d16; color: #f8fafc; font-family: Outfit, sans-serif; min-height: 650px;">
+      
+      <!-- Top Title & Golden Rule Alert Banner -->
+      <div style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 18px 20px; box-shadow: 0 4px 25px rgba(239, 68, 68, 0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 24px;">🛡️</span>
+            <div>
+              <h1 style="font-size: 20px; font-weight: 900; margin: 0; color: #f87171;">${b.name} 차지백(Chargeback) & CS 법적 방어 센터</h1>
+              <span style="font-size: 11px; color: #94a3b8;">76대 스파미 실전 운영 가이드라인 융합 • 1초 만에 100% 승소용 공식 영문 소명서 생성</span>
+            </div>
+          </div>
+          <span style="font-size: 10px; background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); padding: 4px 10px; border-radius: 20px; font-weight: 800;">
+            🚨 승소율 극대화 가동 중
+          </span>
+        </div>
+
+        <!-- Golden Rules Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-top: 12px; font-size: 11px; line-height: 1.5;">
+          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
+            <strong style="color: #fca5a5;">⚠️ 제1철칙: 절대 'Accept dispute (분쟁 수락)' 금지</strong><br>
+            수락 시 패소 확정 + $15~$20 수수료 강제 부과. 무조건 'Submit response'로 100% 소명서 제출!
+          </div>
+          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+            <strong style="color: #38bdf8;">💡 제2철칙: 고객 사전 설득 CS 메일 병행 발송</strong><br>
+            환불을 해주더라도 고객이 카드사에 차지백 취소(Withdraw)를 먼저 접수하도록 유도(Case 5 활용).
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Scenario Switcher Tabs -->
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px;">
+        ${Object.values(DISPUTE_SCENARIOS).map(sc => `
+          <button type="button" class="dispute-tab-btn ${currentDisputeScenario === sc.id ? 'active' : ''}" data-sc="${sc.id}" style="
+            background: ${currentDisputeScenario === sc.id ? 'linear-gradient(135deg, ' + sc.tagColor + '33, rgba(15,23,42,0.9))' : 'rgba(255,255,255,0.03)'};
+            border: 1px solid ${currentDisputeScenario === sc.id ? sc.tagColor : 'rgba(255,255,255,0.1)'};
+            color: ${currentDisputeScenario === sc.id ? '#fff' : '#94a3b8'};
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: ${currentDisputeScenario === sc.id ? '0 0 15px ' + sc.tagColor + '40' : 'none'};
+          ">
+            <span>${sc.icon}</span>
+            <span>${sc.title.split(':')[1] || sc.title}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- Main 2-Column Dispute Desk Matrix -->
+      <div style="display: grid; grid-template-columns: 1fr 1.35fr; gap: 20px; align-items: start;">
+        
+        <!-- Left: Dynamic Parameters & 5-Point Evidence Checklist -->
+        <div>
+          <!-- Parameter Input Form -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 12px; font-weight: 800; color: #38bdf8;">📝 실시간 소명 파라미터 입력</span>
+              <span style="font-size: 9px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">실시간 자동 바인딩</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px;">
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">주문 번호</label>
+                <input type="text" id="disp-order-no" value="${disputeFormValues.orderNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">고객 성명</label>
+                <input type="text" id="disp-cust-name" value="${disputeFormValues.customerName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div style="grid-column: span 2;">
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">상품명</label>
+                <input type="text" id="disp-prod-name" value="${disputeFormValues.productName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송사</label>
+                <input type="text" id="disp-carrier" value="${disputeFormValues.carrier}" placeholder="USPS / UPS / Amazon TBA" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">운송장 번호 (Tracking)</label>
+                <input type="text" id="disp-tracking" value="${disputeFormValues.trackingNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">주문 접수일</label>
+                <input type="text" id="disp-order-date" value="${disputeFormValues.orderDate}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송 완료일 / 상태</label>
+                <input type="text" id="disp-delivery-date" value="${disputeFormValues.deliveryDate}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div style="grid-column: span 2;">
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송지 주소 (Shipping Address)</label>
+                <input type="text" id="disp-address" value="${disputeFormValues.shippingAddr}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- 5-Point Evidence Checklist -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span style="font-size: 12px; font-weight: 800; color: #10b981;">📋 승소 필수 증빙 5종 체크리스트</span>
+              <span style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">승소율 95%+</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #cbd5e1;">
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>1. 주문 인보이스 PDF:</strong> 쇼피파이 주문 상세 > 'Print order page' > PDF 저장 (고객 IP 및 주소 일치 증빙)</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>2. 운송사 배송완료 캡처:</strong> USPS/UPS/Amazon 공식 트래킹 페이지의 'Delivered' 도달 타임라인 전체 스크린샷</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>3. 30일 안심 환불 규정 캡처:</strong> 스토어의 30-Day RMA Return & Refund 정책 페이지 스크린샷</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>4. 사기 분석 녹색 지표 로그:</strong> Fraud Analysis의 CVV 일치 및 IP 위치 일치 항목 캡처</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>5. 고객 소통 이메일 기록:</strong> 고객과 주고받은 CS 메일 내역 (또는 사전 문의 없이 차지백을 걸었다는 증빙)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Rebuttal Text Box & 1-Click Action Hub -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid ${scenario.tagColor}50; border-radius: 10px; padding: 18px; box-shadow: 0 0 20px ${scenario.tagColor}20;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-size: 13px; font-weight: 900; color: ${scenario.tagColor};">${scenario.icon} ${scenario.title}</span>
+                <p style="font-size: 10px; color: #94a3b8; margin: 3px 0 0 0;">${scenario.desc}</p>
+              </div>
+              <button type="button" id="btn-copy-rebuttal" style="
+                background: linear-gradient(135deg, ${scenario.tagColor}, #0284c7);
+                color: #fff;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 800;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                box-shadow: 0 4px 15px ${scenario.tagColor}40;
+                transition: all 0.2s;
+              ">
+                📋 [공식 소명서 원클릭 복사]
+              </button>
+            </div>
+
+            <!-- Rebuttal Textarea -->
+            <textarea id="rebuttal-textarea" readonly style="
+              width: 100%;
+              height: 380px;
+              box-sizing: border-box;
+              background: #040711;
+              border: 1px solid rgba(255,255,255,0.1);
+              border-radius: 8px;
+              color: #f1f5f9;
+              font-family: 'SF Mono', Consolas, Monaco, monospace;
+              font-size: 11px;
+              line-height: 1.6;
+              padding: 14px;
+              resize: vertical;
+              outline: none;
+            ">${rebuttalText}</textarea>
+
+            <!-- Admin 4-Step SOP Action Flow -->
+            <div style="margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; font-size: 10px; color: #94a3b8; line-height: 1.5;">
+              <strong style="color: #cbd5e1; display: block; margin-bottom: 4px;">🚀 쇼피파이 관리자(Admin) 실전 접수 4단계 순서:</strong>
+              1. <strong>주문 상세 접속:</strong> 차지백 알림 주문 진입 ➔ 우측 상단 <strong>'Submit response (답변 제출)'</strong> 클릭<br>
+              2. <strong>배송 세부 정보 입력:</strong> 택배사(${disputeFormValues.carrier}) 및 송장번호(${disputeFormValues.trackingNo}) 기입<br>
+              3. <strong>소명서 텍스트 붙여넣기:</strong> 위 복사한 영문 소명서를 <em>'Why do you believe this is not fraud?'</em> 란에 붙여넣기<br>
+              4. <strong>증빙 파일 5종 첨부:</strong> 인보이스 PDF, 트래킹 스크린샷, 30일 환불 규정 캡처를 첨부하고 <strong>[Submit]</strong> 클릭 완료!
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    ${getMockFooterHTML(b)}
+  `;
+
+  // Attach Scenario Switcher Event Listeners
+  document.querySelectorAll(".dispute-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentDisputeScenario = btn.dataset.sc;
+      renderDisputeView(b);
+    });
+  });
+
+  // Attach Live Input Real-Time Binding Listeners
+  const bindInput = (id, key) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", (e) => {
+        disputeFormValues[key] = e.target.value;
+        const ta = document.getElementById("rebuttal-textarea");
+        const sc = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+        if (ta) ta.value = sc.getRebuttal(b, disputeFormValues);
+      });
+    }
+  };
+
+  bindInput("disp-order-no", "orderNo");
+  bindInput("disp-cust-name", "customerName");
+  bindInput("disp-prod-name", "productName");
+  bindInput("disp-carrier", "carrier");
+  bindInput("disp-tracking", "trackingNo");
+  bindInput("disp-order-date", "orderDate");
+  bindInput("disp-delivery-date", "deliveryDate");
+  bindInput("disp-address", "shippingAddr");
+
+  // Attach 1-Click Copy Listener
+  const btnCopy = document.getElementById("btn-copy-rebuttal");
+  const ta = document.getElementById("rebuttal-textarea");
+  if (btnCopy && ta) {
+    btnCopy.addEventListener("click", () => {
+      navigator.clipboard.writeText(ta.value).then(() => {
+        const origText = btnCopy.innerHTML;
+        btnCopy.innerHTML = "✅ 복사 완료! (클립보드 저장됨)";
+        btnCopy.style.background = "#10b981";
+        setTimeout(() => {
+          btnCopy.innerHTML = origText;
+          const sc = DISPUTE_SCENARIOS[currentDisputeScenario];
+          btnCopy.style.background = `linear-gradient(135deg, ${sc.tagColor}, #0284c7)`;
+        }, 2000);
+      }).catch(() => {
+        ta.select();
+        document.execCommand("copy");
+        alert("📋 소명서가 복사되었습니다!");
+      });
+    });
+  }
+}
+
 // Tab Click Handlers
 if (tabHome) tabHome.addEventListener("click", () => navigateToTab("home"));
 if (tabPdp) tabPdp.addEventListener("click", () => navigateToTab("pdp", 0));
 if (tabCollections) tabCollections.addEventListener("click", () => navigateToTab("collections"));
 if (tabCart) tabCart.addEventListener("click", () => navigateToTab("cart"));
 if (tabLegal) tabLegal.addEventListener("click", () => navigateToTab("legal"));
+if (tabDispute) tabDispute.addEventListener("click", () => navigateToTab("dispute"));
 
 // Category Switcher Click Handlers (1탄 ~ 5탄)
 document.querySelectorAll(".cat-btn").forEach(btn => {
