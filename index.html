@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
   <meta name="description" content="미국 상위 1% D2C 플래그십 스토어 완전 자동화 빌더 엔진. 유료 앱 $0, 100% 실물 무왜곡 소싱, 0.1초 로딩.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
@@ -1389,12 +1392,15 @@ body {
 
 </style>
 </head>
+
 <body>
   <!-- Top Global Header -->
   <header class="app-header">
     <div class="header-left">
-      <div class="logo-mark" style="background: transparent; overflow: hidden; border: 1px solid rgba(217, 119, 6, 0.5); width: 44px; height: 44px; padding: 0; box-shadow: 0 0 15px rgba(217, 119, 6, 0.35); border-radius: 10px;">
-        <img src="auth_badge.jpg" alt="PNK AutoBuilder" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+      <div class="logo-mark"
+        style="background: transparent; overflow: hidden; border: 1px solid rgba(217, 119, 6, 0.5); width: 44px; height: 44px; padding: 0; box-shadow: 0 0 15px rgba(217, 119, 6, 0.35); border-radius: 10px;">
+        <img src="auth_badge.jpg" alt="PNK AutoBuilder"
+          style="width: 100%; height: 100%; object-fit: cover; display: block;">
       </div>
       <div class="header-title-wrap">
         <div class="brand-title">
@@ -1422,28 +1428,40 @@ body {
   </header>
 
   <!-- Master Security Gate (Password & Expiry Date Protection) -->
-  <div class="modal-overlay active" id="auth-modal-overlay" style="z-index: 9999; background: rgba(5, 7, 12, 0.96); backdrop-filter: blur(25px);">
-    <div class="modal-card" style="max-width: 440px; border: 1px solid rgba(217, 119, 6, 0.4); box-shadow: 0 0 50px rgba(217, 119, 6, 0.25); text-align: center; padding: 32px 28px;">
-      <div style="width: 84px; height: 84px; border-radius: 22px; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 0 35px rgba(217, 119, 6, 0.5); border: 2px solid rgba(217, 119, 6, 0.7); display: flex; align-items: center; justify-content: center; background: #07090e;">
-        <img src="auth_badge.jpg" alt="PNK AutoBuilder" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+  <div class="modal-overlay active" id="auth-modal-overlay"
+    style="z-index: 9999; background: rgba(5, 7, 12, 0.96); backdrop-filter: blur(25px);">
+    <div class="modal-card"
+      style="max-width: 440px; border: 1px solid rgba(217, 119, 6, 0.4); box-shadow: 0 0 50px rgba(217, 119, 6, 0.25); text-align: center; padding: 32px 28px;">
+      <div
+        style="width: 84px; height: 84px; border-radius: 22px; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 0 35px rgba(217, 119, 6, 0.5); border: 2px solid rgba(217, 119, 6, 0.7); display: flex; align-items: center; justify-content: center; background: #07090e;">
+        <img src="auth_badge.jpg" alt="PNK AutoBuilder"
+          style="width: 100%; height: 100%; object-fit: cover; display: block;">
       </div>
-      <h2 style="font-size: 20px; font-weight: 900; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.02em;">PNK D2C AUTOBUILDER</h2>
+      <h2 style="font-size: 20px; font-weight: 900; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.02em;">PNK
+        D2C AUTOBUILDER</h2>
       <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">인가된 파트너 및 운영자 전용 보안 제어 콘솔</p>
 
-      <div id="auth-expired-box" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 16px; color: #f87171; font-size: 13px; font-weight: 700;">
+      <div id="auth-expired-box"
+        style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 16px; color: #f87171; font-size: 13px; font-weight: 700;">
         ⚠️ 접속 유효기간이 만료되었습니다.<br>
-        <span style="font-size: 11px; color: #94a3b8; font-weight: normal; display: block; margin-top: 4px;">관리자에게 재발급을 요청하세요: bagnamgyu8920@gmail.com</span>
+        <span style="font-size: 11px; color: #94a3b8; font-weight: normal; display: block; margin-top: 4px;">관리자에게 재발급을
+          요청하세요: bagnamgyu8920@gmail.com</span>
       </div>
 
       <div id="auth-input-container">
         <div class="form-group" style="margin-bottom: 12px; text-align: left;">
-          <label for="auth-password-input" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">마스터 액세스 키 (비밀번호)</label>
-          <input type="password" id="auth-password-input" class="form-input" placeholder="비밀번호를 입력하세요" style="text-align: center; font-size: 16px; letter-spacing: 0.15em; font-family: var(--font-mono); border-color: rgba(217, 119, 6, 0.4); background: rgba(0,0,0,0.6);">
+          <label for="auth-password-input"
+            style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">마스터 액세스 키
+            (비밀번호)</label>
+          <input type="password" id="auth-password-input" class="form-input" placeholder="비밀번호를 입력하세요"
+            style="text-align: center; font-size: 16px; letter-spacing: 0.15em; font-family: var(--font-mono); border-color: rgba(217, 119, 6, 0.4); background: rgba(0,0,0,0.6);">
         </div>
-        <div id="auth-error-msg" style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-bottom: 12px;">
+        <div id="auth-error-msg"
+          style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-bottom: 12px;">
           ❌ 비밀번호가 올바르지 않습니다.
         </div>
-        <button type="button" id="btn-submit-auth" class="build-action-btn" style="width: 100%; padding: 14px; font-size: 14px; border-radius: 8px;">
+        <button type="button" id="btn-submit-auth" class="build-action-btn"
+          style="width: 100%; padding: 14px; font-size: 14px; border-radius: 8px;">
           보안 인증 및 스튜디오 입장 🔓
         </button>
         <div style="margin-top: 14px; font-size: 11px; color: #64748b;">
@@ -1466,17 +1484,20 @@ body {
       <div class="modal-body">
         <div class="api-guide-box">
           <h4>💡 쇼피파이 직접 연동이란?</h4>
-          <p>내 쇼피파이 스토어 URL과 Admin API 토큰을 연결하면, ZIP이나 CSV를 수동으로 다운로드할 필요 없이 <strong>버튼 한 번에 테마, 상품 6종, 법적 정책이 사장님의 실제 스토어로 1초 만에 자동 전송 및 배포</strong>됩니다.</p>
+          <p>내 쇼피파이 스토어 URL과 Admin API 토큰을 연결하면, ZIP이나 CSV를 수동으로 다운로드할 필요 없이 <strong>버튼 한 번에 테마, 상품 6종, 법적 정책이 사장님의 실제
+              스토어로 1초 만에 자동 전송 및 배포</strong>됩니다.</p>
         </div>
 
         <div class="form-group">
           <label for="sync-store-domain">내 쇼피파이 스토어 주소 (myshopify.com URL)</label>
-          <input type="text" id="sync-store-domain" class="form-input" placeholder="예: sswdcp-ny.myshopify.com" value="sswdcp-ny.myshopify.com">
+          <input type="text" id="sync-store-domain" class="form-input" placeholder="예: sswdcp-ny.myshopify.com"
+            value="sswdcp-ny.myshopify.com">
         </div>
 
         <div class="form-group">
           <label for="sync-access-token">Shopify Admin API Access Token (shpat_... / atkn_...)</label>
-          <input type="password" id="sync-access-token" class="form-input" placeholder="shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+          <input type="password" id="sync-access-token" class="form-input"
+            placeholder="shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
           <span class="input-hint">발급 방법: 쇼피파이 관리자 > 설정 > 앱 및 판매 채널 > 앱 개발 > API 자격 증명</span>
         </div>
 
@@ -1570,11 +1591,14 @@ body {
         </div>
 
         <!-- Clean Action Buttons (No unneeded text) -->
-        <div class="config-action-row" style="margin-top: 14px; display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-          <button type="button" class="btn-primary-glow" id="btn-save-settings" style="padding: 10px 14px; font-size: 13px; font-weight: 700; white-space: nowrap;">
+        <div class="config-action-row"
+          style="margin-top: 14px; display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+          <button type="button" class="btn-primary-glow" id="btn-save-settings"
+            style="padding: 10px 14px; font-size: 13px; font-weight: 700; white-space: nowrap;">
             💾 설정 저장
           </button>
-          <button type="button" class="btn-secondary" id="btn-reset-settings" style="padding: 10px 14px; font-size: 13px; white-space: nowrap;">
+          <button type="button" class="btn-secondary" id="btn-reset-settings"
+            style="padding: 10px 14px; font-size: 13px; white-space: nowrap;">
             🔄 초기화
           </button>
         </div>
@@ -1582,26 +1606,33 @@ body {
 
       <!-- Smart Profit & ROAS / Spark Cost Unified Fast Calculator Widget -->
       <div class="panel-card" id="calc-panel-card">
-        <div class="panel-section-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div class="panel-section-title"
+          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <span><span class="icon">📊</span> 3. 스마트 마진 & ROAS 광고 수익률 시뮬레이터</span>
-          <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 7px; border-radius: 4px; font-weight: 700;">PRO ALL-IN-ONE</span>
+          <span
+            style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 7px; border-radius: 4px; font-weight: 700;">PRO
+            ALL-IN-ONE</span>
         </div>
 
         <!-- Unified Fast Inputs Row 1: Selling Price & Sourcing Cost (Two-Way Synced) -->
         <div class="form-row" style="margin-bottom: 8px;">
           <div class="form-group flex-1">
-            <label for="calc-price" style="color: #38bdf8; font-weight: 700; display: flex; justify-content: space-between;">
+            <label for="calc-price"
+              style="color: #38bdf8; font-weight: 700; display: flex; justify-content: space-between;">
               <span>쇼피파이 판매가 ($)</span>
               <span style="font-size: 10px; color: #64748b;">역산 입력</span>
             </label>
-            <input type="number" id="calc-price" class="form-input" value="206.67" step="0.01" style="border-color: rgba(56, 189, 248, 0.4); font-weight: 800; font-size: 14px; color: #38bdf8;">
+            <input type="number" id="calc-price" class="form-input" value="206.67" step="0.01"
+              style="border-color: rgba(56, 189, 248, 0.4); font-weight: 800; font-size: 14px; color: #38bdf8;">
           </div>
           <div class="form-group flex-1">
-            <label for="calc-cost" style="color: #10b981; font-weight: 700; display: flex; justify-content: space-between;">
+            <label for="calc-cost"
+              style="color: #10b981; font-weight: 700; display: flex; justify-content: space-between;">
               <span>소싱 원가 ($)</span>
               <span style="font-size: 10px; color: #64748b;">정방향 입력</span>
             </label>
-            <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" style="border-color: rgba(16, 185, 129, 0.4); font-weight: 800; font-size: 14px; color: #10b981;">
+            <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01"
+              style="border-color: rgba(16, 185, 129, 0.4); font-weight: 800; font-size: 14px; color: #10b981;">
           </div>
         </div>
 
@@ -1622,14 +1653,18 @@ body {
         </div>
 
         <!-- 6-Pill Real-Time Profit & ROAS Metric Matrix -->
-        <div class="profit-summary-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px;">
-          <div class="profit-pill" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); padding: 8px 6px;">
+        <div class="profit-summary-grid"
+          style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px;">
+          <div class="profit-pill"
+            style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); padding: 8px 6px;">
             <span class="p-lbl" style="color: #38bdf8; font-size: 10px;">권장 판매가 ($)</span>
-            <input type="number" id="res-retail" class="pill-input" value="209.99" step="0.50" style="background: transparent; border: none; color: #38bdf8; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+            <input type="number" id="res-retail" class="pill-input" value="209.99" step="0.50"
+              style="background: transparent; border: none; color: #38bdf8; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
           </div>
           <div class="profit-pill" style="padding: 8px 6px;">
             <span class="p-lbl" style="font-size: 10px;">할인 정가 (COMPARE $)</span>
-            <input type="number" id="res-compare" class="pill-input" value="279.99" step="1.00" style="background: transparent; border: none; color: #f8fafc; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+            <input type="number" id="res-compare" class="pill-input" value="279.99" step="1.00"
+              style="background: transparent; border: none; color: #f8fafc; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
           </div>
           <div class="profit-pill highlight" style="padding: 8px 6px;">
             <span class="p-lbl" style="font-size: 10px;">개당 총마진</span>
@@ -1638,107 +1673,159 @@ body {
         </div>
 
         <!-- ROAS & Net Profit Tier -->
-        <div class="roas-summary-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px;">
-          <div class="roas-pill b-bep" style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
-            <span style="font-size: 10px; color: #f87171; font-weight: 700; display: block; text-transform: uppercase;">손익분기 ROAS</span>
-            <span id="res-bep-roas" style="font-size: 13px; font-weight: 800; color: #ef4444; font-variant-numeric: tabular-nums;">185% (1.8x)</span>
+        <div class="roas-summary-grid"
+          style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px;">
+          <div class="roas-pill b-bep"
+            style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+            <span
+              style="font-size: 10px; color: #f87171; font-weight: 700; display: block; text-transform: uppercase;">손익분기
+              ROAS</span>
+            <span id="res-bep-roas"
+              style="font-size: 13px; font-weight: 800; color: #ef4444; font-variant-numeric: tabular-nums;">185%
+              (1.8x)</span>
           </div>
-          <div class="roas-pill b-target" style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
-            <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block; text-transform: uppercase;">실전 예상 ROAS</span>
-            <span id="res-target-roas" style="font-size: 13px; font-weight: 800; color: #38bdf8; font-variant-numeric: tabular-nums;">840% (8.4x)</span>
+          <div class="roas-pill b-target"
+            style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+            <span
+              style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block; text-transform: uppercase;">실전
+              예상 ROAS</span>
+            <span id="res-target-roas"
+              style="font-size: 13px; font-weight: 800; color: #38bdf8; font-variant-numeric: tabular-nums;">840%
+              (8.4x)</span>
           </div>
-          <div class="roas-pill b-net" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 4px; text-align: center;">
-            <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block; text-transform: uppercase;">광고 차감 순수익</span>
-            <span id="res-net-after-ad" style="font-size: 13px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; display: block;">+$86.72</span>
-            <span id="res-net-krw" style="font-size: 9px; font-weight: 800; color: #34d399; display: block;">(약 11.7만 원)</span>
+          <div class="roas-pill b-net"
+            style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 4px; text-align: center;">
+            <span
+              style="font-size: 10px; color: #10b981; font-weight: 700; display: block; text-transform: uppercase;">광고
+              차감 순수익</span>
+            <span id="res-net-after-ad"
+              style="font-size: 13px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; display: block;">+$86.72</span>
+            <span id="res-net-krw" style="font-size: 9px; font-weight: 800; color: #34d399; display: block;">(약 11.7만
+              원)</span>
           </div>
         </div>
 
         <!-- Supplier Cost Copy Bar -->
-        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <div
+          style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
           <div>
             <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 입력값:</span>
-            <span id="out-supplier-cost" style="font-size: 18px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums;">$94.95</span>
+            <span id="out-supplier-cost"
+              style="font-size: 18px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums;">$94.95</span>
           </div>
-          <button type="button" id="btn-quick-copy-cost" style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+          <button type="button" id="btn-quick-copy-cost"
+            style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
             📋 원가 복사
           </button>
         </div>
 
         <!-- 4-Stage ROAS Traffic Light Action Navigator -->
-        <div class="traffic-light-container" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px;">
-          <div style="font-size: 11px; font-weight: 700; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div class="traffic-light-container"
+          style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px;">
+          <div
+            style="font-size: 11px; font-weight: 700; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span>🚦 실전 광고 판단 신호등</span>
-            <span id="traffic-status-badge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢 위닝 (+20% 증액)</span>
+            <span id="traffic-status-badge"
+              style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢
+              위닝 (+20% 증액)</span>
           </div>
 
           <!-- 4 Lamps Row -->
-          <div class="traffic-lamps" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
-            <div class="traffic-lamp" id="lamp-kill" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-red" style="width: 12px; height: 12px; border-radius: 50%; background: #450a0a; margin: 0 auto 4px auto;"></div>
+          <div class="traffic-lamps"
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
+            <div class="traffic-lamp" id="lamp-kill"
+              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-red"
+                style="width: 12px; height: 12px; border-radius: 50%; background: #450a0a; margin: 0 auto 4px auto;">
+              </div>
               <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">&lt; 2.0x</div>
               <div style="font-size: 9px; color: #64748b;">즉시 OFF</div>
             </div>
 
-            <div class="traffic-lamp" id="lamp-opt" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-yellow" style="width: 12px; height: 12px; border-radius: 50%; background: #451a03; margin: 0 auto 4px auto;"></div>
+            <div class="traffic-lamp" id="lamp-opt"
+              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-yellow"
+                style="width: 12px; height: 12px; border-radius: 50%; background: #451a03; margin: 0 auto 4px auto;">
+              </div>
               <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">2.0~3.5x</div>
               <div style="font-size: 9px; color: #64748b;">소재 개선</div>
             </div>
 
-            <div class="traffic-lamp active" id="lamp-scale" style="padding: 6px 4px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; text-align: center;">
-              <div class="t-bulb bulb-green" style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; margin: 0 auto 4px auto;"></div>
+            <div class="traffic-lamp active" id="lamp-scale"
+              style="padding: 6px 4px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; text-align: center;">
+              <div class="t-bulb bulb-green"
+                style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; margin: 0 auto 4px auto;">
+              </div>
               <div style="font-size: 9px; font-weight: 700; color: #10b981;">3.5~6.9x</div>
               <div style="font-size: 9px; color: #34d399;">+20% 증액</div>
             </div>
 
-            <div class="traffic-lamp" id="lamp-super" style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-blue" style="width: 12px; height: 12px; border-radius: 50%; background: #0c4a6e; margin: 0 auto 4px auto;"></div>
+            <div class="traffic-lamp" id="lamp-super"
+              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <div class="t-bulb bulb-blue"
+                style="width: 12px; height: 12px; border-radius: 50%; background: #0c4a6e; margin: 0 auto 4px auto;">
+              </div>
               <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">7.0x+</div>
               <div style="font-size: 9px; color: #64748b;">대량 증액</div>
             </div>
           </div>
 
           <!-- Dynamic Action Guidance Box -->
-          <div class="traffic-guide-box" id="traffic-guide-text" style="font-size: 11px; color: #cbd5e1; line-height: 1.4; padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 12px;">
+          <div class="traffic-guide-box" id="traffic-guide-text"
+            style="font-size: 11px; color: #cbd5e1; line-height: 1.4; padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 12px;">
             💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!
           </div>
         </div>
 
         <!-- 🚀 3단 볼륨 번들 실전 순수익 증폭 시뮬레이터 (1-Pack vs Buy 2 vs Buy 3) -->
-        <div style="margin-top: 12px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 12px;">
+        <div
+          style="margin-top: 12px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 12px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span style="font-size: 11px; font-weight: 800; color: #38bdf8;">🚀 3단 번들 순수익 증폭 시뮬레이터</span>
-            <span style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">앱 비용 $0 내장</span>
+            <span
+              style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">앱
+              비용 $0 내장</span>
           </div>
 
           <!-- 3-Column Bundle Matrix -->
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center;">
             <!-- Single 1-Pack -->
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 4px;">
+            <div
+              style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 4px;">
               <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
-              <span id="bndl-rev-1" style="font-size: 12px; font-weight: 800; color: #f8fafc; display: block;">$209.99</span>
+              <span id="bndl-rev-1"
+                style="font-size: 12px; font-weight: 800; color: #f8fafc; display: block;">$209.99</span>
               <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25</span>
-              <span id="bndl-net-1" style="font-size: 12px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
-              <span id="bndl-krw-1" style="font-size: 9px; font-weight: 700; color: #34d399; display: block;">약 10.9만 원</span>
+              <span id="bndl-net-1"
+                style="font-size: 12px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
+              <span id="bndl-krw-1" style="font-size: 9px; font-weight: 700; color: #34d399; display: block;">약 10.9만
+                원</span>
             </div>
 
             <!-- Buy 2 (15% OFF) -->
-            <div style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 4px;">
+            <div
+              style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 4px;">
               <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">Buy 2 (15%↓)</span>
-              <span id="bndl-rev-2" style="font-size: 12px; font-weight: 800; color: #38bdf8; display: block;">$356.98</span>
+              <span id="bndl-rev-2"
+                style="font-size: 12px; font-weight: 800; color: #38bdf8; display: block;">$356.98</span>
               <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
-              <span id="bndl-net-2" style="font-size: 12px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
-              <span id="bndl-krw-2" style="font-size: 9px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원 (1.6배)</span>
+              <span id="bndl-net-2"
+                style="font-size: 12px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
+              <span id="bndl-krw-2" style="font-size: 9px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원
+                (1.6배)</span>
             </div>
 
             <!-- Buy 3 (25% OFF) -->
-            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; padding: 6px 4px;">
+            <div
+              style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; padding: 6px 4px;">
               <span style="font-size: 10px; color: #f59e0b; font-weight: 700; display: block;">Buy 3 (25%↓)</span>
-              <span id="bndl-rev-3" style="font-size: 12px; font-weight: 800; color: #f59e0b; display: block;">$472.48</span>
+              <span id="bndl-rev-3"
+                style="font-size: 12px; font-weight: 800; color: #f59e0b; display: block;">$472.48</span>
               <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
-              <span id="bndl-net-3" style="font-size: 12px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
-              <span id="bndl-krw-3" style="font-size: 9px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원 (1.8배)</span>
+              <span id="bndl-net-3"
+                style="font-size: 12px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
+              <span id="bndl-krw-3" style="font-size: 9px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원
+                (1.8배)</span>
             </div>
           </div>
           <div style="font-size: 9px; color: #94a3b8; margin-top: 6px; text-align: center;">
@@ -1747,57 +1834,93 @@ body {
         </div>
 
         <!-- 📋 스토어 고정비 & 건당 실비용 투명 명세표 (입력 연동) -->
-        <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 10px 12px;">
-          <div style="font-size: 11px; font-weight: 800; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <div
+          style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 10px 12px;">
+          <div
+            style="font-size: 11px; font-weight: 800; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
             <span>📋 고정비 & 건당 실비용 명세표</span>
-            <span id="exp-fixed-badge" style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">월 고정비 $40.20 완벽 방어</span>
+            <span id="exp-fixed-badge"
+              style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">월
+              고정비 $40.20 완벽 방어</span>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px;">
             <!-- 월 고정 지출 (입력 연동) -->
-            <div style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">🏢 월 고정 지출 (입력 가능)</span>
-              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+            <div
+              style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">🏢 월 고정 지출 (입력
+                가능)</span>
+              <div
+                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span>• 쇼피파이 플랜:</span>
-                <input type="number" id="exp-fixed-shopify" value="39.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                <input type="number" id="exp-fixed-shopify" value="39.00" step="1.00"
+                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
               </div>
-              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <div
+                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span>• 도메인(.com):</span>
-                <input type="number" id="exp-fixed-domain" value="1.20" step="0.10" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                <input type="number" id="exp-fixed-domain" value="1.20" step="0.10"
+                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
               </div>
-              <div style="color: #10b981; display: flex; justify-content: space-between; align-items: center; font-weight: 700; margin-bottom: 4px;">
+              <div
+                style="color: #10b981; display: flex; justify-content: space-between; align-items: center; font-weight: 700; margin-bottom: 4px;">
                 <span>• 번들앱/기타:</span>
-                <input type="number" id="exp-fixed-apps" value="0.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                <input type="number" id="exp-fixed-apps" value="0.00" step="1.00"
+                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
               </div>
-              <div style="color: #38bdf8; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
-                <span>총 월 고정비:</span> <span id="exp-monthly-fixed" style="font-size: 11px; font-weight: 900; color: #38bdf8;">$40.20/월</span>
+              <div
+                style="color: #38bdf8; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                <span>총 월 고정비:</span> <span id="exp-monthly-fixed"
+                  style="font-size: 11px; font-weight: 900; color: #38bdf8;">$40.20/월</span>
               </div>
             </div>
             <!-- 건당 변동 지출 (입력 연동) -->
-            <div style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">💸 건당 변동 지출 (입력 가능)</span>
-              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+            <div
+              style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">💸 건당 변동 지출 (입력
+                가능)</span>
+              <div
+                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span>• PG 수수료:</span> <span id="exp-pg-fee" style="font-weight: 700;">$6.30</span>
               </div>
-              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <div
+                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span>• 미국 판매세 ($):</span>
-                <input type="number" id="exp-tax" value="0.00" step="0.50" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                <input type="number" id="exp-tax" value="0.00" step="0.50"
+                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
               </div>
-              <div style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div
+                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <span>• 공급사 배송비 ($):</span>
-                <input type="number" id="exp-shipping" value="0.00" step="1.00" style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                <input type="number" id="exp-shipping" value="0.00" step="1.00"
+                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
               </div>
-              <div style="color: #10b981; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
-                <span>총 건당 변동비:</span> <span id="exp-variable-total" style="font-size: 11px; font-weight: 900; color: #10b981;">$6.30/건</span>
+              <div
+                style="color: #10b981; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                <span>총 건당 변동비:</span> <span id="exp-variable-total"
+                  style="font-size: 11px; font-weight: 900; color: #10b981;">$6.30/건</span>
               </div>
             </div>
           </div>
+        </div>
+        <!-- Quick Legal & Chargeback Defense Desk Launcher Banner -->
+        <div class="panel-card" style="margin-top: 12px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.35); box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); padding: 12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:11px; font-weight:800; color:#f87171;"><span class="icon">🛡️</span> 4. 차지백 & CS 1초 소명 센터</span>
+            <span style="font-size:9px; background:rgba(239, 68, 68, 0.2); color:#f87171; padding:2px 6px; border-radius:4px; font-weight:800;">76대 SOP 내장</span>
+          </div>
+          <p style="font-size:10px; color:#94a3b8; line-height:1.4; margin-bottom:8px;">
+            카드사 분쟁(Chargeback) 발생 시 1초 만에 100% 승소용 공식 영문 소명서와 증빙 체크리스트를 자동 생성합니다.
+          </p>
+          <button type="button" style="width:100%; padding:8px; font-size:11px; background:linear-gradient(135deg, #ef4444, #b91c1c); border:none; border-radius:6px; color:#fff; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="navigateToTab('dispute')">
+            ⚡ 차지백 방어 & 소명서 생성기 열기 ➔
+          </button>
         </div>
       </div>
 
       <!-- Verified Physical Catalog Inspector -->
       <div class="panel-card">
         <div class="panel-section-title">
-          <span class="icon">📦</span> 4. 검증된 실물 라인업 (에셋 1:1 결합 완료)
+          <span class="icon">📦</span> 5. 검증된 실물 라인업 (에셋 1:1 결합 완료)
         </div>
         <div class="catalog-list" id="catalog-list-container">
           <!-- Dynamic Catalog Cards loaded via app.js -->
@@ -1820,6 +1943,7 @@ body {
           <button class="tab-btn" id="tab-collections">📁 컬렉션 허브</button>
           <button class="tab-btn" id="tab-cart">🛒 장바구니 & 결제</button>
           <button class="tab-btn" id="tab-legal">⚖️ 4대 법적 정책</button>
+          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 차지백 & CS 방어</button>
         </div>
         <div class="device-switcher">
           <button class="device-btn active" id="btn-view-desktop">🖥️ 데스크탑</button>
@@ -1842,7 +1966,8 @@ body {
           <!-- Store Header -->
           <nav class="mock-nav" id="mock-nav">
             <div class="mock-logo" id="mock-logo" style="display: flex; align-items: center; gap: 8px;">
-              <img src="/logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">
+              <img src="/logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR"
+                style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">
             </div>
             <div class="mock-menu">
               <span>Shop All</span>
@@ -1863,7 +1988,8 @@ body {
             <div class="hero-content">
               <span class="hero-tag" id="mock-hero-tag">ENGINEERED FOR THE UNTAMED WILD</span>
               <h1 id="mock-hero-title">ELEVATE YOUR CAMPFIRE EXPERIENCE</h1>
-              <p id="mock-hero-desc">100% Solid 304 Marine Stainless Steel Smokeless Secondary Combustion & Pure Titanium Warmth.</p>
+              <p id="mock-hero-desc">100% Solid 304 Marine Stainless Steel Smokeless Secondary Combustion & Pure
+                Titanium Warmth.</p>
               <div class="hero-btn-wrap">
                 <button class="mock-cta-btn" id="mock-cta-btn">EXPLORE 6 CORE HARDWARES</button>
                 <button class="mock-sec-btn">30-DAY FIELD TRIAL</button>
@@ -1911,10 +2037,13 @@ body {
           <footer class="mock-footer" id="mock-footer">
             <div class="footer-top">
               <div class="footer-col">
-                <div class="f-logo" id="mock-footer-brand" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                  <img src="/logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR" style="height: 38px; width: auto; object-fit: contain; filter: brightness(1.1);">
+                <div class="f-logo" id="mock-footer-brand"
+                  style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <img src="/logos/PNK_OUTDOOR_OFFICIAL_LOGO.png" alt="PNK OUTDOOR"
+                    style="height: 38px; width: auto; object-fit: contain; filter: brightness(1.1);">
                 </div>
-                <p class="f-motto">Born from the founder's visionary spirit of "Pioneering New Horizons". A specialized luxury division curated by PNK FINDS.</p>
+                <p class="f-motto">Born from the founder's visionary spirit of "Pioneering New Horizons". A specialized
+                  luxury division curated by PNK FINDS.</p>
               </div>
               <div class="footer-col">
                 <h5>Shop Essentials</h5>
@@ -1955,7 +2084,8 @@ body {
         </div>
 
         <div class="terminal-body" id="term-body">
-          <div class="log-line text-muted">> Engine initialized. Select category and click '1-CLICK D2C 플래그십 패키지 빌드' to generate.</div>
+          <div class="log-line text-muted">> Engine initialized. Select category and click '1-CLICK D2C 플래그십 패키지 빌드' to
+            generate.</div>
         </div>
 
         <!-- Release Cards (Hidden by default, shown upon build) -->
@@ -2016,8 +2146,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-office-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_OFFICE_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/1_PNK_OFFICE_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/1_PNK_OFFICE/favicon.png",
     defaultCost: 32.00,
     defaultPrice: 99.99,
     products: [
@@ -2074,8 +2204,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-garden-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_GARDEN_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/2_PNK_GARDEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/2_PNK_GARDEN/favicon.png",
     defaultCost: 38.00,
     defaultPrice: 119.99,
     products: [
@@ -2125,8 +2255,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-pet-dawn.zip",
     zipSize: "22.36 MB",
     legalFile: "PNK_PET_LEGAL_POLICIES.md",
-    logoImg: "",
-    faviconImg: "",
+    logoImg: "logos/3_PNK_PET_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/3_PNK_PET/favicon.png",
     defaultCost: 28.50,
     defaultPrice: 89.99,
     products: [
@@ -2241,8 +2371,8 @@ const BRAND_DATABASE = {
     themeZip: "pnk-kitchen-dawn.zip",
     zipSize: "2.43 MB",
     legalFile: "PNK_KITCHEN_LEGAL_POLICIES.md",
-    logoImg: "logos/5_PNK_KITCHEN_OFFICIAL_LOGO.png",
-    faviconImg: "logos/5_PNK_KITCHEN_OFFICIAL_FAVICON.png",
+    logoImg: "logos/5_PNK_KITCHEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
+    faviconImg: "logos/favicons/5_PNK_KITCHEN/favicon.png",
     defaultCost: 78.50,
     defaultPrice: 189.99,
     products: [
@@ -2374,6 +2504,7 @@ const tabPdp = document.getElementById("tab-pdp");
 const tabCollections = document.getElementById("tab-collections");
 const tabCart = document.getElementById("tab-cart");
 const tabLegal = document.getElementById("tab-legal");
+const tabDispute = document.getElementById("tab-dispute");
 
 // Currency Formatter (USD to KRW @ 1,350 KRW/$)
 function formatKrw(usd) {
@@ -2389,7 +2520,7 @@ function formatKrw(usd) {
 
 // Reset Tab Active Classes
 function resetTabStyles() {
-  [tabHome, tabPdp, tabCollections, tabCart, tabLegal].forEach(t => {
+  [tabHome, tabPdp, tabCollections, tabCart, tabLegal, tabDispute].forEach(t => {
     if (t) t.classList.remove("active");
   });
 }
@@ -2423,6 +2554,9 @@ window.navigateToTab = function(tabName, productIdx = null) {
   } else if (tabName === "legal") {
     if (tabLegal) tabLegal.classList.add("active");
     renderLegalView(b);
+  } else if (tabName === "dispute") {
+    if (tabDispute) tabDispute.classList.add("active");
+    renderDisputeView(b);
   }
 
   // Smooth scroll viewport to top
@@ -3157,12 +3291,456 @@ function renderLegalView(b) {
   `;
 }
 
+// ==========================================================================
+// 🛡️ 6. Render Chargeback & Dispute Defense Hub (76대 스파미 실전 운영 가이드라인 융합)
+// ==========================================================================
+let currentDisputeScenario = "case1";
+let disputeFormValues = {
+  orderNo: "#1084",
+  customerName: "Michael Scott",
+  productName: "",
+  orderDate: "2026-09-28",
+  carrier: "USPS",
+  trackingNo: "9400111899562547896521",
+  deliveryDate: "2026-10-02 (Delivered at Front Porch)",
+  shippingAddr: "1725 Slough Ave, Scranton, PA 18503",
+  amount: "$139.99"
+};
+
+const DISPUTE_SCENARIOS = {
+  case1: {
+    id: "case1",
+    title: "Case 1: 배송 완료 후 미수령/사기 주장",
+    badge: "Delivered / Fraud Rebuttal",
+    icon: "📦",
+    tagColor: "#10b981",
+    desc: "배송사 공식 시스템상 'Delivered(배송 완료)' 상태이나, 고객이 물건을 받지 못했다거나 사기라며 일방적 차지백을 건 경우",
+    getRebuttal: (b, d) => `Dear Chargeback Dispute Resolution Team & Card Issuer,
+
+We are writing to formally submit comprehensive rebuttal documentation against the dispute filed for Order ${d.orderNo} placed on ${d.orderDate}.
+
+1. TRANSACTION AUTHENTICATION & FRAUD SCREENING:
+The customer, ${d.customerName}, placed an authorized order on our official store (${b.name}) for ${d.productName || b.products[0].title} in the amount of ${d.amount}. 
+At checkout, full CVV card verification matched, and the billing address aligned with the cardholder's bank credentials.
+
+2. IRREFUTABLE PROOF OF FULFILLMENT & DELIVERY:
+The physical merchandise was safely packaged and dispatched via ${d.carrier} under tracking number ${d.trackingNo}.
+According to official ${d.carrier} tracking records, the parcel was successfully DELIVERED to the cardholder's specified address:
+• Delivery Address: ${d.shippingAddr}
+• Delivery Timestamp: ${d.deliveryDate}
+
+3. ZERO PRIOR CONTACT & UNJUSTIFIED DISPUTE:
+Prior to opening this financial dispute, the customer did NOT contact our 24/7 dedicated customer care desk (${b.email}) to report missing mail, damage, or request assistance. 
+
+Given that full fulfillment is irrefutably verified by official carrier GPS timestamps and delivery logs, this transaction is 100% legitimate. We respectfully request that this chargeback be reversed and the disputed funds returned to our merchant account.
+
+Attached Evidence:
+1. Official Order Invoice PDF & Checkout Timestamp
+2. Official ${d.carrier} Proof of Delivery & Tracking Log
+3. Store Legal Shipping & 30-Day Return Policy
+4. Complete Customer Communication & Ticket Audit Log
+
+Sincerely,
+${b.name} Legal & Dispute Defense Team
+Parent House: PNK FINDS ("Pioneering New Horizons")
+Contact: ${b.email}`
+  },
+  case2: {
+    id: "case2",
+    title: "Case 2: 배송 중 지연으로 일방적 차지백",
+    badge: "In-Transit / Premature Claim",
+    icon: "🚚",
+    tagColor: "#38bdf8",
+    desc: "물건이 배송사 허브를 통해 정상 이동 중(In-Transit)인데, 조급한 마음에 배송 지연을 이유로 일방적 차지백을 제기한 경우",
+    getRebuttal: (b, d) => `Dear Dispute Resolution Officer,
+
+We are submitting formal evidence to contest the premature chargeback regarding Order ${d.orderNo} for ${d.productName || b.products[0].title}.
+
+1. ORDER DISPATCH & ACTIVE IN-TRANSIT STATUS:
+The order placed by ${d.customerName} on ${d.orderDate} was fulfilled on schedule and is currently IN ACTIVE TRANSIT with ${d.carrier} under tracking number ${d.trackingNo}.
+
+2. BINDING AGREEMENT TO PUBLISHED SHIPPING POLICY:
+During checkout, the customer reviewed and explicitly agreed to our Shipping Terms, which clearly specify a standard fulfillment & transit window of 3-7 business days. The package is progressing normally across carrier logistics hubs without abnormal delay.
+
+3. PREMATURE DISPUTE FILING:
+Filing a payment dispute while a shipment is actively moving through carrier logistics violates standard card network procedures. The merchandise is physically en route to ${d.shippingAddr}.
+
+We kindly request that this dispute be dismissed as premature fulfillment is actively proceeding.
+
+Attached Evidence:
+1. Order Invoice & Checkout Policy Agreement Record
+2. Real-Time ${d.carrier} Carrier In-Transit Tracking Snapshot
+3. Published Store Shipping & Delivery Schedule Terms
+
+Sincerely,
+${b.name} Fulfillment & Operations Desk
+Contact: ${b.email}`
+  },
+  case3: {
+    id: "case3",
+    title: "Case 3: 파손/불만족 및 사전 문의 없는 차지백",
+    badge: "Policy Bypass / Return Remedy",
+    icon: "🛠️",
+    tagColor: "#f59e0b",
+    desc: "상품 수령 후 파손이나 불만을 이유로 교환/반품 CS 문의 없이 곧바로 카드사 차지백을 신청한 경우",
+    getRebuttal: (b, d) => `Dear Dispute Review Department,
+
+We are submitting formal rebuttal documentation against the dispute regarding Order ${d.orderNo}.
+
+1. BINDING 30-DAY RMA RETURN & WARRANTY POLICY:
+${b.name} provides an unconditional 30-Day Risk-Free Return & 1-Year Limited Warranty policy clearly stated on all store pages and during checkout. To receive a replacement or full refund, customers must request a prepaid RMA authorization.
+
+2. CARDHOLDER BYPASSED MERCHANT REMEDIES:
+Carrier tracking confirms the merchandise (${d.productName || b.products[0].title}) was delivered on ${d.deliveryDate} via ${d.carrier} (${d.trackingNo}). However, the cardholder bypassed our support channel (${b.email}) entirely and filed a chargeback without requesting a return.
+
+3. MERCHANT MAINTAINS OPEN REMEDY PATHWAY:
+We remain fully prepared to process a full replacement or refund immediately upon receiving the item back per our return procedures. Initiating a bank dispute without giving the merchant opportunity to remedy the issue violates dispute operating standards.
+
+We respectfully request that you rule in favor of the merchant.
+
+Attached Evidence:
+1. Proof of Delivery & Order Confirmation Receipt
+2. Store 30-Day Return & RMA Policy Terms
+3. Support Ticket Audit Log showing zero prior dispute notice
+
+Sincerely,
+${b.name} Customer Relations & Legal Division
+Contact: ${b.email}`
+  },
+  case4: {
+    id: "case4",
+    title: "Case 4: 타인 도용/미승인 부정 거래 주장",
+    badge: "Fraud Defense / AVS Matched",
+    icon: "🔒",
+    tagColor: "#ec4899",
+    desc: "카드가 도용되었거나 본인이 승인하지 않은 거래라고 주장하여 사기(Fraud) 사유로 차지백을 제기한 경우",
+    getRebuttal: (b, d) => `Dear Fraud Investigation & Chargeback Department,
+
+We are submitting evidence to refute the 'Unauthorized Transaction' claim regarding Order ${d.orderNo} for ${d.amount}.
+
+1. MULTI-LAYER FRAUD VERIFICATION PASSED:
+This order underwent rigorous automated fraud screening via Shopify Payments:
+• CVV / CVC Security Code: VERIFIED & MATCHED
+• Address Verification System (AVS): BILLING ADDRESS MATCHED
+• Customer IP Geolocation: MATCHES Cardholder's Billing City / State
+
+2. CONSISTENT SHIPPING & BILLING PROFILES:
+The product (${d.productName || b.products[0].title}) was shipped to ${d.shippingAddr}, which matches the cardholder's verified billing profile, and was safely delivered on ${d.deliveryDate} via ${d.carrier} (${d.trackingNo}).
+
+3. AUTHENTIC FIRST-PARTY TRANSACTION:
+All digital signatures, IP records, matching billing/shipping credentials, and courier delivery scans irrefutably prove that this was an authorized purchase by the cardholder or household member.
+
+We request an immediate reversal of this chargeback and full release of funds.
+
+Attached Evidence:
+1. Shopify Payments Fraud Analysis Full Audit Report
+2. Delivery Verification & Courier Timestamp Scan
+3. Order Confirmation & E-Invoice Sent to Customer Email
+
+Sincerely,
+${b.name} Risk & Security Compliance
+Contact: ${b.email}`
+  },
+  case5: {
+    id: "case5",
+    title: "Case 5: 분쟁 철회 유도 고객 CS 이메일",
+    badge: "Pre-Dispute De-escalation CS",
+    icon: "✉️",
+    tagColor: "#8b5cf6",
+    desc: "고객에게 분쟁을 취소(Withdraw)해 주시면 즉시 전액 환불 또는 새제품 교환을 처리해 드리겠다고 안내하는 실전 CS 메일",
+    getRebuttal: (b, d) => `Subject: Important Update Regarding Your Order ${d.orderNo} with ${b.name}
+
+Hi ${d.customerName},
+
+Thank you for contacting ${b.name}. We noticed that a payment dispute was recently opened with your financial institution regarding your order ${d.orderNo} (${d.productName || b.products[0].title}).
+
+We sincerely apologize for any inconvenience or frustration you may have experienced. Your complete satisfaction is our absolute priority, and we would love to resolve this for you immediately!
+
+💡 HOW WE CAN RESOLVE THIS TOGETHER INSTANTLY:
+When a bank dispute is active, our merchant payment system is temporarily locked by the card issuer, preventing us from issuing an immediate direct refund or free expedited replacement.
+
+1. If you wish to receive a full refund or a free replacement immediately, please contact your credit card issuer or bank mobile app to withdraw / cancel the chargeback.
+2. Once the dispute is closed, simply reply to this email, and our customer care team will process your full refund or dispatch your replacement within minutes.
+
+If you have any questions or need tracking verification (${d.carrier}: ${d.trackingNo}), please reply directly to this email or reach us anytime at ${b.email}.
+
+Warm regards,
+Customer Care Team
+${b.name}
+${b.email}`
+  }
+};
+
+function renderDisputeView(b) {
+  if (!storeMockContainer) return;
+
+  if (!disputeFormValues.productName) {
+    disputeFormValues.productName = b.products[selectedProductIndex]?.title || b.products[0].title;
+  }
+
+  const scenario = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+  const rebuttalText = scenario.getRebuttal(b, disputeFormValues);
+
+  storeMockContainer.innerHTML = `
+    ${getMockHeaderHTML(b)}
+
+    <div style="padding: 24px 20px; background: #090d16; color: #f8fafc; font-family: Outfit, sans-serif; min-height: 650px;">
+      
+      <!-- Top Title & Golden Rule Alert Banner -->
+      <div style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 18px 20px; box-shadow: 0 4px 25px rgba(239, 68, 68, 0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 24px;">🛡️</span>
+            <div>
+              <h1 style="font-size: 20px; font-weight: 900; margin: 0; color: #f87171;">${b.name} 차지백(Chargeback) & CS 법적 방어 센터</h1>
+              <span style="font-size: 11px; color: #94a3b8;">76대 스파미 실전 운영 가이드라인 융합 • 1초 만에 100% 승소용 공식 영문 소명서 생성</span>
+            </div>
+          </div>
+          <span style="font-size: 10px; background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); padding: 4px 10px; border-radius: 20px; font-weight: 800;">
+            🚨 승소율 극대화 가동 중
+          </span>
+        </div>
+
+        <!-- Golden Rules Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-top: 12px; font-size: 11px; line-height: 1.5;">
+          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #ef4444;">
+            <strong style="color: #fca5a5;">⚠️ 제1철칙: 절대 'Accept dispute (분쟁 수락)' 금지</strong><br>
+            수락 시 패소 확정 + $15~$20 수수료 강제 부과. 무조건 'Submit response'로 100% 소명서 제출!
+          </div>
+          <div style="background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+            <strong style="color: #38bdf8;">💡 제2철칙: 고객 사전 설득 CS 메일 병행 발송</strong><br>
+            환불을 해주더라도 고객이 카드사에 차지백 취소(Withdraw)를 먼저 접수하도록 유도(Case 5 활용).
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Scenario Switcher Tabs -->
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px;">
+        ${Object.values(DISPUTE_SCENARIOS).map(sc => `
+          <button type="button" class="dispute-tab-btn ${currentDisputeScenario === sc.id ? 'active' : ''}" data-sc="${sc.id}" style="
+            background: ${currentDisputeScenario === sc.id ? 'linear-gradient(135deg, ' + sc.tagColor + '33, rgba(15,23,42,0.9))' : 'rgba(255,255,255,0.03)'};
+            border: 1px solid ${currentDisputeScenario === sc.id ? sc.tagColor : 'rgba(255,255,255,0.1)'};
+            color: ${currentDisputeScenario === sc.id ? '#fff' : '#94a3b8'};
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: ${currentDisputeScenario === sc.id ? '0 0 15px ' + sc.tagColor + '40' : 'none'};
+          ">
+            <span>${sc.icon}</span>
+            <span>${sc.title.split(':')[1] || sc.title}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- Main 2-Column Dispute Desk Matrix -->
+      <div style="display: grid; grid-template-columns: 1fr 1.35fr; gap: 20px; align-items: start;">
+        
+        <!-- Left: Dynamic Parameters & 5-Point Evidence Checklist -->
+        <div>
+          <!-- Parameter Input Form -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 12px; font-weight: 800; color: #38bdf8;">📝 실시간 소명 파라미터 입력</span>
+              <span style="font-size: 9px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">실시간 자동 바인딩</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px;">
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">주문 번호</label>
+                <input type="text" id="disp-order-no" value="${disputeFormValues.orderNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">고객 성명</label>
+                <input type="text" id="disp-cust-name" value="${disputeFormValues.customerName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div style="grid-column: span 2;">
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">상품명</label>
+                <input type="text" id="disp-prod-name" value="${disputeFormValues.productName}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송사</label>
+                <input type="text" id="disp-carrier" value="${disputeFormValues.carrier}" placeholder="USPS / UPS / Amazon TBA" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">운송장 번호 (Tracking)</label>
+                <input type="text" id="disp-tracking" value="${disputeFormValues.trackingNo}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">주문 접수일</label>
+                <input type="text" id="disp-order-date" value="${disputeFormValues.orderDate}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div>
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송 완료일 / 상태</label>
+                <input type="text" id="disp-delivery-date" value="${disputeFormValues.deliveryDate}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+              <div style="grid-column: span 2;">
+                <label style="display: block; color: #94a3b8; margin-bottom: 3px; font-weight: 700;">배송지 주소 (Shipping Address)</label>
+                <input type="text" id="disp-address" value="${disputeFormValues.shippingAddr}" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 11px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- 5-Point Evidence Checklist -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span style="font-size: 12px; font-weight: 800; color: #10b981;">📋 승소 필수 증빙 5종 체크리스트</span>
+              <span style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">승소율 95%+</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #cbd5e1;">
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>1. 주문 인보이스 PDF:</strong> 쇼피파이 주문 상세 > 'Print order page' > PDF 저장 (고객 IP 및 주소 일치 증빙)</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>2. 운송사 배송완료 캡처:</strong> USPS/UPS/Amazon 공식 트래킹 페이지의 'Delivered' 도달 타임라인 전체 스크린샷</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>3. 30일 안심 환불 규정 캡처:</strong> 스토어의 30-Day RMA Return & Refund 정책 페이지 스크린샷</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>4. 사기 분석 녹색 지표 로그:</strong> Fraud Analysis의 CVV 일치 및 IP 위치 일치 항목 캡처</span>
+              </label>
+              <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: #10b981; margin-top: 2px;">
+                <span><strong>5. 고객 소통 이메일 기록:</strong> 고객과 주고받은 CS 메일 내역 (또는 사전 문의 없이 차지백을 걸었다는 증빙)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Rebuttal Text Box & 1-Click Action Hub -->
+        <div>
+          <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid ${scenario.tagColor}50; border-radius: 10px; padding: 18px; box-shadow: 0 0 20px ${scenario.tagColor}20;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-size: 13px; font-weight: 900; color: ${scenario.tagColor};">${scenario.icon} ${scenario.title}</span>
+                <p style="font-size: 10px; color: #94a3b8; margin: 3px 0 0 0;">${scenario.desc}</p>
+              </div>
+              <button type="button" id="btn-copy-rebuttal" style="
+                background: linear-gradient(135deg, ${scenario.tagColor}, #0284c7);
+                color: #fff;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 800;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                box-shadow: 0 4px 15px ${scenario.tagColor}40;
+                transition: all 0.2s;
+              ">
+                📋 [공식 소명서 원클릭 복사]
+              </button>
+            </div>
+
+            <!-- Rebuttal Textarea -->
+            <textarea id="rebuttal-textarea" readonly style="
+              width: 100%;
+              height: 380px;
+              box-sizing: border-box;
+              background: #040711;
+              border: 1px solid rgba(255,255,255,0.1);
+              border-radius: 8px;
+              color: #f1f5f9;
+              font-family: 'SF Mono', Consolas, Monaco, monospace;
+              font-size: 11px;
+              line-height: 1.6;
+              padding: 14px;
+              resize: vertical;
+              outline: none;
+            ">${rebuttalText}</textarea>
+
+            <!-- Admin 4-Step SOP Action Flow -->
+            <div style="margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; font-size: 10px; color: #94a3b8; line-height: 1.5;">
+              <strong style="color: #cbd5e1; display: block; margin-bottom: 4px;">🚀 쇼피파이 관리자(Admin) 실전 접수 4단계 순서:</strong>
+              1. <strong>주문 상세 접속:</strong> 차지백 알림 주문 진입 ➔ 우측 상단 <strong>'Submit response (답변 제출)'</strong> 클릭<br>
+              2. <strong>배송 세부 정보 입력:</strong> 택배사(${disputeFormValues.carrier}) 및 송장번호(${disputeFormValues.trackingNo}) 기입<br>
+              3. <strong>소명서 텍스트 붙여넣기:</strong> 위 복사한 영문 소명서를 <em>'Why do you believe this is not fraud?'</em> 란에 붙여넣기<br>
+              4. <strong>증빙 파일 5종 첨부:</strong> 인보이스 PDF, 트래킹 스크린샷, 30일 환불 규정 캡처를 첨부하고 <strong>[Submit]</strong> 클릭 완료!
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    ${getMockFooterHTML(b)}
+  `;
+
+  // Attach Scenario Switcher Event Listeners
+  document.querySelectorAll(".dispute-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentDisputeScenario = btn.dataset.sc;
+      renderDisputeView(b);
+    });
+  });
+
+  // Attach Live Input Real-Time Binding Listeners
+  const bindInput = (id, key) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", (e) => {
+        disputeFormValues[key] = e.target.value;
+        const ta = document.getElementById("rebuttal-textarea");
+        const sc = DISPUTE_SCENARIOS[currentDisputeScenario] || DISPUTE_SCENARIOS.case1;
+        if (ta) ta.value = sc.getRebuttal(b, disputeFormValues);
+      });
+    }
+  };
+
+  bindInput("disp-order-no", "orderNo");
+  bindInput("disp-cust-name", "customerName");
+  bindInput("disp-prod-name", "productName");
+  bindInput("disp-carrier", "carrier");
+  bindInput("disp-tracking", "trackingNo");
+  bindInput("disp-order-date", "orderDate");
+  bindInput("disp-delivery-date", "deliveryDate");
+  bindInput("disp-address", "shippingAddr");
+
+  // Attach 1-Click Copy Listener
+  const btnCopy = document.getElementById("btn-copy-rebuttal");
+  const ta = document.getElementById("rebuttal-textarea");
+  if (btnCopy && ta) {
+    btnCopy.addEventListener("click", () => {
+      navigator.clipboard.writeText(ta.value).then(() => {
+        const origText = btnCopy.innerHTML;
+        btnCopy.innerHTML = "✅ 복사 완료! (클립보드 저장됨)";
+        btnCopy.style.background = "#10b981";
+        setTimeout(() => {
+          btnCopy.innerHTML = origText;
+          const sc = DISPUTE_SCENARIOS[currentDisputeScenario];
+          btnCopy.style.background = `linear-gradient(135deg, ${sc.tagColor}, #0284c7)`;
+        }, 2000);
+      }).catch(() => {
+        ta.select();
+        document.execCommand("copy");
+        alert("📋 소명서가 복사되었습니다!");
+      });
+    });
+  }
+}
+
 // Tab Click Handlers
 if (tabHome) tabHome.addEventListener("click", () => navigateToTab("home"));
 if (tabPdp) tabPdp.addEventListener("click", () => navigateToTab("pdp", 0));
 if (tabCollections) tabCollections.addEventListener("click", () => navigateToTab("collections"));
 if (tabCart) tabCart.addEventListener("click", () => navigateToTab("cart"));
 if (tabLegal) tabLegal.addEventListener("click", () => navigateToTab("legal"));
+if (tabDispute) tabDispute.addEventListener("click", () => navigateToTab("dispute"));
 
 // Category Switcher Click Handlers (1탄 ~ 5탄)
 document.querySelectorAll(".cat-btn").forEach(btn => {
@@ -3396,4 +3974,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
 </script>
 </body>
+
 </html>
