@@ -2754,20 +2754,14 @@ function runUnifiedSync(triggerSource) {
     currentCompareVal = Math.ceil((price / (1 - 0.25)) / 10) * 10 - 0.01;
     if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
   } else if (triggerSource === 'discount') {
-    // 1. 할인율(%) 변경 시: 0%이면 정가=판매가, 그 외에는 정가 기준으로 판매가 실시간 재계산
+    // 1. 할인율(%) 변경 시: 정가 기준으로 판매가 실시간 재계산
     const disc = Math.min(95, Math.max(0, currentDiscountVal));
-    if (disc === 0) {
-      // 할인율 0%일 때는 정가와 판매가가 1:1로 일치!
-      currentCompareVal = price;
+    if (currentCompareVal <= 0) {
+      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
       if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
-    } else {
-      if (currentCompareVal <= 0 || currentCompareVal <= price) {
-        currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
-        if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
-      }
-      price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
-      if (elPrice) elPrice.value = price.toFixed(2);
     }
+    price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
+    if (elPrice) elPrice.value = price.toFixed(2);
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'compare') {
     // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산
@@ -2781,14 +2775,14 @@ function runUnifiedSync(triggerSource) {
     }
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'price' || triggerSource === 'retail') {
-    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산
+    // 3. 판매가 변경 시: 고정된 정가(MSRP) 기준으로 할인율(%) 실시간 재계산
     if (elPrice) price = parseFloat(elPrice.value) || price;
-    if (currentDiscountVal === 0) {
-      // 할인율 0% 상태에서는 정가도 판매가와 똑같이 1:1 동기화
-      currentCompareVal = price;
-      if (elCalcCompare) elCalcCompare.value = currentCompareVal.toFixed(2);
-    } else if (currentCompareVal > price && currentCompareVal > 0) {
-      currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+    if (currentCompareVal > 0) {
+      if (currentCompareVal >= price) {
+        currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+      } else {
+        currentDiscountVal = 0;
+      }
       if (elCalcDiscountPct) elCalcDiscountPct.value = currentDiscountVal;
     } else if (price > 0) {
       currentCompareVal = Math.ceil((price * 1.35) / 10) * 10 - 0.01;
@@ -4913,20 +4907,14 @@ function runCalculatorStudioSync(triggerSource) {
     currentCompareVal = Math.ceil((price / (1 - 0.25)) / 10) * 10 - 0.01;
     if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
   } else if (triggerSource === 'discount') {
-    // 1. 할인율(%) 변경 시: 0%이면 정가=판매가, 그 외에는 정가 기준으로 판매가 실시간 재계산
+    // 1. 할인율(%) 변경 시: 정가 기준으로 판매가 실시간 재계산
     const disc = Math.min(95, Math.max(0, currentDiscountVal));
-    if (disc === 0) {
-      // 할인율 0%일 때는 정가와 판매가가 1:1로 일치!
-      currentCompareVal = price;
+    if (currentCompareVal <= 0) {
+      currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
       if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
-    } else {
-      if (currentCompareVal <= 0 || currentCompareVal <= price) {
-        currentCompareVal = Math.ceil(price * 1.35 / 10) * 10 - 0.01;
-        if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
-      }
-      price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
-      if (csPrice) csPrice.value = price.toFixed(2);
     }
+    price = Math.round((currentCompareVal * (1 - (disc / 100))) * 100) / 100;
+    if (csPrice) csPrice.value = price.toFixed(2);
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'compare') {
     // 2. 정가(MSRP) 변경 시: 현재 판매가 기준으로 할인율(%) 실시간 재계산
@@ -4940,14 +4928,14 @@ function runCalculatorStudioSync(triggerSource) {
     }
     // 소싱원가(cost)는 절대 변경하지 않음
   } else if (triggerSource === 'price') {
-    // 3. 판매가 변경 시: 기존 정가 기준으로 할인율(%) 실시간 재계산
+    // 3. 판매가 변경 시: 고정된 정가(MSRP) 기준으로 할인율(%) 실시간 재계산
     if (csPrice) price = parseFloat(csPrice.value) || price;
-    if (currentDiscountVal === 0) {
-      // 할인율 0% 상태에서는 정가도 판매가와 똑같이 1:1 동기화
-      currentCompareVal = price;
-      if (csCompare) csCompare.value = currentCompareVal.toFixed(2);
-    } else if (currentCompareVal > price && currentCompareVal > 0) {
-      currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+    if (currentCompareVal > 0) {
+      if (currentCompareVal >= price) {
+        currentDiscountVal = Math.round(((currentCompareVal - price) / currentCompareVal) * 100);
+      } else {
+        currentDiscountVal = 0;
+      }
       if (csDiscountPct) csDiscountPct.value = currentDiscountVal;
     } else if (price > 0) {
       currentCompareVal = Math.ceil((price * 1.35) / 10) * 10 - 0.01;
