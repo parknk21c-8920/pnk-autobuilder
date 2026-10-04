@@ -1681,20 +1681,41 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
               </button>
             </div>
 
-            <!-- 1-Click D2C Pricing Presets (English Benchmarks with Price Ranges) -->
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 8px;">
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
-                $50 VALUE<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($30~$79)</span>
+            <!-- 1-Click D2C Pricing Presets (Minimalist with Hover-Activated Range Display) -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px;">
+              <button type="button" class="btn-sidebar-preset" 
+                onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" 
+                onmouseenter="window.showPresetHoverInfo('$50 VALUE', '$30 ~ $79', '$12.00', '$15.00', '#38bdf8')" 
+                onmouseleave="window.hidePresetHoverInfo()"
+                style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                $50 VALUE
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
-                $100 STANDARD<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($80~$149)</span>
+              <button type="button" class="btn-sidebar-preset" 
+                onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" 
+                onmouseenter="window.showPresetHoverInfo('$100 STANDARD', '$80 ~ $149', '$25.00', '$20.00', '#10b981')" 
+                onmouseleave="window.hidePresetHoverInfo()"
+                style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                $100 STANDARD
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
-                $200 FLAGSHIP<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($150~$299)</span>
+              <button type="button" class="btn-sidebar-preset" 
+                onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" 
+                onmouseenter="window.showPresetHoverInfo('$200 FLAGSHIP', '$150 ~ $299', '$50.00', '$25.00', '#f59e0b')" 
+                onmouseleave="window.hidePresetHoverInfo()"
+                style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                $200 FLAGSHIP
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.2;">
-                $400 LUXURY<br><span style="font-size: 8px; opacity: 0.8; font-weight: normal;">($300~$600+)</span>
+              <button type="button" class="btn-sidebar-preset" 
+                onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" 
+                onmouseenter="window.showPresetHoverInfo('$400 LUXURY', '$300 ~ $600+', '$80.00', '$35.00', '#c084fc')" 
+                onmouseleave="window.hidePresetHoverInfo()"
+                style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                $400 LUXURY
               </button>
+            </div>
+
+            <!-- Dynamic Hover Info Toast Bar (Hidden by Default, Vivid on Hover) -->
+            <div id="sidebar-preset-hover-bar" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; border-radius: 6px; padding: 5px 8px; margin-bottom: 6px; font-size: 10px; font-weight: 800; text-align: center; transition: all 0.2s; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);">
+              <span id="sidebar-preset-hover-txt" style="color: #38bdf8;"></span>
             </div>
 
             <div class="form-row" style="margin-bottom: 6px;">
@@ -1791,14 +1812,19 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
         </details>
       </div>
 
-      <!-- 5. Verified Physical Catalog Inspector (Compact Height) -->
-      <div class="panel-card" id="catalog-panel-card" style="padding: 10px 12px; margin-bottom: 0;">
-        <div class="panel-section-title" style="margin-bottom: 6px;">
-          <span><span class="icon">📦</span> 5. 검증된 실물 라인업 (에셋 1:1 결합 완료)</span>
-        </div>
-        <div class="catalog-list" id="catalog-list-container" style="max-height: 220px; overflow-y: auto;">
-          <!-- Dynamic Catalog Cards loaded via app.js -->
-        </div>
+      <!-- 5. Verified Physical Catalog Inspector (Collapsible Accordion Drawer) -->
+      <div class="panel-card" id="catalog-panel-card" style="padding: 10px 12px; margin-bottom: 0; background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <details class="sub-accordion-box" style="padding: 0; background: transparent; border: none;">
+          <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none;">
+            <span><span class="icon">📦</span> 5. 검증된 실물 라인업</span>
+            <span style="font-size: 9px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">실물 에셋 1:1</span>
+          </summary>
+          <div style="margin-top: 8px;">
+            <div class="catalog-list" id="catalog-list-container" style="max-height: 220px; overflow-y: auto;">
+              <!-- Dynamic Catalog Cards loaded via app.js -->
+            </div>
+          </div>
+        </details>
       </div>
 
       <!-- Action Button -->
@@ -2044,7 +2070,7 @@ const BRAND_DATABASE = {
       {
         title: "Solid Walnut Dual-Tier Studio Desk Shelf",
         spec: "100% Solid American Walnut • Integrated Cable Routing",
-        price: "?v=5.019.99",
+        price: "$119.99",
         img: "https://m.media-amazon.com/images/I/51jHbGQjFJL._AC_SL1500_.jpg",
         icon: "🪵"
       },
@@ -2058,7 +2084,7 @@ const BRAND_DATABASE = {
       {
         title: "NuPhy Air75 V3 Wireless Low-Profile Mechanical Keyboard",
         spec: "Hot-Swappable Switches • Multi-Device Bluetooth 5.0 • CNC Aluminum",
-        price: "?v=5.009.99",
+        price: "$109.99",
         img: "https://m.media-amazon.com/images/I/51YRBpZGxnL._AC_SL1500_.jpg",
         icon: "⌨️"
       }
@@ -2089,7 +2115,7 @@ const BRAND_DATABASE = {
       {
         title: "AquaFlow 100ft Automatic Retractable Garden Hose Reel",
         spec: "Any-Length Lock • 180° Swivel Bracket • Kink-Proof 8-Pattern Nozzle",
-        price: "?v=5.029.99",
+        price: "$129.99",
         img: "https://m.media-amazon.com/images/I/81xU9d17JjL._AC_SL1500_.jpg",
         icon: "🚿"
       },
@@ -2193,7 +2219,7 @@ const BRAND_DATABASE = {
       {
         title: "ApexFlame 304 Stainless Smokeless Fire Pit",
         spec: "360° Double-Wall Jet Combustion • Removable Ash Pan • 19.5\" Edition",
-        price: "?v=5.039.99",
+        price: "$139.99",
         img: "https://cdn.shopify.com/s/files/1/0894/2990/7823/files/02-apexflame-smokeless-secondary-combu.jpg",
         icon: "🔥"
       },
@@ -2266,7 +2292,7 @@ const BRAND_DATABASE = {
       {
         title: "CeramicPro Non-Toxic 12-Piece Cookware Set",
         spec: "PTFE/PFOA Free Mineral Coating • Cast Induction Base • Stainless Handles",
-        price: "?v=5.089.99",
+        price: "$189.99",
         img: "https://cdn.shopify.com/s/files/1/0894/2990/7823/files/02-card-lightweight-cookware-pans.png",
         icon: "🍳"
       },
@@ -2557,6 +2583,37 @@ window.navigateToTab = function(tabName, productIdx = null) {
 
 let currentCalcMode = 'auto'; // 'auto' | 'manual'
 
+// Global Hover-Activated Preset Info Tooltip Functions
+window.showPresetHoverInfo = function(title, range, buffer, cpa, color) {
+  const sideBar = document.getElementById("sidebar-preset-hover-bar");
+  const sideTxt = document.getElementById("sidebar-preset-hover-txt");
+  if (sideBar && sideTxt) {
+    sideBar.style.display = "block";
+    sideBar.style.borderColor = color;
+    sideBar.style.boxShadow = `0 0 12px ${color}40`;
+    sideTxt.style.color = color;
+    sideTxt.innerHTML = `🎯 <strong>${title}</strong>: 커버 판매가 <strong>${range}</strong> <span style="opacity:0.8; font-size:9px; margin-left:4px;">(마진 ${buffer} / CPA ${cpa})</span>`;
+  }
+
+  const csBar = document.getElementById("cs-preset-hover-bar");
+  const csTxt = document.getElementById("cs-preset-hover-txt");
+  if (csBar && csTxt) {
+    csBar.style.display = "block";
+    csBar.style.borderColor = color;
+    csBar.style.boxShadow = `0 0 14px ${color}40`;
+    csTxt.style.color = color;
+    csTxt.innerHTML = `🎯 <strong>${title}</strong>: 커버 판매가 <strong>${range}</strong> <span style="opacity:0.8; font-size:10px; margin-left:6px;">(안전마진 ${buffer} • 기준 CPA 광고비 ${cpa})</span>`;
+  }
+};
+
+window.hidePresetHoverInfo = function() {
+  const sideBar = document.getElementById("sidebar-preset-hover-bar");
+  if (sideBar) sideBar.style.display = "none";
+
+  const csBar = document.getElementById("cs-preset-hover-bar");
+  if (csBar) csBar.style.display = "none";
+};
+
 window.setCalcMode = function(mode) {
   currentCalcMode = mode;
   
@@ -2637,7 +2694,7 @@ function runUnifiedSync(triggerSource) {
   const totalMonthlyFixed = fixedShopify + fixedDomain + fixedApps;
 
   if (elExpMonthlyFixed) {
-    elExpMonthlyFixed.textContent = `${totalMonthlyFixed.toFixed(2)}/월`;
+    elExpMonthlyFixed.textContent = `$${totalMonthlyFixed.toFixed(2)}/월`;
   }
 
   let price = parseFloat(elPrice ? elPrice.value : 206.67) || 0;
@@ -2677,7 +2734,7 @@ function runUnifiedSync(triggerSource) {
 
   currentCost = cost;
   cpa = activeCpa;
-  if (elSupplierCost) elSupplierCost.textContent = `${cost.toFixed(2)}`;
+  if (elSupplierCost) elSupplierCost.textContent = `$${cost.toFixed(2)}`;
 
   let cleanPrice = Math.floor(price) + 0.99;
   if (cleanPrice < price) cleanPrice += 1.0;
@@ -2692,15 +2749,15 @@ function runUnifiedSync(triggerSource) {
 
   const elSideCompare = document.getElementById("sidebar-res-compare");
   const elSideDiscount = document.getElementById("sidebar-discount-badge");
-  if (elSideCompare) elSideCompare.textContent = `${cleanCompare.toFixed(2)}`;
+  if (elSideCompare) elSideCompare.textContent = `$${cleanCompare.toFixed(2)}`;
   if (elSideDiscount) {
-    elSideDiscount.textContent = `🔥 ${discountPct}% OFF (${discountAmount.toFixed(2)} 절약)`;
+    elSideDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
   }
 
   // Gross profit & real margin
   const grossProfit = Math.max(0, cleanPrice - cost - tax - shipping);
   const realMargin = cleanPrice > 0 ? (grossProfit / cleanPrice) * 100 : 0;
-  if (elProfit) elProfit.textContent = `${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
+  if (elProfit) elProfit.textContent = `$${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
 
   // ROAS calculations
   const bepRoas = realMargin > 0 ? (100 / realMargin) * 100 : 100;
@@ -2708,10 +2765,10 @@ function runUnifiedSync(triggerSource) {
 
   // PG Fee & Total Variable Expense per Order
   const pgFee1 = cleanPrice * 0.029 + 0.30;
-  if (elExpPgFee) elExpPgFee.textContent = `${pgFee1.toFixed(2)}`;
+  if (elExpPgFee) elExpPgFee.textContent = `$${pgFee1.toFixed(2)}`;
   if (elExpVariableTotal) {
     const totalVar = pgFee1 + tax + shipping;
-    elExpVariableTotal.textContent = `${totalVar.toFixed(2)}/건`;
+    elExpVariableTotal.textContent = `$${totalVar.toFixed(2)}/건`;
   }
 
   // Net Profit after ad, pg fee, tax, shipping
@@ -2720,7 +2777,7 @@ function runUnifiedSync(triggerSource) {
   if (elBep) elBep.textContent = `${Math.round(bepRoas)}% (${(bepRoas / 100).toFixed(1)}x)`;
   if (elTarget) elTarget.textContent = `${Math.round(targetRoas)}% (${(targetRoas / 100).toFixed(1)}x)`;
   if (elNet) {
-    elNet.textContent = `${netAfterAd >= 0 ? '+' : ''}${netAfterAd.toFixed(2)}`;
+    elNet.textContent = `${netAfterAd >= 0 ? '+' : ''}$${netAfterAd.toFixed(2)}`;
     elNet.style.color = netAfterAd >= 0 ? '#10b981' : '#ef4444';
   }
   if (elNetKrw) {
@@ -2747,23 +2804,23 @@ function runUnifiedSync(triggerSource) {
   const net3 = rev3 - cost3 - pgFee3 - cpa - tax3 - shipping3;
   const mult3 = net1 > 0 ? (net3 / net1).toFixed(1) : "3.0";
 
-  if (elBndlRev1) elBndlRev1.textContent = `${cleanPrice.toFixed(2)}`;
+  if (elBndlRev1) elBndlRev1.textContent = `$${cleanPrice.toFixed(2)}`;
   if (elBndlNet1) {
-    elBndlNet1.textContent = `${net1 >= 0 ? '+' : ''}${net1.toFixed(2)}`;
+    elBndlNet1.textContent = `${net1 >= 0 ? '+' : ''}$${net1.toFixed(2)}`;
     elBndlNet1.style.color = net1 >= 0 ? '#10b981' : '#ef4444';
   }
   if (elBndlKrw1) elBndlKrw1.textContent = `${formatKrw(net1)}`;
 
-  if (elBndlRev2) elBndlRev2.textContent = `${rev2.toFixed(2)}`;
+  if (elBndlRev2) elBndlRev2.textContent = `$${rev2.toFixed(2)}`;
   if (elBndlNet2) {
-    elBndlNet2.innerHTML = `${net2 >= 0 ? '+' : ''}${net2.toFixed(2)} <span style="font-size: 9px;">(${mult2}배)</span>`;
+    elBndlNet2.innerHTML = `${net2 >= 0 ? '+' : ''}$${net2.toFixed(2)} <span style="font-size: 9px;">(${mult2}배)</span>`;
     elBndlNet2.style.color = net2 >= 0 ? '#38bdf8' : '#ef4444';
   }
   if (elBndlKrw2) elBndlKrw2.textContent = `${formatKrw(net2)} (${mult2}배)`;
 
-  if (elBndlRev3) elBndlRev3.textContent = `${rev3.toFixed(2)}`;
+  if (elBndlRev3) elBndlRev3.textContent = `$${rev3.toFixed(2)}`;
   if (elBndlNet3) {
-    elBndlNet3.innerHTML = `${net3 >= 0 ? '+' : ''}${net3.toFixed(2)} <span style="font-size: 9px;">(${mult3}배)</span>`;
+    elBndlNet3.innerHTML = `${net3 >= 0 ? '+' : ''}$${net3.toFixed(2)} <span style="font-size: 9px;">(${mult3}배)</span>`;
     elBndlNet3.style.color = net3 >= 0 ? '#f59e0b' : '#ef4444';
   }
   if (elBndlKrw3) elBndlKrw3.textContent = `${formatKrw(net3)} (${mult3}배)`;
@@ -2776,7 +2833,7 @@ function runUnifiedSync(triggerSource) {
       elExpFixedBadge.style.color = "#10b981";
       elExpFixedBadge.style.background = "rgba(16, 185, 129, 0.15)";
     } else if (totalMonthlyFixed > 0) {
-      elExpFixedBadge.textContent = `월 고정비 ${totalMonthlyFixed.toFixed(2)} 방어 필요`;
+      elExpFixedBadge.textContent = `월 고정비 $${totalMonthlyFixed.toFixed(2)} 방어 필요`;
       elExpFixedBadge.style.color = "#ef4444";
       elExpFixedBadge.style.background = "rgba(239, 68, 68, 0.15)";
     } else {
@@ -2815,14 +2872,14 @@ function runUnifiedSync(triggerSource) {
   // Live Storefront Real-Time DOM Update (Home / PDP)
   if (currentTab === 'home') {
     const firstProductPrice = document.querySelector('.mock-p-price');
-    if (firstProductPrice) firstProductPrice.textContent = `${cleanPrice.toFixed(2)}`;
+    if (firstProductPrice) firstProductPrice.textContent = `$${cleanPrice.toFixed(2)}`;
   } else if (currentTab === 'pdp') {
     const pdpPrice = document.querySelector('.pdp-price');
     const pdpCompare = document.querySelector('.pdp-compare-price');
     const pdpProfit = document.querySelector('.pdp-net-profit-badge');
-    if (pdpPrice) pdpPrice.textContent = `${cleanPrice.toFixed(2)}`;
-    if (pdpCompare) pdpCompare.textContent = `${cleanCompare.toFixed(2)}`;
-    if (pdpProfit) pdpProfit.textContent = `+${netAfterAd.toFixed(2)} (${formatKrw(netAfterAd)})`;
+    if (pdpPrice) pdpPrice.textContent = `$${cleanPrice.toFixed(2)}`;
+    if (pdpCompare) pdpCompare.textContent = `$${cleanCompare.toFixed(2)}`;
+    if (pdpProfit) pdpProfit.textContent = `+$${netAfterAd.toFixed(2)} (${formatKrw(netAfterAd)})`;
   }
 
   // Synchronize with Dedicated Studio Inputs if present
@@ -3122,8 +3179,8 @@ function renderPDPView(b, retailPrice, comparePrice) {
           <p style="font-size: 12px; color: #94a3b8; margin-bottom: 16px;">${p.spec}</p>
 
           <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px;">
-            <span id="pdp-display-price" style="font-size: 28px; font-weight: 900; color: ${b.colorAccent};">${t2Price}</span>
-            <span style="font-size: 16px; color: #64748b; text-decoration: line-through;">${(comparePrice * 2).toFixed(2)}</span>
+            <span id="pdp-display-price" style="font-size: 28px; font-weight: 900; color: ${b.colorAccent};">$${t2Price}</span>
+            <span style="font-size: 16px; color: #64748b; text-decoration: line-through;">$${(comparePrice * 2).toFixed(2)}</span>
             <span id="pdp-save-tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px;">SAVE 15% TODAY</span>
           </div>
 
@@ -3134,25 +3191,25 @@ function renderPDPView(b, retailPrice, comparePrice) {
                 <input type="radio" name="pdp_tier_choice" value="1" onchange="handleTierChange(1, ${t1Price}, ${t2Price}, ${t3Price}, '${b.colorAccent}')">
                 <span><strong>Buy 1 Unit</strong> (Standard Setup)</span>
               </div>
-              <span><strong>${t1Price.toFixed(2)}</strong></span>
+              <span><strong>$${t1Price.toFixed(2)}</strong></span>
             </label>
 
             <label id="tier-label-2" style="border: 2px solid ${b.colorAccent}; border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(217, 119, 6, 0.12); position: relative; transition: all 0.2s;">
               <span style="position: absolute; top: -10px; right: 14px; background: ${b.colorAccent}; color: #fff; font-size: 9px; font-weight: 900; padding: 2px 8px; border-radius: 10px;">MOST POPULAR • SAVE 15%</span>
               <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="radio" name="pdp_tier_choice" value="2" checked onchange="handleTierChange(2, ${t1Price}, ${t2Price}, ${t3Price}, '${b.colorAccent}')">
-                <span><strong>Buy 2 Units (Duo Pack)</strong><br><small style="color:#94a3b8;">${t2Each}/ea • Best for Gifts</small></span>
+                <span><strong>Buy 2 Units (Duo Pack)</strong><br><small style="color:#94a3b8;">$${t2Each}/ea • Best for Gifts</small></span>
               </div>
-              <span><strong style="color: ${b.colorAccent}; font-size: 15px;">${t2Price}</strong></span>
+              <span><strong style="color: ${b.colorAccent}; font-size: 15px;">$${t2Price}</strong></span>
             </label>
 
             <label id="tier-label-3" style="border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(255,255,255,0.02); position: relative; transition: all 0.2s;">
               <span style="position: absolute; top: -10px; right: 14px; background: #10b981; color: #fff; font-size: 9px; font-weight: 900; padding: 2px 8px; border-radius: 10px;">BEST VALUE • SAVE 25%</span>
               <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="radio" name="pdp_tier_choice" value="3" onchange="handleTierChange(3, ${t1Price}, ${t2Price}, ${t3Price}, '${b.colorAccent}')">
-                <span><strong>Buy 3 Units (Family Set)</strong><br><small style="color:#94a3b8;">${t3Each}/ea • Max Savings</small></span>
+                <span><strong>Buy 3 Units (Family Set)</strong><br><small style="color:#94a3b8;">$${t3Each}/ea • Max Savings</small></span>
               </div>
-              <span><strong style="color: #10b981; font-size: 15px;">${t3Price}</strong></span>
+              <span><strong style="color: #10b981; font-size: 15px;">$${t3Price}</strong></span>
             </label>
           </div>
 
@@ -3198,7 +3255,7 @@ window.handleTierChange = function(tier, p1, p2, p3, accentColor) {
       l1.style.border = `2px solid ${accentColor}`;
       l1.style.background = "rgba(255,255,255,0.08)";
     }
-    if (elPriceDisplay) elPriceDisplay.textContent = `${p1.toFixed(2)}`;
+    if (elPriceDisplay) elPriceDisplay.textContent = `$${p1.toFixed(2)}`;
     if (elSaveTag) elSaveTag.textContent = "STANDARD OFFER";
     if (elCtaBtn) elCtaBtn.textContent = "ADD 1 UNIT TO CART • FREE SHIPPING";
   } else if (tier === 2) {
@@ -3206,7 +3263,7 @@ window.handleTierChange = function(tier, p1, p2, p3, accentColor) {
       l2.style.border = `2px solid ${accentColor}`;
       l2.style.background = "rgba(217, 119, 6, 0.12)";
     }
-    if (elPriceDisplay) elPriceDisplay.textContent = `${p2}`;
+    if (elPriceDisplay) elPriceDisplay.textContent = `$${p2}`;
     if (elSaveTag) elSaveTag.textContent = "SAVE 15% TODAY";
     if (elCtaBtn) elCtaBtn.textContent = "CLAIM 2-PACK OFFER • SAVE 15%";
   } else if (tier === 3) {
@@ -3214,7 +3271,7 @@ window.handleTierChange = function(tier, p1, p2, p3, accentColor) {
       l3.style.border = "2px solid #10b981";
       l3.style.background = "rgba(16, 185, 129, 0.12)";
     }
-    if (elPriceDisplay) elPriceDisplay.textContent = `${p3}`;
+    if (elPriceDisplay) elPriceDisplay.textContent = `$${p3}`;
     if (elSaveTag) elSaveTag.textContent = "SAVE 25% MAX VALUE";
     if (elCtaBtn) elCtaBtn.textContent = "CLAIM 3-PACK OFFER • SAVE 25%";
   }
@@ -3303,12 +3360,12 @@ function renderCartView(b) {
           <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <h3 style="font-size: 15px; font-weight: 800; margin: 0; cursor: pointer;" onclick="navigateToTab('pdp', ${selectedProductIndex})">${p.title}</h3>
-              <span style="font-size: 16px; font-weight: 900; color: ${b.colorAccent};">${bundle2Total}</span>
+              <span style="font-size: 16px; font-weight: 900; color: ${b.colorAccent};">$${bundle2Total}</span>
             </div>
             <div style="font-size: 11px; color: #38bdf8; font-weight: 700; margin: 4px 0;">⚡ [3단 볼륨 번들] 2-Pack Duo Expedition (15% 즉시 할인 적용)</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px; color: #94a3b8;">
               <span>수량: <strong>2개 세트</strong></span>
-              <span style="color: #10b981; font-weight: 800;">총 ${bundleSavings} 절약됨</span>
+              <span style="color: #10b981; font-weight: 800;">총 $${bundleSavings} 절약됨</span>
             </div>
           </div>
         </div>
@@ -3319,11 +3376,11 @@ function renderCartView(b) {
         <h4 style="font-size: 14px; font-weight: 800; margin-bottom: 12px; color: #cbd5e1;">결제 금액 요약 (Order Summary)</h4>
         <div style="display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 6px;">
           <span>상품 소계 (2개):</span>
-          <span>${(unitPrice * 2).toFixed(2)}</span>
+          <span>$${(unitPrice * 2).toFixed(2)}</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 13px; color: #10b981; font-weight: 700; margin-bottom: 6px;">
           <span>번들 특별 할인 (15% OFF):</span>
-          <span>-${bundleSavings}</span>
+          <span>-$${bundleSavings}</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 13px; color: #38bdf8; font-weight: 700; margin-bottom: 6px;">
           <span>미국 전역 무료 특송 (Free Express):</span>
@@ -3331,7 +3388,7 @@ function renderCartView(b) {
         </div>
         <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; margin-top: 8px; display: flex; justify-content: space-between; align-items: baseline;">
           <span style="font-size: 16px; font-weight: 800; color: #fff;">최종 결제 예상액:</span>
-          <span style="font-size: 24px; font-weight: 900; color: ${b.colorAccent};">${bundle2Total}</span>
+          <span style="font-size: 24px; font-weight: 900; color: ${b.colorAccent};">$${bundle2Total}</span>
         </div>
 
         <!-- 1-Click Checkout Button -->
@@ -3354,7 +3411,7 @@ function renderCartView(b) {
 
 // Simulated Checkout Popup Trigger
 window.triggerSimulatedCheckout = function(brandName, total) {
-  alert(`🎉 [쇼피파이 체크아웃 결제 시뮬레이션 성공]\n\n스토어: ${brandName}\n결제 금액: ${total}\n\n1. 256-Bit SSL 암호화 결제 완료\n2. 2-Pack 15% 볼륨 번들 할인 자동 차감 적용\n3. $50+ 무료 특송 자동 적용 완료`);
+  alert(`🎉 [쇼피파이 체크아웃 결제 시뮬레이션 성공]\n\n스토어: ${brandName}\n결제 금액: $${total}\n\n1. 256-Bit SSL 암호화 결제 완료\n2. 2-Pack 15% 볼륨 번들 할인 자동 차감 적용\n3. $50+ 무료 특송 자동 적용 완료`);
 };
 
 // 5. Render Legal View
@@ -3402,7 +3459,7 @@ let disputeFormValues = {
   trackingNo: "9400111899562547896521",
   deliveryDate: "2026-10-02 (Delivered at Front Porch)",
   shippingAddr: "1725 Slough Ave, Scranton, PA 18503",
-  amount: "?v=5.039.99"
+  amount: "$139.99"
 };
 
 const DISPUTE_SCENARIOS = {
@@ -3572,7 +3629,7 @@ ${b.email}`
 // 2. IP & Scam Defense Sub-module State
 let scamInspectorValues = {
   sender: "legal-counsel-notice@gmail.com",
-  body: "URGENT LEGAL DEMAND: We represent the copyright owner of the images on your store. You are in direct violation of US Copyright Law. Download our Cease & Desist lawsuit evidence package here: http://bit.ly/lawsuit-evidence-doc.zip and pay ?v=5.0,500 settlement to avoid Federal Court proceedings.",
+  body: "URGENT LEGAL DEMAND: We represent the copyright owner of the images on your store. You are in direct violation of US Copyright Law. Download our Cease & Desist lawsuit evidence package here: http://bit.ly/lawsuit-evidence-doc.zip and pay $1,500 settlement to avoid Federal Court proceedings.",
   analyzed: false
 };
 
@@ -3589,7 +3646,7 @@ let supplierCsValues = {
   customerName: "Michael Scott",
   originalItem: "",
   upgradeItem: "",
-  refundAmount: "?v=5.039.99"
+  refundAmount: "$139.99"
 };
 
 // ==========================================================================
@@ -4403,18 +4460,38 @@ function renderCalculatorStudioView(b) {
                 <span style="color: #38bdf8; font-weight: 800;">1-Click Auto Config</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
-                  ⚡ $50 VALUE<br><strong style="font-size: 9px; color: #38bdf8; display: block; margin: 1px 0;">($30~$79)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf ?v=5.02 / CPA ?v=5.05</span>
+                <button type="button" class="btn-calc-preset" 
+                  onclick="window.applyPricingPreset(49.99, 60, 12.0, 15.0)" 
+                  onmouseenter="window.showPresetHoverInfo('$50 VALUE', '$30 ~ $79', '$12.00', '$15.00', '#38bdf8')" 
+                  onmouseleave="window.hidePresetHoverInfo()"
+                  style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; border-radius: 6px; padding: 8px 4px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                  ⚡ $50 VALUE
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
-                  🔥 ?v=5.000 STANDARD<br><strong style="font-size: 9px; color: #10b981; display: block; margin: 1px 0;">($80~?v=5.049)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $25 / CPA $20</span>
+                <button type="button" class="btn-calc-preset" 
+                  onclick="window.applyPricingPreset(99.99, 65, 25.0, 20.0)" 
+                  onmouseenter="window.showPresetHoverInfo('$100 STANDARD', '$80 ~ $149', '$25.00', '$20.00', '#10b981')" 
+                  onmouseleave="window.hidePresetHoverInfo()"
+                  style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; border-radius: 6px; padding: 8px 4px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                  🔥 $100 STANDARD
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
-                  👑 $200 FLAGSHIP<br><strong style="font-size: 9px; color: #f59e0b; display: block; margin: 1px 0;">(?v=5.050~$299)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $50 / CPA $25</span>
+                <button type="button" class="btn-calc-preset" 
+                  onclick="window.applyPricingPreset(209.99, 65, 50.0, 25.0)" 
+                  onmouseenter="window.showPresetHoverInfo('$200 FLAGSHIP', '$150 ~ $299', '$50.00', '$25.00', '#f59e0b')" 
+                  onmouseleave="window.hidePresetHoverInfo()"
+                  style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); color: #f59e0b; border-radius: 6px; padding: 8px 4px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                  👑 $200 FLAGSHIP
                 </button>
-                <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; line-height: 1.25;">
-                  💎 $400 LUXURY<br><strong style="font-size: 9px; color: #c084fc; display: block; margin: 1px 0;">($300~$600+)</strong><span style="font-size: 8px; opacity: 0.75; font-weight: normal;">Buf $80 / CPA $35</span>
+                <button type="button" class="btn-calc-preset" 
+                  onclick="window.applyPricingPreset(399.99, 65, 80.0, 35.0)" 
+                  onmouseenter="window.showPresetHoverInfo('$400 LUXURY', '$300 ~ $600+', '$80.00', '$35.00', '#c084fc')" 
+                  onmouseleave="window.hidePresetHoverInfo()"
+                  style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; border-radius: 6px; padding: 8px 4px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+                  💎 $400 LUXURY
                 </button>
+              </div>
+              <!-- Studio Dynamic Hover Info Toast Bar -->
+              <div id="cs-preset-hover-bar" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; border-radius: 6px; padding: 6px 10px; margin-top: 8px; font-size: 11px; font-weight: 800; text-align: center; transition: all 0.2s; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);">
+                <span id="cs-preset-hover-txt" style="color: #38bdf8;"></span>
               </div>
             </div>
 
@@ -4446,7 +4523,7 @@ function renderCalculatorStudioView(b) {
 
             <!-- Smart Dynamic Buffer / CPA Ratio Guide Hint -->
             <div id="cs-buffer-smart-hint" style="font-size: 11px; color: #94a3b8; background: rgba(0,0,0,0.4); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-              <span id="cs-buffer-hint-txt">💡 안전마진 비중: <strong id="cs-buffer-ratio-txt" style="color: #38bdf8;">24% (?v=5.02.00)</strong> (현재 판매가 ${parsedPrice.toFixed(2)} 대비)</span>
+              <span id="cs-buffer-hint-txt">💡 안전마진 비중: <strong id="cs-buffer-ratio-txt" style="color: #38bdf8;">24% ($12.00)</strong> (현재 판매가 $${parsedPrice.toFixed(2)} 대비)</span>
               <button type="button" id="btn-auto-fix-buffer" style="display: none; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
                 ✨ 추천 안전마진(25%) 자동적용
               </button>
@@ -4457,7 +4534,7 @@ function renderCalculatorStudioView(b) {
           <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
             <div>
               <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 복사용 값:</span>
-              <span id="cs-supplier-cost-val" style="font-size: 20px; font-weight: 900; color: #10b981;">${cost.toFixed(2)}</span>
+              <span id="cs-supplier-cost-val" style="font-size: 20px; font-weight: 900; color: #10b981;">$${cost.toFixed(2)}</span>
             </div>
             <button type="button" id="btn-cs-copy-cost" style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 8px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
               📋 원가 1초 복사
@@ -4475,18 +4552,18 @@ function renderCalculatorStudioView(b) {
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; flex: 1;">
             <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
               <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">권장 판매가</span>
-              <span id="cs-res-retail" style="font-size: 17px; font-weight: 900; color: #38bdf8; margin-top: 4px;">${parsedPrice.toFixed(2)}</span>
+              <span id="cs-res-retail" style="font-size: 17px; font-weight: 900; color: #38bdf8; margin-top: 4px;">$${parsedPrice.toFixed(2)}</span>
             </div>
             <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 6px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">할인 전 정가 (MSRP)</span>
-              <span id="cs-res-compare" style="font-size: 15px; font-weight: 900; color: #94a3b8; text-decoration: line-through; margin-top: 2px;">${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}</span>
+              <span id="cs-res-compare" style="font-size: 15px; font-weight: 900; color: #94a3b8; text-decoration: line-through; margin-top: 2px;">$${(Math.ceil(parsedPrice * 1.35 / 10) * 10 - 0.01).toFixed(2)}</span>
               <span id="cs-res-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3); margin-top: 2px;">
                 🔥 25% OFF
               </span>
             </div>
             <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 8px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
               <span style="font-size: 10px; color: #10b981; font-weight: 700; display: block;">개당 총마진</span>
-              <span id="cs-res-profit" style="font-size: 17px; font-weight: 900; color: #10b981; margin-top: 4px;">${(parsedPrice - cost).toFixed(2)}</span>
+              <span id="cs-res-profit" style="font-size: 17px; font-weight: 900; color: #10b981; margin-top: 4px;">$${(parsedPrice - cost).toFixed(2)}</span>
             </div>
           </div>
 
@@ -4623,7 +4700,7 @@ function renderCalculatorStudioView(b) {
             <span style="font-size: 12px; color: #38bdf8; font-weight: 800; display: block;">Buy 2 (15%↓)</span>
             <span id="cs-bndl-rev-2" style="font-size: 17px; font-weight: 900; color: #38bdf8; display: block; margin: 4px 0;">$356.98</span>
             <span style="font-size: 11px; color: #64748b; display: block; margin-bottom: 6px;">광고비 -$25 (1회)</span>
-            <span id="cs-bndl-net-2" style="font-size: 16px; font-weight: 900; color: #38bdf8; display: block;">+?v=5.026.57</span>
+            <span id="cs-bndl-net-2" style="font-size: 16px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
             <span id="cs-bndl-krw-2" style="font-size: 11px; font-weight: 700; color: #7dd3fc; display: block; margin-top: 2px;">약 17.1만 원 (1.6배)</span>
           </div>
 
@@ -4632,7 +4709,7 @@ function renderCalculatorStudioView(b) {
             <span style="font-size: 12px; color: #f59e0b; font-weight: 800; display: block;">Buy 3 (25%↓)</span>
             <span id="cs-bndl-rev-3" style="font-size: 17px; font-weight: 900; color: #f59e0b; display: block; margin: 4px 0;">$472.48</span>
             <span style="font-size: 11px; color: #64748b; display: block; margin-bottom: 6px;">광고비 -$25 (1회)</span>
-            <span id="cs-bndl-net-3" style="font-size: 16px; font-weight: 900; color: #f59e0b; display: block;">+?v=5.042.31</span>
+            <span id="cs-bndl-net-3" style="font-size: 16px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
             <span id="cs-bndl-krw-3" style="font-size: 11px; font-weight: 700; color: #fde68a; display: block; margin-top: 2px;">약 19.2만 원 (1.8배)</span>
           </div>
         </div>
@@ -4747,17 +4824,17 @@ function runCalculatorStudioSync(triggerSource) {
   const discountAmount = Math.max(0, cleanCompare - cleanPrice);
   const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
 
-  if (elCostVal) elCostVal.textContent = `${cost.toFixed(2)}`;
-  if (elResRetail) elResRetail.textContent = `${cleanPrice.toFixed(2)}`;
-  if (elResCompare) elResCompare.textContent = `${cleanCompare.toFixed(2)}`;
+  if (elCostVal) elCostVal.textContent = `$${cost.toFixed(2)}`;
+  if (elResRetail) elResRetail.textContent = `$${cleanPrice.toFixed(2)}`;
+  if (elResCompare) elResCompare.textContent = `$${cleanCompare.toFixed(2)}`;
   if (elResDiscount) {
-    elResDiscount.textContent = `🔥 ${discountPct}% OFF (${discountAmount.toFixed(2)} 절약)`;
+    elResDiscount.textContent = `🔥 ${discountPct}% OFF ($${discountAmount.toFixed(2)} 절약)`;
   }
-  if (elResProfit) elResProfit.textContent = `${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
+  if (elResProfit) elResProfit.textContent = `$${grossProfit.toFixed(2)} (${Math.round(realMargin)}%)`;
   if (elResBep) elResBep.textContent = `${Math.round(bepRoas)}% (${(bepRoas / 100).toFixed(1)}x)`;
   if (elResTarget) elResTarget.textContent = `${Math.round(targetRoas)}% (${(targetRoas / 100).toFixed(1)}x)`;
   if (elResNet) {
-    elResNet.textContent = `${netAfterAd >= 0 ? '+' : ''}${netAfterAd.toFixed(2)}`;
+    elResNet.textContent = `${netAfterAd >= 0 ? '+' : ''}$${netAfterAd.toFixed(2)}`;
     elResNet.style.color = netAfterAd >= 0 ? '#10b981' : '#ef4444';
   }
   if (elResKrw) {
@@ -4765,9 +4842,9 @@ function runCalculatorStudioSync(triggerSource) {
     elResKrw.style.color = netAfterAd >= 0 ? '#34d399' : '#f87171';
   }
 
-  if (elExpPg) elExpPg.textContent = `${pgFee1.toFixed(2)}`;
-  if (elExpFixedTotal) elExpFixedTotal.textContent = `${totalMonthlyFixed.toFixed(2)}/월`;
-  if (elExpVarTotal) elExpVarTotal.textContent = `${totalVar.toFixed(2)}/건`;
+  if (elExpPg) elExpPg.textContent = `$${pgFee1.toFixed(2)}`;
+  if (elExpFixedTotal) elExpFixedTotal.textContent = `$${totalMonthlyFixed.toFixed(2)}/월`;
+  if (elExpVarTotal) elExpVarTotal.textContent = `$${totalVar.toFixed(2)}/건`;
 
   if (elFixedBadge) {
     if (totalMonthlyFixed > 0 && netAfterAd > 0) {
@@ -4776,7 +4853,7 @@ function runCalculatorStudioSync(triggerSource) {
       elFixedBadge.style.color = "#10b981";
       elFixedBadge.style.background = "rgba(16, 185, 129, 0.15)";
     } else if (totalMonthlyFixed > 0) {
-      elFixedBadge.textContent = `월 고정비 ${totalMonthlyFixed.toFixed(2)} 방어 필요`;
+      elFixedBadge.textContent = `월 고정비 $${totalMonthlyFixed.toFixed(2)} 방어 필요`;
       elFixedBadge.style.color = "#ef4444";
       elFixedBadge.style.background = "rgba(239, 68, 68, 0.15)";
     }
@@ -4829,23 +4906,23 @@ function runCalculatorStudioSync(triggerSource) {
   const b3n = document.getElementById("cs-bndl-net-3");
   const b3k = document.getElementById("cs-bndl-krw-3");
 
-  if (b1r) b1r.textContent = `${cleanPrice.toFixed(2)}`;
+  if (b1r) b1r.textContent = `$${cleanPrice.toFixed(2)}`;
   if (b1n) {
-    b1n.textContent = `${netAfterAd >= 0 ? '+' : ''}${netAfterAd.toFixed(2)}`;
+    b1n.textContent = `${netAfterAd >= 0 ? '+' : ''}$${netAfterAd.toFixed(2)}`;
     b1n.style.color = netAfterAd >= 0 ? '#10b981' : '#ef4444';
   }
   if (b1k) b1k.textContent = formatKrw(netAfterAd);
 
-  if (b2r) b2r.textContent = `${rev2.toFixed(2)}`;
+  if (b2r) b2r.textContent = `$${rev2.toFixed(2)}`;
   if (b2n) {
-    b2n.innerHTML = `${net2 >= 0 ? '+' : ''}${net2.toFixed(2)} <span style="font-size: 10px;">(${mult2}배)</span>`;
+    b2n.innerHTML = `${net2 >= 0 ? '+' : ''}$${net2.toFixed(2)} <span style="font-size: 10px;">(${mult2}배)</span>`;
     b2n.style.color = net2 >= 0 ? '#38bdf8' : '#ef4444';
   }
   if (b2k) b2k.textContent = `${formatKrw(net2)} (${mult2}배)`;
 
-  if (b3r) b3r.textContent = `${rev3.toFixed(2)}`;
+  if (b3r) b3r.textContent = `$${rev3.toFixed(2)}`;
   if (b3n) {
-    b3n.innerHTML = `${net3 >= 0 ? '+' : ''}${net3.toFixed(2)} <span style="font-size: 10px;">(${mult3}배)</span>`;
+    b3n.innerHTML = `${net3 >= 0 ? '+' : ''}$${net3.toFixed(2)} <span style="font-size: 10px;">(${mult3}배)</span>`;
     b3n.style.color = net3 >= 0 ? '#f59e0b' : '#ef4444';
   }
   // Smart Buffer Ratio Guide & Auto-Fix Trigger
@@ -4854,13 +4931,13 @@ function runCalculatorStudioSync(triggerSource) {
   if (elBufferHintTxt && cleanPrice > 0) {
     const ratio = Math.round((buffer / cleanPrice) * 100);
     const color = (ratio > 40 || buffer >= cleanPrice) ? '#ef4444' : '#38bdf8';
-    elBufferHintTxt.innerHTML = `💡 안전마진 비중: <strong style="color: ${color};">${ratio}% (${buffer.toFixed(2)})</strong> (현재 판매가 ${cleanPrice.toFixed(2)} 대비)`;
+    elBufferHintTxt.innerHTML = `💡 안전마진 비중: <strong style="color: ${color};">${ratio}% ($${buffer.toFixed(2)})</strong> (현재 판매가 $${cleanPrice.toFixed(2)} 대비)`;
     
     if (ratio > 40 || buffer >= cleanPrice) {
       if (btnAutoFixBuffer) {
         btnAutoFixBuffer.style.display = "inline-block";
         const recBuffer = (cleanPrice * 0.25).toFixed(2);
-        btnAutoFixBuffer.textContent = `✨ 추천 안전마진 ${recBuffer} (25%) 자동적용`;
+        btnAutoFixBuffer.textContent = `✨ 추천 안전마진 $${recBuffer} (25%) 자동적용`;
         btnAutoFixBuffer.onclick = () => {
           if (csBuffer) {
             csBuffer.value = recBuffer;
@@ -5006,7 +5083,7 @@ if (elBtnCopyCost) {
         elBtnCopyCost.style.background = "#10b981";
       }, 1800);
     }).catch(() => {
-      alert(`원가: ${currentCost.toFixed(2)}`);
+      alert(`원가: $${currentCost.toFixed(2)}`);
     });
   });
 }
