@@ -1856,7 +1856,7 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
             <div class="r-icon">📦</div>
             <div class="r-info">
               <div class="r-title" id="r-zip-title">pnk-outdoor-dawn.zip</div>
-              <div class="r-sub">22.36 MB • POSIX Clean • Zero Paid Apps ($0)</div>
+              <div class="r-sub" id="r-zip-sub">22.58 MB • POSIX Clean • Zero Paid Apps ($0)</div>
             </div>
             <button class="download-btn" id="btn-dl-zip">다운로드</button>
           </div>
@@ -1864,8 +1864,8 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
           <div class="release-card">
             <div class="r-icon">📄</div>
             <div class="r-info">
-              <div class="r-title">Master Catalog CSVs (8종)</div>
-              <div class="r-sub">100% Sourced Real Physical Specs • Active Inventory</div>
+              <div class="r-title" id="r-csv-title">04_PNK_OUTDOOR_PRODUCTS.csv</div>
+              <div class="r-sub" id="r-csv-sub">100% Sourced Real Physical Specs • Active Inventory</div>
             </div>
             <button class="download-btn" id="btn-dl-csv">CSV 다운로드</button>
           </div>
@@ -1874,7 +1874,7 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
             <div class="r-icon">⚖️</div>
             <div class="r-info">
               <div class="r-title" id="r-legal-title">PNK_OUTDOOR_LEGAL_POLICIES.md</div>
-              <div class="r-sub">US D2C Standard 4대 신뢰 정책 및 RMA 규정</div>
+              <div class="r-sub" id="r-legal-sub">US D2C Standard 4대 신뢰 정책 및 RMA 규정</div>
             </div>
             <button class="download-btn" id="btn-dl-legal">문서 다운로드</button>
           </div>
@@ -1907,6 +1907,7 @@ const BRAND_DATABASE = {
     heroDesc: "Aero-grade aluminum articulation, natural 57° wrist posture, and walnut desk architecture.",
     themeZip: "pnk-office-dawn.zip",
     zipSize: "22.36 MB",
+    csvFile: "01_PNK_OFFICE_PRODUCTS.csv",
     legalFile: "PNK_OFFICE_LEGAL_POLICIES.md",
     logoImg: "logos/1_PNK_OFFICE_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
     faviconImg: "logos/favicons/1_PNK_OFFICE/favicon.png",
@@ -1965,6 +1966,7 @@ const BRAND_DATABASE = {
     heroDesc: "Automatic recoil watering reels, SK5 Japanese steel pruners, and solar ambient lighting.",
     themeZip: "pnk-garden-dawn.zip",
     zipSize: "22.36 MB",
+    csvFile: "02_PNK_GARDEN_PRODUCTS.csv",
     legalFile: "PNK_GARDEN_LEGAL_POLICIES.md",
     logoImg: "logos/2_PNK_GARDEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
     faviconImg: "logos/favicons/2_PNK_GARDEN/favicon.png",
@@ -2016,6 +2018,7 @@ const BRAND_DATABASE = {
     heroDesc: "Quadruple UVC water purification, app-controlled precise portion feeding, and joint support.",
     themeZip: "pnk-pet-dawn.zip",
     zipSize: "22.36 MB",
+    csvFile: "03_PNK_PET_PRODUCTS.csv",
     legalFile: "PNK_PET_LEGAL_POLICIES.md",
     logoImg: "logos/3_PNK_PET_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
     faviconImg: "logos/favicons/3_PNK_PET/favicon.png",
@@ -2067,6 +2070,7 @@ const BRAND_DATABASE = {
     heroDesc: "100% Solid 304 Marine Stainless Steel Smokeless Secondary Combustion & Pure Titanium Warmth.",
     themeZip: "pnk-outdoor-dawn.zip",
     zipSize: "22.58 MB",
+    csvFile: "04_PNK_OUTDOOR_PRODUCTS.csv",
     legalFile: "PNK_OUTDOOR_LEGAL_POLICIES.md",
     logoImg: "logos/PNK_OUTDOOR_OFFICIAL_LOGO.png",
     faviconImg: "logos/PNK_OUTDOOR_OFFICIAL_FAVICON.png",
@@ -2132,6 +2136,7 @@ const BRAND_DATABASE = {
     heroDesc: "Non-toxic ceramic cookware, smart micro-composting technology, and professional chef knives.",
     themeZip: "pnk-kitchen-dawn.zip",
     zipSize: "2.43 MB",
+    csvFile: "05_PNK_KITCHEN_PRODUCTS.csv",
     legalFile: "PNK_KITCHEN_LEGAL_POLICIES.md",
     logoImg: "logos/5_PNK_KITCHEN_OFFICIAL_MOTTO_BADGE_TRANSPARENT.png",
     faviconImg: "logos/favicons/5_PNK_KITCHEN/favicon.png",
@@ -2210,8 +2215,22 @@ const btnRunBuild = document.getElementById("btn-run-build");
 const termBody = document.getElementById("term-body");
 const releaseCards = document.getElementById("release-cards");
 const rZipTitle = document.getElementById("r-zip-title");
+const rZipSub = document.getElementById("r-zip-sub");
+const rCsvTitle = document.getElementById("r-csv-title");
+const rCsvSub = document.getElementById("r-csv-sub");
 const rLegalTitle = document.getElementById("r-legal-title");
+const rLegalSub = document.getElementById("r-legal-sub");
 const termTimestamp = document.getElementById("term-timestamp");
+
+// Universal Release Cards Dynamic Synchronizer
+function updateReleaseCards(b) {
+  if (rZipTitle) rZipTitle.textContent = b.themeZip;
+  if (rZipSub) rZipSub.textContent = `${b.zipSize || '22.36 MB'} • POSIX Clean • Zero Paid Apps ($0)`;
+  if (rCsvTitle) rCsvTitle.textContent = b.csvFile || "Master Catalog CSVs (8종)";
+  if (rCsvSub) rCsvSub.textContent = "100% Sourced Real Physical Specs • Active Inventory";
+  if (rLegalTitle) rLegalTitle.textContent = b.legalFile;
+  if (rLegalSub) rLegalSub.textContent = "US D2C Standard 4대 신뢰 정책 및 RMA 규정";
+}
 
 // Calculator Element Registry
 const elPrice = document.getElementById("calc-price");
@@ -2578,6 +2597,9 @@ function loadBrand(catKey) {
 
   // Recalculate Profit & ROAS
   runUnifiedSync('cost');
+
+  // Update Release Cards Immediately
+  updateReleaseCards(b);
 
   // Render Current Tab View
   navigateToTab(currentTab, 0);
@@ -4008,6 +4030,14 @@ function attachRiskModuleListeners(b) {
           btnCopySup.style.background = "#10b981";
           setTimeout(() => {
             btnCopySup.innerHTML = "📋 [CS 영문 이메일 복사]";
+            btnCopySup.style.background = "#0284c7";
+          }, 1800);
+        });
+      });
+    }
+  }
+}
+
 // ==========================================================================
 // 6. Render Dedicated Profit & ROAS Simulator Studio View
 // ==========================================================================
@@ -4524,9 +4554,9 @@ if (btnRunBuild && termBody) {
       { text: `⚙️ [1/7] Synthesizing Native Liquid Theme (${b.themeZip})...`, cls: "text-muted", delay: 500 },
       { text: `✅ [1/7] Zero App Fee ($0) Liquid Engine Injected. 0.1s Fast Loading Verified.`, cls: "text-success", delay: 800 },
       { text: `🗺️ [2/7] Generating Zero-Click Lookbook Navigation & Mega Menus...`, cls: "text-muted", delay: 1100 },
-      { text: `📦 [3/7] Synthesizing Verified 1:1 Physical Catalog CSV Matrix...`, cls: "text-muted", delay: 1400 },
+      { text: `📦 [3/7] Synthesizing Verified 1:1 Physical Catalog CSV (${b.csvFile})...`, cls: "text-muted", delay: 1400 },
       { text: `🛡️ [4/7] Auto-Binding Physical Assets & Sanitizing IP Trademarks (Zero-Broken Media)...`, cls: "text-muted", delay: 1700 },
-      { text: `⚖️ [5/7] Generating 4-Pillar US D2C Trust Policies (RMA, $50+ Express, 1-Yr Warranty)...`, cls: "text-muted", delay: 2000 },
+      { text: `⚖️ [5/7] Generating 4-Pillar US D2C Trust Policies (${b.legalFile})...`, cls: "text-muted", delay: 2000 },
       { text: `🐧 [6/7] Packaging POSIX-Compliant Linux Archive (${b.themeZip})...`, cls: "text-muted", delay: 2300 },
       { text: `📁 [7/7] Mirroring to Dedicated AutoBuilder Vault: /PNK D2C Flagship AutoBuilder/downloads/...`, cls: "text-muted", delay: 2600 }
     ];
@@ -4544,8 +4574,7 @@ if (btnRunBuild && termBody) {
     setTimeout(() => {
       btnRunBuild.disabled = false;
       btnRunBuild.style.opacity = "1";
-      if (rZipTitle) rZipTitle.textContent = b.themeZip;
-      if (rLegalTitle) rLegalTitle.textContent = b.legalFile;
+      updateReleaseCards(b);
       if (termTimestamp) termTimestamp.textContent = new Date().toLocaleTimeString();
 
       const successLine = document.createElement("div");
@@ -4565,17 +4594,20 @@ const btnDlLegal = document.getElementById("btn-dl-legal");
 
 if (btnDlZip) {
   btnDlZip.addEventListener("click", () => {
-    alert(`📦 [테마 ZIP 다운로드]\n${BRAND_DATABASE[currentCategory].themeZip} 파일이 내 컴퓨터로 다운로드됩니다.`);
+    const b = BRAND_DATABASE[currentCategory];
+    alert(`📦 [테마 ZIP 다운로드]\n${b.themeZip} (${b.zipSize || '22.36 MB'})\n\n쇼피파이 테마 라이브러리에 바로 올릴 수 있는 ${b.name} 완성형 Liquid 테마 ZIP 파일입니다.`);
   });
 }
 if (btnDlCsv) {
   btnDlCsv.addEventListener("click", () => {
-    alert(`📄 [실물 카탈로그 CSV 다운로드]\n${BRAND_DATABASE[currentCategory].name} 실물 소싱 제원표 CSV가 다운로드됩니다.`);
+    const b = BRAND_DATABASE[currentCategory];
+    alert(`📄 [실물 카탈로그 CSV 다운로드]\n${b.csvFile}\n\n${b.name} 100% 실물 소싱 제원표 및 쇼피파이 상품 일괄 등록용 정제 CSV 파일입니다.`);
   });
 }
 if (btnDlLegal) {
   btnDlLegal.addEventListener("click", () => {
-    alert(`⚖️ [4대 법적 정책 문서 다운로드]\n${BRAND_DATABASE[currentCategory].legalFile} 규정집이 다운로드됩니다.`);
+    const b = BRAND_DATABASE[currentCategory];
+    alert(`⚖️ [4대 법적 정책 문서 다운로드]\n${b.legalFile}\n\n${b.name} 30일 안심 환불(RMA), $50+ 무료특송, 1년 보증, 24/7 CS 규정집입니다.`);
   });
 }
 
