@@ -1681,7 +1681,12 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
       <div class="panel-card" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(56, 189, 248, 0.35); box-shadow: 0 0 15px rgba(56, 189, 248, 0.12); padding: 10px 12px;">
         <div class="panel-section-title" style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
           <span><span class="icon">📊</span> 3. 실시간 마진 & 가격 연동</span>
-          <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스토어 실시간 직결</span>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <button type="button" onclick="window.resetCalculatorDefaults()" title="현재 브랜드 기본값으로 1초 만에 원복" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 800; cursor: pointer; transition: all 0.2s;">
+              🔄 초기화
+            </button>
+            <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스토어 직결</span>
+          </div>
         </div>
         <div>
           <!-- Mode Switcher: AUTO vs MANUAL -->
@@ -1737,7 +1742,12 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
               <input type="number" id="calc-price" class="form-input" value="209.99" step="0.01" oninput="window.runUnifiedSync('price')" style="font-size: 13px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
             </div>
             <div class="form-group flex-1">
-              <label style="font-size: 10px; color: #10b981; font-weight: 700;">공급사 소싱원가 ($)</label>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                <label style="font-size: 10px; color: #10b981; font-weight: 700; margin-bottom: 0;">공급사 소싱원가 ($)</label>
+                <button type="button" id="btn-cost-lock" onclick="window.toggleCostLock()" title="원가 고정 시 판매가/할인율/정가를 바꿔도 소싱원가가 덮어씌워지지 않습니다" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; font-size: 9px; font-weight: 800; border-radius: 4px; padding: 1px 5px; cursor: pointer; transition: all 0.2s;">
+                  🔓 자동역산
+                </button>
+              </div>
               <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" oninput="window.runUnifiedSync('cost')" style="font-size: 13px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
             </div>
           </div>
@@ -2612,6 +2622,58 @@ if (tabLegal) tabLegal.addEventListener("click", () => window.navigateToTab("leg
 if (tabDispute) tabDispute.addEventListener("click", () => window.navigateToTab("dispute"));
 
 let currentCalcMode = 'auto'; // 'auto' | 'manual'
+let isCostLocked = false; // When locked, price/discount changes never overwrite sourcing cost
+window.isCostLocked = false;
+
+// Cost Lock Toggle Function
+window.toggleCostLock = function(forceState = null) {
+  if (forceState !== null) {
+    isCostLocked = forceState;
+  } else {
+    isCostLocked = !isCostLocked;
+  }
+  window.isCostLocked = isCostLocked;
+
+  const btnLock = document.getElementById("btn-cost-lock");
+  const csBtnLock = document.getElementById("cs-btn-cost-lock");
+
+  [btnLock, csBtnLock].forEach(btn => {
+    if (!btn) return;
+    if (isCostLocked) {
+      btn.innerHTML = "🔒 원가고정";
+      btn.style.background = "rgba(245, 158, 11, 0.25)";
+      btn.style.borderColor = "#f59e0b";
+      btn.style.color = "#f59e0b";
+      btn.title = "원가가 고정되어 판매가/할인율을 바꿔도 원가가 절대 바뀌지 않습니다 (클릭 시 잠금해제)";
+    } else {
+      btn.innerHTML = "🔓 자동역산";
+      btn.style.background = "rgba(16, 185, 129, 0.12)";
+      btn.style.borderColor = "rgba(16, 185, 129, 0.35)";
+      btn.style.color = "#10b981";
+      btn.title = "판매가 입력 시 소싱원가가 자동 역산됩니다 (클릭 시 원가고정)";
+    }
+  });
+};
+
+// 1-Click Universal Calculator Reset to Brand Defaults
+window.resetCalculatorDefaults = function() {
+  const b = BRAND_DATABASE[currentCategory] || BRAND_DATABASE.outdoor;
+  const defPrice = b.defaultPrice || 209.99;
+  const defCost = b.defaultCost || 94.95;
+  const defCompare = Math.ceil((defPrice / (1 - 0.25)) / 10) * 10 - 0.01;
+
+  if (elPrice) elPrice.value = defPrice.toFixed(2);
+  if (elCost) elCost.value = defCost.toFixed(2);
+  if (elMargin) elMargin.value = 65;
+  if (elBuffer) elBuffer.value = "50.00";
+  if (elCpa) elCpa.value = "25.00";
+  if (elCalcCompare) elCalcCompare.value = defCompare.toFixed(2);
+  if (elCalcDiscountPct) elCalcDiscountPct.value = 25;
+
+  window.toggleCostLock(false);
+  window.setCalcMode('auto');
+  window.runUnifiedSync('init');
+};
 
 // Global Hover-Activated Preset Info Tooltip Functions
 window.showPresetHoverInfo = function(title, range, buffer, cpa, color) {
@@ -2697,7 +2759,7 @@ window.setCalcMode = function(mode) {
     }
   }
 
-  runUnifiedSync('init');
+  window.runUnifiedSync('init');
   if (currentTab === 'calculator') {
     runCalculatorStudioSync('init');
   }
@@ -2746,7 +2808,8 @@ window.runUnifiedSync = function(triggerSource) {
   const csDiscountPct = document.getElementById("cs-discount-pct");
 
   if (triggerSource === 'preset') {
-    // Preset button clicked: compute suggested max allowed sourcing cost
+    // Preset button clicked: unlock cost & compute suggested max allowed sourcing cost
+    window.toggleCostLock(false);
     if (price > 0 && (buffer >= price * 0.35 || buffer >= price)) {
       activeBuffer = Math.round(price * 0.25 * 100) / 100;
       if (elBuffer) elBuffer.value = activeBuffer.toFixed(2);
@@ -2791,14 +2854,15 @@ window.runUnifiedSync = function(triggerSource) {
 
   } else if (triggerSource === 'price' || triggerSource === 'retail') {
     // 3. 판매가 입력 시:
-    //    1) 소싱원가 변경: AUTO 모드일 때 마진 공식으로 자동 역산
-    //    2) 정가 가격 변경: 현재 할인율(예: 25%)에 비례하여 정가(MSRP) 자동 상향 계산!
     if (elPrice) price = parseFloat(elPrice.value) || price;
 
     if (currentCalcMode === 'auto') {
-      cost = Math.max(0, Math.round(((price - activeBuffer) / (1 + (marginPct / 100))) * 100) / 100);
-      if (elCost) elCost.value = cost.toFixed(2);
-      if (csCost) csCost.value = cost.toFixed(2);
+      // 원가가 잠겨있지 않을 때만 판매가에 맞춰 원가를 자동 역산
+      if (!isCostLocked) {
+        cost = Math.max(0, Math.round(((price - activeBuffer) / (1 + (marginPct / 100))) * 100) / 100);
+        if (elCost) elCost.value = cost.toFixed(2);
+        if (csCost) csCost.value = cost.toFixed(2);
+      }
 
       // 할인율에 비례하여 정가(MSRP) 자동 갱신
       const targetDisc = (currentDiscountVal > 0 && currentDiscountVal < 95) ? currentDiscountVal : 25;
@@ -2823,8 +2887,10 @@ window.runUnifiedSync = function(triggerSource) {
       }
     }
   } else if (triggerSource === 'cost') {
-    // 4. 소싱원가 변경 시: AUTO 모드일 때만 마진 공식에 따라 판매가와 정가 연동
+    // 4. 소싱원가 수동 변경 시: 원가를 고정(Lock)하고 마진 공식에 따라 판매가와 정가 연동
     if (elCost) cost = parseFloat(elCost.value) || cost;
+    window.toggleCostLock(true); // 자동 잠금
+
     if (currentCalcMode === 'auto') {
       price = Math.round(((cost * (1 + (marginPct / 100))) + activeBuffer) * 100) / 100;
       if (elPrice) elPrice.value = price.toFixed(2);
