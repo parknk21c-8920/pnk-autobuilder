@@ -1675,156 +1675,154 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
         </details>
       </div>
 
-      <!-- 3. Live Margin & Pricing Controller (Storefront Synced Accordion) -->
+      <!-- 3. Live Margin & Pricing Controller (Storefront Synced) -->
       <div class="panel-card" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(56, 189, 248, 0.35); box-shadow: 0 0 15px rgba(56, 189, 248, 0.12); padding: 10px 12px;">
-        <details class="sub-accordion-box" open style="padding: 0; background: transparent; border: none;">
-          <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #38bdf8; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none;">
-            <span><span class="icon">📊</span> 3. 실시간 마진 & 가격 연동</span>
-            <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스토어 실시간 직결</span>
-          </summary>
-          <div style="margin-top: 8px;">
-            <!-- Mode Switcher: AUTO vs MANUAL -->
-            <div style="display: flex; gap: 4px; margin-bottom: 8px; background: rgba(0,0,0,0.45); padding: 3px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
-              <button type="button" id="btn-calc-mode-auto" class="calc-mode-btn active" onclick="window.setCalcMode('auto')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.25); color: #38bdf8; cursor: pointer; text-align: center; transition: all 0.2s;">
-                ⚡ AUTO (자동 연동)
-              </button>
-              <button type="button" id="btn-calc-mode-manual" class="calc-mode-btn" onclick="window.setCalcMode('manual')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; text-align: center; transition: all 0.2s;">
-                ✍️ MANUAL (수동 입력)
-              </button>
-            </div>
-
-            <!-- 1-Click D2C Pricing Presets (Minimalist with Hover-Activated Range Display) -->
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px;">
-              <button type="button" class="btn-sidebar-preset" 
-                onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" 
-                onmouseenter="window.showPresetHoverInfo('$50 VALUE', '$30 ~ $79', '$12.00', '$15.00', '#38bdf8')" 
-                onmouseleave="window.hidePresetHoverInfo()"
-                style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
-                $50 VALUE
-              </button>
-              <button type="button" class="btn-sidebar-preset" 
-                onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" 
-                onmouseenter="window.showPresetHoverInfo('$100 STANDARD', '$80 ~ $149', '$25.00', '$20.00', '#10b981')" 
-                onmouseleave="window.hidePresetHoverInfo()"
-                style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
-                $100 STANDARD
-              </button>
-              <button type="button" class="btn-sidebar-preset" 
-                onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" 
-                onmouseenter="window.showPresetHoverInfo('$200 FLAGSHIP', '$150 ~ $299', '$50.00', '$25.00', '#f59e0b')" 
-                onmouseleave="window.hidePresetHoverInfo()"
-                style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
-                $200 FLAGSHIP
-              </button>
-              <button type="button" class="btn-sidebar-preset" 
-                onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" 
-                onmouseenter="window.showPresetHoverInfo('$400 LUXURY', '$300 ~ $600+', '$80.00', '$35.00', '#c084fc')" 
-                onmouseleave="window.hidePresetHoverInfo()"
-                style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
-                $400 LUXURY
-              </button>
-            </div>
-
-            <!-- Dynamic Hover Info Toast Bar (Hidden by Default, Vivid on Hover) -->
-            <div id="sidebar-preset-hover-bar" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; border-radius: 6px; padding: 5px 8px; margin-bottom: 6px; font-size: 10px; font-weight: 800; text-align: center; transition: all 0.2s; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);">
-              <span id="sidebar-preset-hover-txt" style="color: #38bdf8;"></span>
-            </div>
-
-            <div class="form-row" style="margin-bottom: 6px;">
-              <div class="form-group flex-1">
-                <label style="font-size: 10px; color: #38bdf8; font-weight: 700;">쇼피파이 판매가 ($)</label>
-                <input type="number" id="calc-price" class="form-input" value="209.99" step="0.01" style="font-size: 13px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
-              </div>
-              <div class="form-group flex-1">
-                <label style="font-size: 10px; color: #10b981; font-weight: 700;">공급사 소싱원가 ($)</label>
-                <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" style="font-size: 13px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
-              </div>
-            </div>
-
-            <!-- Interactive Compare-at (MSRP) & Discount % Controller -->
-            <div style="background: rgba(0,0,0,0.4); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.25); margin-bottom: 6px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span style="font-size: 10px; font-weight: 800; color: #f59e0b;">🏷️ 정가 & 할인율 연동 변환</span>
-                <span id="sidebar-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
-                  🔥 25% OFF ($70.00 절약)
-                </span>
-              </div>
-              <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6px;">
-                <div>
-                  <label style="font-size: 9px; color: #94a3b8; display: block; margin-bottom: 2px;">할인 전 정가 (MSRP $)</label>
-                  <input type="number" id="calc-compare" class="form-input" value="279.99" step="1.00" style="font-size: 11px; padding: 3px 6px; font-weight: 700; color: #cbd5e1;">
-                </div>
-                <div>
-                  <label style="font-size: 9px; color: #f59e0b; display: block; margin-bottom: 2px;">할인율 (% 조절 시 판매가 변환)</label>
-                  <input type="number" id="calc-discount-pct" class="form-input" value="25" min="1" max="95" step="1" style="font-size: 11px; padding: 3px 6px; font-weight: 800; color: #f59e0b; border-color: rgba(245, 158, 11, 0.4);">
-                </div>
-              </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 6px;">
-              <div class="form-group">
-                <label style="font-size: 9px; color: #94a3b8;">마진율(%)</label>
-                <input type="number" id="calc-margin" class="form-input" value="65" style="font-size: 11px; padding: 4px 6px;">
-              </div>
-              <div class="form-group">
-                <label style="font-size: 9px; color: #94a3b8;">안전마진($)</label>
-                <input type="number" id="calc-buffer" class="form-input" value="50.00" style="font-size: 11px; padding: 4px 6px;">
-              </div>
-              <div class="form-group">
-                <label style="font-size: 9px; color: #f59e0b;">CPA 광고비</label>
-                <input type="number" id="calc-cpa" class="form-input" value="25.00" style="font-size: 11px; padding: 4px 6px;">
-              </div>
-            </div>
-
-            <!-- Mini Traffic Light & Net Profit Bar -->
-            <div style="background: rgba(0,0,0,0.4); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <div>
-                <span id="traffic-status-badge" style="font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(56, 189, 248, 0.2); color: #38bdf8;">
-                  🚀 슈퍼 위닝
-                </span>
-              </div>
-              <div style="text-align: right;">
-                <span style="font-size: 9px; color: #94a3b8;">순익:</span>
-                <span id="res-net-after-ad" style="font-size: 12px; font-weight: 900; color: #10b981;">+$80.74</span>
-                <span id="res-net-krw" style="font-size: 9px; color: #34d399;">(약 10.9만 원)</span>
-              </div>
-            </div>
-
-            <!-- Hidden Traffic Light Lamp DOM Container for JS Sync -->
-            <div style="display: none;">
-              <div id="lamp-kill"></div>
-              <div id="lamp-opt"></div>
-              <div id="lamp-scale"></div>
-              <div id="lamp-super"></div>
-              <div id="traffic-guide-text"></div>
-              <div id="res-retail"></div>
-              <div id="res-compare"></div>
-              <div id="res-profit"></div>
-              <div id="res-bep-roas"></div>
-              <div id="res-target-roas"></div>
-            </div>
-
-            <button type="button" style="width: 100%; padding: 6px; font-size: 10px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 4px; color: #38bdf8; font-weight: 800; cursor: pointer;" onclick="navigateToTab('calculator')">
-              🖥️ 메가메뉴 풀화면 재무 스튜디오 열기 ➔
+        <div class="panel-section-title" style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span><span class="icon">📊</span> 3. 실시간 마진 & 가격 연동</span>
+          <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스토어 실시간 직결</span>
+        </div>
+        <div>
+          <!-- Mode Switcher: AUTO vs MANUAL -->
+          <div style="display: flex; gap: 4px; margin-bottom: 8px; background: rgba(0,0,0,0.45); padding: 3px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+            <button type="button" id="btn-calc-mode-auto" class="calc-mode-btn active" onclick="window.setCalcMode('auto')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.25); color: #38bdf8; cursor: pointer; text-align: center; transition: all 0.2s;">
+              ⚡ AUTO (자동 연동)
+            </button>
+            <button type="button" id="btn-calc-mode-manual" class="calc-mode-btn" onclick="window.setCalcMode('manual')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; text-align: center; transition: all 0.2s;">
+              ✍️ MANUAL (수동 입력)
             </button>
           </div>
-        </details>
+
+          <!-- 1-Click D2C Pricing Presets (Minimalist with Hover-Activated Range Display) -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px;">
+            <button type="button" class="btn-sidebar-preset" 
+              onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" 
+              onmouseenter="window.showPresetHoverInfo('$50 VALUE', '$30 ~ $79', '$12.00', '$15.00', '#38bdf8')" 
+              onmouseleave="window.hidePresetHoverInfo()"
+              style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+              $50 VALUE
+            </button>
+            <button type="button" class="btn-sidebar-preset" 
+              onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" 
+              onmouseenter="window.showPresetHoverInfo('$100 STANDARD', '$80 ~ $149', '$25.00', '$20.00', '#10b981')" 
+              onmouseleave="window.hidePresetHoverInfo()"
+              style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+              $100 STANDARD
+            </button>
+            <button type="button" class="btn-sidebar-preset" 
+              onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" 
+              onmouseenter="window.showPresetHoverInfo('$200 FLAGSHIP', '$150 ~ $299', '$50.00', '$25.00', '#f59e0b')" 
+              onmouseleave="window.hidePresetHoverInfo()"
+              style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+              $200 FLAGSHIP
+            </button>
+            <button type="button" class="btn-sidebar-preset" 
+              onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" 
+              onmouseenter="window.showPresetHoverInfo('$400 LUXURY', '$300 ~ $600+', '$80.00', '$35.00', '#c084fc')" 
+              onmouseleave="window.hidePresetHoverInfo()"
+              style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; transition: all 0.2s;">
+              $400 LUXURY
+            </button>
+          </div>
+
+          <!-- Dynamic Hover Info Toast Bar (Hidden by Default, Vivid on Hover) -->
+          <div id="sidebar-preset-hover-bar" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; border-radius: 6px; padding: 5px 8px; margin-bottom: 6px; font-size: 10px; font-weight: 800; text-align: center; transition: all 0.2s; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);">
+            <span id="sidebar-preset-hover-txt" style="color: #38bdf8;"></span>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 6px;">
+            <div class="form-group flex-1">
+              <label style="font-size: 10px; color: #38bdf8; font-weight: 700;">쇼피파이 판매가 ($)</label>
+              <input type="number" id="calc-price" class="form-input" value="209.99" step="0.01" style="font-size: 13px; font-weight: 900; color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+            </div>
+            <div class="form-group flex-1">
+              <label style="font-size: 10px; color: #10b981; font-weight: 700;">공급사 소싱원가 ($)</label>
+              <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01" style="font-size: 13px; font-weight: 900; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+            </div>
+          </div>
+
+          <!-- Interactive Compare-at (MSRP) & Discount % Controller -->
+          <div style="background: rgba(0,0,0,0.4); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.25); margin-bottom: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-size: 10px; font-weight: 800; color: #f59e0b;">🏷️ 정가 & 할인율 연동 변환</span>
+              <span id="sidebar-discount-badge" style="font-size: 9px; font-weight: 800; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                🔥 25% OFF ($70.00 절약)
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6px;">
+              <div>
+                <label style="font-size: 9px; color: #94a3b8; display: block; margin-bottom: 2px;">할인 전 정가 (MSRP $)</label>
+                <input type="number" id="calc-compare" class="form-input" value="279.99" step="1.00" style="font-size: 11px; padding: 3px 6px; font-weight: 700; color: #cbd5e1;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #f59e0b; display: block; margin-bottom: 2px;">할인율 (% 조절 시 판매가 변환)</label>
+                <input type="number" id="calc-discount-pct" class="form-input" value="25" min="1" max="95" step="1" style="font-size: 11px; padding: 3px 6px; font-weight: 800; color: #f59e0b; border-color: rgba(245, 158, 11, 0.4);">
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 6px;">
+            <div class="form-group">
+              <label style="font-size: 9px; color: #94a3b8;">마진율(%)</label>
+              <input type="number" id="calc-margin" class="form-input" value="65" style="font-size: 11px; padding: 4px 6px;">
+            </div>
+            <div class="form-group">
+              <label style="font-size: 9px; color: #94a3b8;">안전마진($)</label>
+              <input type="number" id="calc-buffer" class="form-input" value="50.00" style="font-size: 11px; padding: 4px 6px;">
+            </div>
+            <div class="form-group">
+              <label style="font-size: 9px; color: #f59e0b;">CPA 광고비</label>
+              <input type="number" id="calc-cpa" class="form-input" value="25.00" style="font-size: 11px; padding: 4px 6px;">
+            </div>
+          </div>
+
+          <!-- Mini Traffic Light & Net Profit Bar -->
+          <div style="background: rgba(0,0,0,0.4); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div>
+              <span id="traffic-status-badge" style="font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(56, 189, 248, 0.2); color: #38bdf8;">
+                🚀 슈퍼 위닝
+              </span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 9px; color: #94a3b8;">순익:</span>
+              <span id="res-net-after-ad" style="font-size: 12px; font-weight: 900; color: #10b981;">+$80.74</span>
+              <span id="res-net-krw" style="font-size: 9px; color: #34d399;">(약 10.9만 원)</span>
+            </div>
+          </div>
+
+          <!-- Hidden Traffic Light Lamp DOM Container for JS Sync -->
+          <div style="display: none;">
+            <div id="lamp-kill"></div>
+            <div id="lamp-opt"></div>
+            <div id="lamp-scale"></div>
+            <div id="lamp-super"></div>
+            <div id="traffic-guide-text"></div>
+            <div id="res-retail"></div>
+            <div id="res-compare"></div>
+            <div id="res-profit"></div>
+            <div id="res-bep-roas"></div>
+            <div id="res-target-roas"></div>
+          </div>
+
+          <button type="button" style="width: 100%; padding: 7px; font-size: 11px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; color: #38bdf8; font-weight: 800; cursor: pointer;" onclick="window.navigateToTab('calculator')">
+            🖥️ 메가메뉴 풀화면 재무 스튜디오 열기 ➔
+          </button>
+        </div>
       </div>
 
       <!-- 4. Quick Legal & Risk Defense Desk (Accordion Drawer) -->
       <div class="panel-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(239, 68, 68, 0.35); box-shadow: 0 0 15px rgba(239, 68, 68, 0.12); padding: 10px 12px;">
         <details class="sub-accordion-box" style="padding: 0; background: transparent; border: none;">
-          <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #f87171; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none;">
+          <summary class="panel-section-title" style="font-size: 14px; font-weight: 800; color: #ffffff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none; margin-bottom: 0;">
             <span><span class="icon">🛡️</span> 4. 운영자 리스크 방어 타워</span>
-            <span style="font-size: 9px; background: rgba(239, 68, 68, 0.2); color: #f87171; padding: 2px 6px; border-radius: 4px; font-weight: 800;">76대 SOP</span>
+            <span style="font-size: 9px; background: rgba(239, 68, 68, 0.2); color: #f87171; padding: 2px 6px; border-radius: 4px; font-weight: 800;">76대 SOP ▾</span>
           </summary>
-          <div style="margin-top: 8px;">
+          <div style="margin-top: 10px;">
             <p style="font-size: 10px; color: #cbd5e1; line-height: 1.4; margin-bottom: 6px;">
               • <strong>카드사 차지백:</strong> 3단계 트래킹+RMA 증빙<br>
               • <strong>가짜 상표권 피싱:</strong> 비침해 선언서+1:1 공급사 증빙<br>
               • <strong>공급사 품절/인상:</strong> 자동 대체 공급선 핫스왑
             </p>
-            <button type="button" style="width: 100%; padding: 6px; font-size: 10px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 4px; color: #f87171; font-weight: 800; cursor: pointer;" onclick="navigateToTab('dispute')">
+            <button type="button" style="width: 100%; padding: 7px; font-size: 11px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 6px; color: #f87171; font-weight: 800; cursor: pointer;" onclick="window.navigateToTab('dispute')">
               🛡️ 메가메뉴 풀화면 소명서 생성기 열기 ➔
             </button>
           </div>
@@ -1833,12 +1831,12 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
 
       <!-- 5. Verified Physical Catalog Inspector (Collapsible Accordion Drawer) -->
       <div class="panel-card" id="catalog-panel-card" style="padding: 10px 12px; margin-bottom: 0; background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.08);">
-        <details class="sub-accordion-box" style="padding: 0; background: transparent; border: none;">
-          <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none;">
+        <details class="sub-accordion-box" open style="padding: 0; background: transparent; border: none;">
+          <summary class="panel-section-title" style="font-size: 14px; font-weight: 800; color: #ffffff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none; margin-bottom: 0;">
             <span><span class="icon">📦</span> 5. 검증된 실물 라인업</span>
-            <span style="font-size: 9px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">실물 에셋 1:1</span>
+            <span style="font-size: 9px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">실물 에셋 1:1 ▾</span>
           </summary>
-          <div style="margin-top: 8px;">
+          <div style="margin-top: 10px;">
             <div class="catalog-list" id="catalog-list-container" style="max-height: 220px; overflow-y: auto;">
               <!-- Dynamic Catalog Cards loaded via app.js -->
             </div>
@@ -1857,13 +1855,13 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
     <section class="preview-studio">
       <div class="studio-header">
         <div class="studio-tabs">
-          <button class="tab-btn active" id="tab-home">🏠 스토어 홈</button>
-          <button class="tab-btn" id="tab-pdp">🛍️ PDP A+ 도면</button>
-          <button class="tab-btn" id="tab-collections">📁 컬렉션 허브</button>
-          <button class="tab-btn" id="tab-cart">🛒 장바구니 & 결제</button>
-          <button class="tab-btn" id="tab-calculator" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">📊 마진 & ROAS 계산기</button>
-          <button class="tab-btn" id="tab-legal">🏛️ 고객 신뢰 정책 (Storefront)</button>
-          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 운영자 리스크 방어 (Admin)</button>
+          <button class="tab-btn active" id="tab-home" onclick="window.navigateToTab('home')">🏠 스토어 홈</button>
+          <button class="tab-btn" id="tab-pdp" onclick="window.navigateToTab('pdp')">🛍️ PDP A+ 도면</button>
+          <button class="tab-btn" id="tab-collections" onclick="window.navigateToTab('collections')">📁 컬렉션 허브</button>
+          <button class="tab-btn" id="tab-cart" onclick="window.navigateToTab('cart')">🛒 장바구니 & 결제</button>
+          <button class="tab-btn" id="tab-calculator" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="window.navigateToTab('calculator')">📊 마진 & ROAS 계산기</button>
+          <button class="tab-btn" id="tab-legal" onclick="window.navigateToTab('legal')">🏛️ 고객 신뢰 정책 (Storefront)</button>
+          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;" onclick="window.navigateToTab('dispute')">🛡️ 운영자 리스크 방어 (Admin)</button>
         </div>
         <div class="device-switcher">
           <button class="device-btn active" id="btn-view-desktop">🖥️ 데스크탑</button>
@@ -2601,6 +2599,15 @@ window.navigateToTab = function(tabName, productIdx = null) {
   // Smooth scroll viewport to top
   if (screenViewport) screenViewport.scrollTop = 0;
 };
+
+// Bind Click Listeners to Studio Tabs
+if (tabHome) tabHome.addEventListener("click", () => window.navigateToTab("home"));
+if (tabPdp) tabPdp.addEventListener("click", () => window.navigateToTab("pdp"));
+if (tabCollections) tabCollections.addEventListener("click", () => window.navigateToTab("collections"));
+if (tabCart) tabCart.addEventListener("click", () => window.navigateToTab("cart"));
+if (tabCalculator) tabCalculator.addEventListener("click", () => window.navigateToTab("calculator"));
+if (tabLegal) tabLegal.addEventListener("click", () => window.navigateToTab("legal"));
+if (tabDispute) tabDispute.addEventListener("click", () => window.navigateToTab("dispute"));
 
 let currentCalcMode = 'auto'; // 'auto' | 'manual'
 
