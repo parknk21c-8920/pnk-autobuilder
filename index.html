@@ -1387,8 +1387,56 @@ body {
   50% { transform: scale(1.25); box-shadow: 0 0 20px #38bdf8, 0 0 30px rgba(56,189,248,0.7); }
 }
 
+/* ==========================================================================
+   Panel Accordions & Collapsible Dieting Architecture
+   ========================================================================== */
+details.panel-card, details.sub-accordion-box {
+  transition: all 0.25s ease-in-out;
+}
 
+summary.panel-section-title, summary.sub-accordion-title {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary.panel-section-title::after, summary.sub-accordion-title::after {
+  content: '▼';
+  font-size: 10px;
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+  margin-left: 8px;
+}
+
+details[open] > summary.panel-section-title::after, details[open] > summary.sub-accordion-title::after {
+  transform: rotate(180deg);
+  color: var(--accent-amber);
+}
+
+.sub-accordion-box {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.sub-accordion-box[open] {
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.sub-accordion-box:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+}
 
 </style>
 </head>
@@ -1550,382 +1598,394 @@ body {
         </div>
       </div>
 
-      <!-- Brand Configuration Panel -->
-      <div class="panel-card">
-        <div class="panel-section-title">
-          <span class="icon">🏛️</span> 2. 브랜드 정밀 설정
-        </div>
-        <div class="form-group">
-          <label for="input-brand-name">브랜드 명칭 (Brand Name)</label>
-          <input type="text" id="input-brand-name" class="form-input" value="PNK OUTDOOR">
-        </div>
-        <div class="form-group">
-          <label for="input-brand-slogan">브랜드 메인 슬로건 (Slogan)</label>
-          <input type="text" id="input-brand-slogan" class="form-input" value="Elevate Your Campfire Experience">
-        </div>
-        <div class="form-row">
-          <div class="form-group flex-1">
-            <label for="input-cs-email">공식 고객센터 CS 이메일</label>
-            <input type="email" id="input-cs-email" class="form-input" value="bagnamgyu8920@gmail.com">
+      <!-- Brand Configuration Panel (Collapsible Accordion) -->
+      <details open class="panel-card" id="brand-settings-panel">
+        <summary class="panel-section-title">
+          <span><span class="icon">🏛️</span> 2. 브랜드 정밀 설정</span>
+        </summary>
+        <div style="margin-top: 12px;">
+          <div class="form-group">
+            <label for="input-brand-name">브랜드 명칭 (Brand Name)</label>
+            <input type="text" id="input-brand-name" class="form-input" value="PNK OUTDOOR">
           </div>
-          <div class="form-group flex-1">
-            <label for="input-year">카피라이트 연도</label>
-            <input type="text" id="input-year" class="form-input" value="2026">
+          <div class="form-group">
+            <label for="input-brand-slogan">브랜드 메인 슬로건 (Slogan)</label>
+            <input type="text" id="input-brand-slogan" class="form-input" value="Elevate Your Campfire Experience">
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group flex-1">
-            <label for="input-color-primary">프라이머리 컬러</label>
-            <div class="color-picker-wrap">
-              <input type="color" id="input-color-primary" value="#0f172a">
-              <span id="label-color-primary">#0F172A</span>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="input-cs-email">공식 고객센터 CS 이메일</label>
+              <input type="email" id="input-cs-email" class="form-input" value="bagnamgyu8920@gmail.com">
+            </div>
+            <div class="form-group flex-1">
+              <label for="input-year">카피라이트 연도</label>
+              <input type="text" id="input-year" class="form-input" value="2026">
             </div>
           </div>
-          <div class="form-group flex-1">
-            <label for="input-color-accent">액센트 골드/하이라이트</label>
-            <div class="color-picker-wrap">
-              <input type="color" id="input-color-accent" value="#d97706">
-              <span id="label-color-accent">#D97706</span>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="input-color-primary">프라이머리 컬러</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="input-color-primary" value="#0f172a">
+                <span id="label-color-primary">#0F172A</span>
+              </div>
+            </div>
+            <div class="form-group flex-1">
+              <label for="input-color-accent">액센트 골드/하이라이트</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="input-color-accent" value="#d97706">
+                <span id="label-color-accent">#D97706</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Clean Action Buttons (No unneeded text) -->
-        <div class="config-action-row"
-          style="margin-top: 14px; display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-          <button type="button" class="btn-primary-glow" id="btn-save-settings"
-            style="padding: 10px 14px; font-size: 13px; font-weight: 700; white-space: nowrap;">
-            💾 설정 저장
-          </button>
-          <button type="button" class="btn-secondary" id="btn-reset-settings"
-            style="padding: 10px 14px; font-size: 13px; white-space: nowrap;">
-            🔄 초기화
-          </button>
+          <!-- Clean Action Buttons (No unneeded text) -->
+          <div class="config-action-row"
+            style="margin-top: 14px; display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+            <button type="button" class="btn-primary-glow" id="btn-save-settings"
+              style="padding: 10px 14px; font-size: 13px; font-weight: 700; white-space: nowrap;">
+              💾 설정 저장
+            </button>
+            <button type="button" class="btn-secondary" id="btn-reset-settings"
+              style="padding: 10px 14px; font-size: 13px; white-space: nowrap;">
+              🔄 초기화
+            </button>
+          </div>
         </div>
-      </div>
+      </details>
 
-      <!-- Smart Profit & ROAS / Spark Cost Unified Fast Calculator Widget -->
-      <div class="panel-card" id="calc-panel-card">
-        <div class="panel-section-title"
-          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <!-- Smart Profit & ROAS / Spark Cost Unified Fast Calculator Widget (Collapsible Accordion) -->
+      <details open class="panel-card" id="calc-panel-card">
+        <summary class="panel-section-title">
           <span><span class="icon">📊</span> 3. 스마트 마진 & ROAS 광고 수익률 시뮬레이터</span>
           <span
             style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 7px; border-radius: 4px; font-weight: 700;">PRO
             ALL-IN-ONE</span>
-        </div>
+        </summary>
 
-        <!-- Unified Fast Inputs Row 1: Selling Price & Sourcing Cost (Two-Way Synced) -->
-        <div class="form-row" style="margin-bottom: 8px;">
-          <div class="form-group flex-1">
-            <label for="calc-price"
-              style="color: #38bdf8; font-weight: 700; display: flex; justify-content: space-between;">
-              <span>쇼피파이 판매가 ($)</span>
-              <span style="font-size: 10px; color: #64748b;">역산 입력</span>
-            </label>
-            <input type="number" id="calc-price" class="form-input" value="206.67" step="0.01"
-              style="border-color: rgba(56, 189, 248, 0.4); font-weight: 800; font-size: 14px; color: #38bdf8;">
+        <div style="margin-top: 12px;">
+          <!-- Unified Fast Inputs Row 1: Selling Price & Sourcing Cost (Two-Way Synced) -->
+          <div class="form-row" style="margin-bottom: 8px;">
+            <div class="form-group flex-1">
+              <label for="calc-price"
+                style="color: #38bdf8; font-weight: 700; display: flex; justify-content: space-between;">
+                <span>쇼피파이 판매가 ($)</span>
+                <span style="font-size: 10px; color: #64748b;">역산 입력</span>
+              </label>
+              <input type="number" id="calc-price" class="form-input" value="206.67" step="0.01"
+                style="border-color: rgba(56, 189, 248, 0.4); font-weight: 800; font-size: 14px; color: #38bdf8;">
+            </div>
+            <div class="form-group flex-1">
+              <label for="calc-cost"
+                style="color: #10b981; font-weight: 700; display: flex; justify-content: space-between;">
+                <span>소싱 원가 ($)</span>
+                <span style="font-size: 10px; color: #64748b;">정방향 입력</span>
+              </label>
+              <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01"
+                style="border-color: rgba(16, 185, 129, 0.4); font-weight: 800; font-size: 14px; color: #10b981;">
+            </div>
           </div>
-          <div class="form-group flex-1">
-            <label for="calc-cost"
-              style="color: #10b981; font-weight: 700; display: flex; justify-content: space-between;">
-              <span>소싱 원가 ($)</span>
-              <span style="font-size: 10px; color: #64748b;">정방향 입력</span>
-            </label>
-            <input type="number" id="calc-cost" class="form-input" value="94.95" step="0.01"
-              style="border-color: rgba(16, 185, 129, 0.4); font-weight: 800; font-size: 14px; color: #10b981;">
-          </div>
-        </div>
 
-        <!-- Unified Fast Inputs Row 2: Spark Margin, Buffer & Ad CPA -->
-        <div class="form-row" style="margin-bottom: 12px;">
-          <div class="form-group" style="width: 75px;">
-            <label for="calc-margin">마진 (%)</label>
-            <input type="number" id="calc-margin" class="form-input" value="65" step="1">
+          <!-- Unified Fast Inputs Row 2: Spark Margin, Buffer & Ad CPA -->
+          <div class="form-row" style="margin-bottom: 12px;">
+            <div class="form-group" style="width: 75px;">
+              <label for="calc-margin">마진 (%)</label>
+              <input type="number" id="calc-margin" class="form-input" value="65" step="1">
+            </div>
+            <div class="form-group" style="width: 80px;">
+              <label for="calc-buffer">안전마진 ($)</label>
+              <input type="number" id="calc-buffer" class="form-input" value="50.00" step="5">
+            </div>
+            <div class="form-group flex-1">
+              <label for="calc-cpa" style="color: #f59e0b; font-weight: 700;">건당 광고비 (CPA $)</label>
+              <input type="number" id="calc-cpa" class="form-input" value="25.00" step="1.00">
+            </div>
           </div>
-          <div class="form-group" style="width: 80px;">
-            <label for="calc-buffer">안전마진 ($)</label>
-            <input type="number" id="calc-buffer" class="form-input" value="50.00" step="5">
-          </div>
-          <div class="form-group flex-1">
-            <label for="calc-cpa" style="color: #f59e0b; font-weight: 700;">건당 광고비 (CPA $)</label>
-            <input type="number" id="calc-cpa" class="form-input" value="25.00" step="1.00">
-          </div>
-        </div>
 
-        <!-- 6-Pill Real-Time Profit & ROAS Metric Matrix -->
-        <div class="profit-summary-grid"
-          style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px;">
-          <div class="profit-pill"
-            style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); padding: 8px 6px;">
-            <span class="p-lbl" style="color: #38bdf8; font-size: 10px;">권장 판매가 ($)</span>
-            <input type="number" id="res-retail" class="pill-input" value="209.99" step="0.50"
-              style="background: transparent; border: none; color: #38bdf8; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+          <!-- 6-Pill Real-Time Profit & ROAS Metric Matrix -->
+          <div class="profit-summary-grid"
+            style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px;">
+            <div class="profit-pill"
+              style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); padding: 8px 6px;">
+              <span class="p-lbl" style="color: #38bdf8; font-size: 10px;">권장 판매가 ($)</span>
+              <input type="number" id="res-retail" class="pill-input" value="209.99" step="0.50"
+                style="background: transparent; border: none; color: #38bdf8; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+            </div>
+            <div class="profit-pill" style="padding: 8px 6px;">
+              <span class="p-lbl" style="font-size: 10px;">할인 정가 (COMPARE $)</span>
+              <input type="number" id="res-compare" class="pill-input" value="279.99" step="1.00"
+                style="background: transparent; border: none; color: #f8fafc; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
+            </div>
+            <div class="profit-pill highlight" style="padding: 8px 6px;">
+              <span class="p-lbl" style="font-size: 10px;">개당 총마진</span>
+              <span class="p-val" id="res-profit" style="font-size: 13px;">$111.72 (54%)</span>
+            </div>
           </div>
-          <div class="profit-pill" style="padding: 8px 6px;">
-            <span class="p-lbl" style="font-size: 10px;">할인 정가 (COMPARE $)</span>
-            <input type="number" id="res-compare" class="pill-input" value="279.99" step="1.00"
-              style="background: transparent; border: none; color: #f8fafc; font-size: 14px; font-weight: 800; text-align: center; width: 100%; outline: none; font-variant-numeric: tabular-nums;">
-          </div>
-          <div class="profit-pill highlight" style="padding: 8px 6px;">
-            <span class="p-lbl" style="font-size: 10px;">개당 총마진</span>
-            <span class="p-val" id="res-profit" style="font-size: 13px;">$111.72 (54%)</span>
-          </div>
-        </div>
 
-        <!-- ROAS & Net Profit Tier -->
-        <div class="roas-summary-grid"
-          style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px;">
-          <div class="roas-pill b-bep"
-            style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
-            <span
-              style="font-size: 10px; color: #f87171; font-weight: 700; display: block; text-transform: uppercase;">손익분기
-              ROAS</span>
-            <span id="res-bep-roas"
-              style="font-size: 13px; font-weight: 800; color: #ef4444; font-variant-numeric: tabular-nums;">185%
-              (1.8x)</span>
+          <!-- ROAS & Net Profit Tier -->
+          <div class="roas-summary-grid"
+            style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px;">
+            <div class="roas-pill b-bep"
+              style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+              <span
+                style="font-size: 10px; color: #f87171; font-weight: 700; display: block; text-transform: uppercase;">손익분기
+                ROAS</span>
+              <span id="res-bep-roas"
+                style="font-size: 13px; font-weight: 800; color: #ef4444; font-variant-numeric: tabular-nums;">185%
+                (1.8x)</span>
+            </div>
+            <div class="roas-pill b-target"
+              style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
+              <span
+                style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block; text-transform: uppercase;">실전
+                예상 ROAS</span>
+              <span id="res-target-roas"
+                style="font-size: 13px; font-weight: 800; color: #38bdf8; font-variant-numeric: tabular-nums;">840%
+                (8.4x)</span>
+            </div>
+            <div class="roas-pill b-net"
+              style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 4px; text-align: center;">
+              <span
+                style="font-size: 10px; color: #10b981; font-weight: 700; display: block; text-transform: uppercase;">광고
+                차감 순수익</span>
+              <span id="res-net-after-ad"
+                style="font-size: 13px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; display: block;">+$86.72</span>
+              <span id="res-net-krw" style="font-size: 9px; font-weight: 800; color: #34d399; display: block;">(약 11.7만
+                원)</span>
+            </div>
           </div>
-          <div class="roas-pill b-target"
-            style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 4px; text-align: center;">
-            <span
-              style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block; text-transform: uppercase;">실전
-              예상 ROAS</span>
-            <span id="res-target-roas"
-              style="font-size: 13px; font-weight: 800; color: #38bdf8; font-variant-numeric: tabular-nums;">840%
-              (8.4x)</span>
-          </div>
-          <div class="roas-pill b-net"
-            style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 4px; text-align: center;">
-            <span
-              style="font-size: 10px; color: #10b981; font-weight: 700; display: block; text-transform: uppercase;">광고
-              차감 순수익</span>
-            <span id="res-net-after-ad"
-              style="font-size: 13px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; display: block;">+$86.72</span>
-            <span id="res-net-krw" style="font-size: 9px; font-weight: 800; color: #34d399; display: block;">(약 11.7만
-              원)</span>
-          </div>
-        </div>
 
-        <!-- Supplier Cost Copy Bar -->
-        <div
-          style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 입력값:</span>
-            <span id="out-supplier-cost"
-              style="font-size: 18px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums;">$94.95</span>
-          </div>
-          <button type="button" id="btn-quick-copy-cost"
-            style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-            📋 원가 복사
-          </button>
-        </div>
-
-        <!-- 4-Stage ROAS Traffic Light Action Navigator -->
-        <div class="traffic-light-container"
-          style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px;">
+          <!-- Supplier Cost Copy Bar -->
           <div
-            style="font-size: 11px; font-weight: 700; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span>🚦 실전 광고 판단 신호등</span>
-            <span id="traffic-status-badge"
-              style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢
-              위닝 (+20% 증액)</span>
+            style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 10px; color: #94a3b8; display: block;">쇼피파이 [비용 (Cost per item)] 입력값:</span>
+              <span id="out-supplier-cost"
+                style="font-size: 18px; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums;">$94.95</span>
+            </div>
+            <button type="button" id="btn-quick-copy-cost"
+              style="background: #10b981; color: #0f172a; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+              📋 원가 복사
+            </button>
           </div>
 
-          <!-- 4 Lamps Row -->
-          <div class="traffic-lamps"
-            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
-            <div class="traffic-lamp" id="lamp-kill"
-              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-red"
-                style="width: 12px; height: 12px; border-radius: 50%; background: #450a0a; margin: 0 auto 4px auto;">
-              </div>
-              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">&lt; 2.0x</div>
-              <div style="font-size: 9px; color: #64748b;">즉시 OFF</div>
-            </div>
+          <!-- Dropdown Sub-Accordion 1: Traffic Lights & 3-Tier Bundle Simulator -->
+          <details class="sub-accordion-box" id="acc-traffic-bundle">
+            <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #38bdf8;">
+              <span>🚦 실전 광고 판단 신호등 & 3단 번들 시뮬레이터</span>
+            </summary>
+            
+            <div style="margin-top: 10px;">
+              <!-- 4-Stage ROAS Traffic Light Action Navigator -->
+              <div class="traffic-light-container"
+                style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px;">
+                <div
+                  style="font-size: 11px; font-weight: 700; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span>🚦 실전 광고 판단 신호등</span>
+                  <span id="traffic-status-badge"
+                    style="font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢
+                    위닝 (+20% 증액)</span>
+                </div>
 
-            <div class="traffic-lamp" id="lamp-opt"
-              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-yellow"
-                style="width: 12px; height: 12px; border-radius: 50%; background: #451a03; margin: 0 auto 4px auto;">
-              </div>
-              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">2.0~3.5x</div>
-              <div style="font-size: 9px; color: #64748b;">소재 개선</div>
-            </div>
+                <!-- 4 Lamps Row -->
+                <div class="traffic-lamps"
+                  style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px;">
+                  <div class="traffic-lamp" id="lamp-kill"
+                    style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+                    <div class="t-bulb bulb-red"
+                      style="width: 12px; height: 12px; border-radius: 50%; background: #450a0a; margin: 0 auto 4px auto;">
+                    </div>
+                    <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">&lt; 2.0x</div>
+                    <div style="font-size: 9px; color: #64748b;">즉시 OFF</div>
+                  </div>
 
-            <div class="traffic-lamp active" id="lamp-scale"
-              style="padding: 6px 4px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; text-align: center;">
-              <div class="t-bulb bulb-green"
-                style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; margin: 0 auto 4px auto;">
-              </div>
-              <div style="font-size: 9px; font-weight: 700; color: #10b981;">3.5~6.9x</div>
-              <div style="font-size: 9px; color: #34d399;">+20% 증액</div>
-            </div>
+                  <div class="traffic-lamp" id="lamp-opt"
+                    style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+                    <div class="t-bulb bulb-yellow"
+                      style="width: 12px; height: 12px; border-radius: 50%; background: #451a03; margin: 0 auto 4px auto;">
+                    </div>
+                    <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">2.0~3.5x</div>
+                    <div style="font-size: 9px; color: #64748b;">소재 개선</div>
+                  </div>
 
-            <div class="traffic-lamp" id="lamp-super"
-              style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
-              <div class="t-bulb bulb-blue"
-                style="width: 12px; height: 12px; border-radius: 50%; background: #0c4a6e; margin: 0 auto 4px auto;">
-              </div>
-              <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">7.0x+</div>
-              <div style="font-size: 9px; color: #64748b;">대량 증액</div>
-            </div>
-          </div>
+                  <div class="traffic-lamp active" id="lamp-scale"
+                    style="padding: 6px 4px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; text-align: center;">
+                    <div class="t-bulb bulb-green"
+                      style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; margin: 0 auto 4px auto;">
+                    </div>
+                    <div style="font-size: 9px; font-weight: 700; color: #10b981;">3.5~6.9x</div>
+                    <div style="font-size: 9px; color: #34d399;">+20% 증액</div>
+                  </div>
 
-          <!-- Dynamic Action Guidance Box -->
-          <div class="traffic-guide-box" id="traffic-guide-text"
-            style="font-size: 11px; color: #cbd5e1; line-height: 1.4; padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 12px;">
-            💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!
-          </div>
+                  <div class="traffic-lamp" id="lamp-super"
+                    style="padding: 6px 4px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+                    <div class="t-bulb bulb-blue"
+                      style="width: 12px; height: 12px; border-radius: 50%; background: #0c4a6e; margin: 0 auto 4px auto;">
+                    </div>
+                    <div style="font-size: 9px; font-weight: 700; color: #94a3b8;">7.0x+</div>
+                    <div style="font-size: 9px; color: #64748b;">대량 증액</div>
+                  </div>
+                </div>
+
+                <!-- Dynamic Action Guidance Box -->
+                <div class="traffic-guide-box" id="traffic-guide-text"
+                  style="font-size: 11px; color: #cbd5e1; line-height: 1.4; padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; border-left: 3px solid #10b981; margin-bottom: 6px;">
+                  💡 <strong>[위닝 상품]</strong> 마진이 매우 탄탄합니다! 머신러닝을 유지하며 매일 20%씩 예산을 안전하게 증액(Vertical Scaling)하세요!
+                </div>
+              </div>
+
+              <!-- 🚀 3단 볼륨 번들 실전 순수익 증폭 시뮬레이터 (1-Pack vs Buy 2 vs Buy 3) -->
+              <div
+                style="margin-top: 10px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #38bdf8;">🚀 3단 번들 순수익 증폭 시뮬레이터</span>
+                  <span
+                    style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">앱
+                    비용 $0 내장</span>
+                </div>
+
+                <!-- 3-Column Bundle Matrix -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center;">
+                  <!-- Single 1-Pack -->
+                  <div
+                    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 4px;">
+                    <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
+                    <span id="bndl-rev-1"
+                      style="font-size: 12px; font-weight: 800; color: #f8fafc; display: block;">$209.99</span>
+                    <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25</span>
+                    <span id="bndl-net-1"
+                      style="font-size: 12px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
+                    <span id="bndl-krw-1" style="font-size: 9px; font-weight: 700; color: #34d399; display: block;">약 10.9만
+                      원</span>
+                  </div>
+
+                  <!-- Buy 2 (15% OFF) -->
+                  <div
+                    style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 4px;">
+                    <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">Buy 2 (15%↓)</span>
+                    <span id="bndl-rev-2"
+                      style="font-size: 12px; font-weight: 800; color: #38bdf8; display: block;">$356.98</span>
+                    <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
+                    <span id="bndl-net-2"
+                      style="font-size: 12px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
+                    <span id="bndl-krw-2" style="font-size: 9px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원
+                      (1.6배)</span>
+                  </div>
+
+                  <!-- Buy 3 (25% OFF) -->
+                  <div
+                    style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; padding: 6px 4px;">
+                    <span style="font-size: 10px; color: #f59e0b; font-weight: 700; display: block;">Buy 3 (25%↓)</span>
+                    <span id="bndl-rev-3"
+                      style="font-size: 12px; font-weight: 800; color: #f59e0b; display: block;">$472.48</span>
+                    <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
+                    <span id="bndl-net-3"
+                      style="font-size: 12px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
+                    <span id="bndl-krw-3" style="font-size: 9px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원
+                      (1.8배)</span>
+                  </div>
+                </div>
+                <div style="font-size: 9px; color: #94a3b8; margin-top: 6px; text-align: center;">
+                  💡 <strong>원리:</strong> 광고비($25)는 1번만 나가므로 번들 구매 시 사장님 순이익이 폭발합니다!
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Dropdown Sub-Accordion 2: Fixed & Variable Expenses Checklist -->
+          <details class="sub-accordion-box" id="acc-fixed-expenses">
+            <summary class="sub-accordion-title" style="font-size: 11px; font-weight: 800; color: #cbd5e1;">
+              <span>📋 월 고정비 & 건당 실비용 명세표 (입력 연동)</span>
+              <span id="exp-fixed-badge"
+                style="font-size: 9px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 1px 6px; border-radius: 4px;">월
+                고정비 $40.20 방어</span>
+            </summary>
+            
+            <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px;">
+              <!-- 월 고정 지출 (입력 연동) -->
+              <div
+                style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">🏢 월 고정 지출 (입력
+                  가능)</span>
+                <div
+                  style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span>• 쇼피파이 플랜:</span>
+                  <input type="number" id="exp-fixed-shopify" value="39.00" step="1.00"
+                    style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                </div>
+                <div
+                  style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span>• 도메인(.com):</span>
+                  <input type="number" id="exp-fixed-domain" value="1.20" step="0.10"
+                    style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                </div>
+                <div
+                  style="color: #10b981; display: flex; justify-content: space-between; align-items: center; font-weight: 700; margin-bottom: 4px;">
+                  <span>• 번들앱/기타:</span>
+                  <input type="number" id="exp-fixed-apps" value="0.00" step="1.00"
+                    style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                </div>
+                <div
+                  style="color: #38bdf8; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                  <span>총 월 고정비:</span> <span id="exp-monthly-fixed"
+                    style="font-size: 11px; font-weight: 900; color: #38bdf8;">$40.20/월</span>
+                </div>
+              </div>
+              <!-- 건당 변동 지출 (입력 연동) -->
+              <div
+                style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">💸 건당 변동 지출 (입력
+                  가능)</span>
+                <div
+                  style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span>• PG 수수료:</span> <span id="exp-pg-fee" style="font-weight: 700;">$6.30</span>
+                </div>
+                <div
+                  style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span>• 미국 판매세 ($):</span>
+                  <input type="number" id="exp-tax" value="0.00" step="0.50"
+                    style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                </div>
+                <div
+                  style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span>• 공급사 배송비 ($):</span>
+                  <input type="number" id="exp-shipping" value="0.00" step="1.00"
+                    style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
+                </div>
+                <div
+                  style="color: #10b981; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
+                  <span>총 건당 변동비:</span> <span id="exp-variable-total"
+                    style="font-size: 11px; font-weight: 900; color: #10b981;">$6.30/건</span>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
+      </details>
 
-        <!-- 🚀 3단 볼륨 번들 실전 순수익 증폭 시뮬레이터 (1-Pack vs Buy 2 vs Buy 3) -->
-        <div
-          style="margin-top: 12px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 11px; font-weight: 800; color: #38bdf8;">🚀 3단 번들 순수익 증폭 시뮬레이터</span>
-            <span
-              style="font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 800;">앱
-              비용 $0 내장</span>
-          </div>
-
-          <!-- 3-Column Bundle Matrix -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center;">
-            <!-- Single 1-Pack -->
-            <div
-              style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 4px;">
-              <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">1개 단품</span>
-              <span id="bndl-rev-1"
-                style="font-size: 12px; font-weight: 800; color: #f8fafc; display: block;">$209.99</span>
-              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25</span>
-              <span id="bndl-net-1"
-                style="font-size: 12px; font-weight: 900; color: #10b981; display: block;">+$80.74</span>
-              <span id="bndl-krw-1" style="font-size: 9px; font-weight: 700; color: #34d399; display: block;">약 10.9만
-                원</span>
-            </div>
-
-            <!-- Buy 2 (15% OFF) -->
-            <div
-              style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 4px;">
-              <span style="font-size: 10px; color: #38bdf8; font-weight: 700; display: block;">Buy 2 (15%↓)</span>
-              <span id="bndl-rev-2"
-                style="font-size: 12px; font-weight: 800; color: #38bdf8; display: block;">$356.98</span>
-              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
-              <span id="bndl-net-2"
-                style="font-size: 12px; font-weight: 900; color: #38bdf8; display: block;">+$126.57</span>
-              <span id="bndl-krw-2" style="font-size: 9px; font-weight: 700; color: #7dd3fc; display: block;">약 17.1만 원
-                (1.6배)</span>
-            </div>
-
-            <!-- Buy 3 (25% OFF) -->
-            <div
-              style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; padding: 6px 4px;">
-              <span style="font-size: 10px; color: #f59e0b; font-weight: 700; display: block;">Buy 3 (25%↓)</span>
-              <span id="bndl-rev-3"
-                style="font-size: 12px; font-weight: 800; color: #f59e0b; display: block;">$472.48</span>
-              <span style="font-size: 9px; color: #64748b; display: block; margin: 1px 0;">광고비 -$25 (1회)</span>
-              <span id="bndl-net-3"
-                style="font-size: 12px; font-weight: 900; color: #f59e0b; display: block;">+$142.31</span>
-              <span id="bndl-krw-3" style="font-size: 9px; font-weight: 700; color: #fde68a; display: block;">약 19.2만 원
-                (1.8배)</span>
-            </div>
-          </div>
-          <div style="font-size: 9px; color: #94a3b8; margin-top: 6px; text-align: center;">
-            💡 <strong>원리:</strong> 광고비($25)는 1번만 나가므로 번들 구매 시 사장님 순이익이 폭발합니다!
-          </div>
+      <!-- Quick Legal & Risk Defense Desk Launcher Banner -->
+      <div class="panel-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.35); box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); padding: 12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; font-weight:800; color:#f87171;"><span class="icon">🛡️</span> 4. 4대 법적 분쟁 & 리스크 방어 타워</span>
+          <span style="font-size:9px; background:rgba(239, 68, 68, 0.2); color:#f87171; padding:2px 6px; border-radius:4px; font-weight:800;">76대 SOP 내장</span>
         </div>
-
-        <!-- 📋 스토어 고정비 & 건당 실비용 투명 명세표 (입력 연동) -->
-        <div
-          style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 8px; padding: 10px 12px;">
-          <div
-            style="font-size: 11px; font-weight: 800; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <span>📋 고정비 & 건당 실비용 명세표</span>
-            <span id="exp-fixed-badge"
-              style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">월
-              고정비 $40.20 완벽 방어</span>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px;">
-            <!-- 월 고정 지출 (입력 연동) -->
-            <div
-              style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">🏢 월 고정 지출 (입력
-                가능)</span>
-              <div
-                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                <span>• 쇼피파이 플랜:</span>
-                <input type="number" id="exp-fixed-shopify" value="39.00" step="1.00"
-                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
-              </div>
-              <div
-                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                <span>• 도메인(.com):</span>
-                <input type="number" id="exp-fixed-domain" value="1.20" step="0.10"
-                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
-              </div>
-              <div
-                style="color: #10b981; display: flex; justify-content: space-between; align-items: center; font-weight: 700; margin-bottom: 4px;">
-                <span>• 번들앱/기타:</span>
-                <input type="number" id="exp-fixed-apps" value="0.00" step="1.00"
-                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
-              </div>
-              <div
-                style="color: #38bdf8; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
-                <span>총 월 고정비:</span> <span id="exp-monthly-fixed"
-                  style="font-size: 11px; font-weight: 900; color: #38bdf8;">$40.20/월</span>
-              </div>
-            </div>
-            <!-- 건당 변동 지출 (입력 연동) -->
-            <div
-              style="background: rgba(255,255,255,0.02); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-              <span style="color: #94a3b8; display: block; font-weight: 700; margin-bottom: 4px;">💸 건당 변동 지출 (입력
-                가능)</span>
-              <div
-                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                <span>• PG 수수료:</span> <span id="exp-pg-fee" style="font-weight: 700;">$6.30</span>
-              </div>
-              <div
-                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                <span>• 미국 판매세 ($):</span>
-                <input type="number" id="exp-tax" value="0.00" step="0.50"
-                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
-              </div>
-              <div
-                style="color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <span>• 공급사 배송비 ($):</span>
-                <input type="number" id="exp-shipping" value="0.00" step="1.00"
-                  style="width: 58px; background: rgba(0,0,0,0.5); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; font-size: 10px; font-weight: 800; border-radius: 4px; padding: 1px 4px; text-align: right; outline: none;">
-              </div>
-              <div
-                style="color: #10b981; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3px; font-weight: 800;">
-                <span>총 건당 변동비:</span> <span id="exp-variable-total"
-                  style="font-size: 11px; font-weight: 900; color: #10b981;">$6.30/건</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Quick Legal & Chargeback Defense Desk Launcher Banner -->
-        <div class="panel-card" style="margin-top: 12px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(239, 68, 68, 0.35); box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); padding: 12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <span style="font-size:11px; font-weight:800; color:#f87171;"><span class="icon">🛡️</span> 4. 차지백 & CS 1초 소명 센터</span>
-            <span style="font-size:9px; background:rgba(239, 68, 68, 0.2); color:#f87171; padding:2px 6px; border-radius:4px; font-weight:800;">76대 SOP 내장</span>
-          </div>
-          <p style="font-size:10px; color:#94a3b8; line-height:1.4; margin-bottom:8px;">
-            카드사 분쟁(Chargeback) 발생 시 1초 만에 100% 승소용 공식 영문 소명서와 증빙 체크리스트를 자동 생성합니다.
-          </p>
-          <button type="button" style="width:100%; padding:8px; font-size:11px; background:linear-gradient(135deg, #ef4444, #b91c1c); border:none; border-radius:6px; color:#fff; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="navigateToTab('dispute')">
-            ⚡ 차지백 방어 & 소명서 생성기 열기 ➔
-          </button>
-        </div>
+        <p style="font-size:10px; color:#94a3b8; line-height:1.4; margin-bottom:8px;">
+          카드사 분쟁(차지백), 상표권/가짜소송 피싱, 공급사 품절/단가급등 방어, 미국 연방 규정(ADA/FTC/CPSC) 1초 점검 센터
+        </p>
+        <button type="button" style="width:100%; padding:8px; font-size:11px; background:linear-gradient(135deg, #ef4444, #b91c1c); border:none; border-radius:6px; color:#fff; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="navigateToTab('dispute')">
+          ⚡ 4대 리스크 방어 & 소명서 생성기 열기 ➔
+        </button>
       </div>
 
-      <!-- Verified Physical Catalog Inspector -->
-      <div class="panel-card">
-        <div class="panel-section-title">
-          <span class="icon">📦</span> 5. 검증된 실물 라인업 (에셋 1:1 결합 완료)
-        </div>
-        <div class="catalog-list" id="catalog-list-container">
+      <!-- Verified Physical Catalog Inspector (Collapsible Accordion) -->
+      <details open class="panel-card" id="catalog-panel-card">
+        <summary class="panel-section-title">
+          <span><span class="icon">📦</span> 5. 검증된 실물 라인업 (에셋 1:1 결합 완료)</span>
+        </summary>
+        <div class="catalog-list" id="catalog-list-container" style="margin-top: 10px;">
           <!-- Dynamic Catalog Cards loaded via app.js -->
         </div>
-      </div>
+      </details>
 
       <!-- Action Button -->
       <button class="build-action-btn" id="btn-run-build">
@@ -1942,8 +2002,8 @@ body {
           <button class="tab-btn" id="tab-pdp">🛍️ PDP A+ 도면</button>
           <button class="tab-btn" id="tab-collections">📁 컬렉션 허브</button>
           <button class="tab-btn" id="tab-cart">🛒 장바구니 & 결제</button>
-          <button class="tab-btn" id="tab-legal">⚖️ 4대 법적 정책</button>
-          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 법적 분쟁 & 리스크 방어</button>
+          <button class="tab-btn" id="tab-legal">🏛️ 고객 신뢰 정책 (Storefront)</button>
+          <button class="tab-btn" id="tab-dispute" style="border-color: rgba(239, 68, 68, 0.4); color: #f87171;">🛡️ 운영자 리스크 방어 (Admin)</button>
         </div>
         <div class="device-switcher">
           <button class="device-btn active" id="btn-view-desktop">🖥️ 데스크탑</button>
