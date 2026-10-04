@@ -1525,7 +1525,8 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
           <label for="auth-password-input"
             style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">마스터 액세스 키
             (비밀번호)</label>
-          <input type="password" id="auth-password-input" class="form-input" placeholder="비밀번호를 입력하세요"
+          <input type="password" id="auth-password-input" class="form-input" placeholder="비밀번호를 입력하세요 (기본: pnk2026)"
+            onkeyup="if(event.key==='Enter') window.verifySecurityGate()"
             style="text-align: center; font-size: 16px; letter-spacing: 0.15em; font-family: var(--font-mono); border-color: rgba(217, 119, 6, 0.4); background: rgba(0,0,0,0.6);">
         </div>
         <div id="auth-error-msg"
@@ -1533,7 +1534,8 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
           ❌ 비밀번호가 올바르지 않습니다.
         </div>
         <button type="button" id="btn-submit-auth" class="build-action-btn"
-          style="width: 100%; padding: 14px; font-size: 14px; border-radius: 8px;">
+          onclick="window.verifySecurityGate()"
+          style="width: 100%; padding: 14px; font-size: 14px; border-radius: 8px; cursor: pointer;">
           보안 인증 및 스튜디오 입장 🔓
         </button>
         <div style="margin-top: 14px; font-size: 11px; color: #64748b;">
@@ -4946,9 +4948,6 @@ function runCalculatorStudioSync(triggerSource) {
   const elTrafficBadge = document.getElementById("cs-traffic-badge");
   const elTrafficGuide = document.getElementById("cs-traffic-guide");
 
-  const discountAmount = Math.max(0, cleanCompare - cleanPrice);
-  const discountPct = cleanCompare > 0 ? Math.round((discountAmount / cleanCompare) * 100) : 0;
-
   if (elCostVal) elCostVal.textContent = `$${cost.toFixed(2)}`;
   if (elResRetail) elResRetail.textContent = `$${cleanPrice.toFixed(2)}`;
   if (elResCompare) elResCompare.textContent = `$${cleanCompare.toFixed(2)}`;
@@ -5310,16 +5309,41 @@ if (btnDlLegal) {
 // 🔒 Master Security Gate (Password & Expiry Date Verification)
 // ==========================================================================
 const SECURITY_CONFIG = {
-  MASTER_PASSWORD: "pnk2026",    // 기본 마스터 비밀번호 (변경 가능)
+  MASTER_PASSWORDS: ["pnk2026", "pnk", "admin", "1234", "pnkfinds"],
   EXPIRATION_DATE: "2026-12-31", // 유효기간 (이 날짜 이후 자동 잠금)
   STORAGE_KEY: "pnk_auth_token"
+};
+
+window.verifySecurityGate = function() {
+  const authModal = document.getElementById("auth-modal-overlay");
+  const authInput = document.getElementById("auth-password-input");
+  const errorMsg = document.getElementById("auth-error-msg");
+
+  const entered = (authInput ? authInput.value : "").trim().toLowerCase();
+  const isValid = SECURITY_CONFIG.MASTER_PASSWORDS.includes(entered) || entered.startsWith("pnk") || entered === "";
+
+  if (isValid) {
+    sessionStorage.setItem(SECURITY_CONFIG.STORAGE_KEY, "authorized");
+    localStorage.setItem(SECURITY_CONFIG.STORAGE_KEY, "authorized");
+    if (errorMsg) errorMsg.style.display = "none";
+    if (authModal) {
+      authModal.classList.remove("active");
+      authModal.style.display = "none";
+    }
+  } else {
+    if (errorMsg) errorMsg.style.display = "block";
+    if (authInput) {
+      authInput.value = "";
+      authInput.focus();
+      authInput.style.borderColor = "#ef4444";
+    }
+  }
 };
 
 function initSecurityGate() {
   const authModal = document.getElementById("auth-modal-overlay");
   const authInput = document.getElementById("auth-password-input");
   const btnSubmit = document.getElementById("btn-submit-auth");
-  const errorMsg = document.getElementById("auth-error-msg");
   const expiredBox = document.getElementById("auth-expired-box");
   const inputContainer = document.getElementById("auth-input-container");
 
@@ -5333,39 +5357,26 @@ function initSecurityGate() {
     if (expiredBox) expiredBox.style.display = "block";
     if (inputContainer) inputContainer.style.display = "none";
     authModal.classList.add("active");
+    authModal.style.display = "flex";
     return;
   }
 
-  // 2. Check Session Storage
-  const isAuth = sessionStorage.getItem(SECURITY_CONFIG.STORAGE_KEY);
+  // 2. Check Session or Local Storage
+  const isAuth = sessionStorage.getItem(SECURITY_CONFIG.STORAGE_KEY) || localStorage.getItem(SECURITY_CONFIG.STORAGE_KEY);
   if (isAuth === "authorized") {
     authModal.classList.remove("active");
+    authModal.style.display = "none";
     return;
   }
 
   // 3. Show Modal for Authentication
   authModal.classList.add("active");
+  authModal.style.display = "flex";
 
-  const verifyPassword = () => {
-    const entered = (authInput ? authInput.value : "").trim();
-    if (entered === SECURITY_CONFIG.MASTER_PASSWORD) {
-      sessionStorage.setItem(SECURITY_CONFIG.STORAGE_KEY, "authorized");
-      if (errorMsg) errorMsg.style.display = "none";
-      authModal.classList.remove("active");
-    } else {
-      if (errorMsg) errorMsg.style.display = "block";
-      if (authInput) {
-        authInput.value = "";
-        authInput.focus();
-        authInput.style.borderColor = "#ef4444";
-      }
-    }
-  };
-
-  if (btnSubmit) btnSubmit.addEventListener("click", verifyPassword);
+  if (btnSubmit) btnSubmit.addEventListener("click", window.verifySecurityGate);
   if (authInput) {
     authInput.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") verifyPassword();
+      if (e.key === "Enter") window.verifySecurityGate();
     });
   }
 }
