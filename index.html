@@ -1671,19 +1671,29 @@ details[open] > summary.panel-section-title::after, details[open] > summary.sub-
             <span style="font-size: 9px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 800;">스토어 실시간 직결</span>
           </summary>
           <div style="margin-top: 8px;">
-            <!-- 1-Click D2C Pricing Presets -->
+            <!-- Mode Switcher: AUTO vs MANUAL -->
+            <div style="display: flex; gap: 4px; margin-bottom: 8px; background: rgba(0,0,0,0.45); padding: 3px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+              <button type="button" id="btn-calc-mode-auto" class="calc-mode-btn active" onclick="window.setCalcMode('auto')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.25); color: #38bdf8; cursor: pointer; text-align: center; transition: all 0.2s;">
+                ⚡ AUTO (자동 연동)
+              </button>
+              <button type="button" id="btn-calc-mode-manual" class="calc-mode-btn" onclick="window.setCalcMode('manual')" style="flex: 1; padding: 4px; font-size: 10px; font-weight: 800; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; text-align: center; transition: all 0.2s;">
+                ✍️ MANUAL (수동 입력)
+              </button>
+            </div>
+
+            <!-- 1-Click D2C Pricing Presets (English Benchmarks) -->
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 8px;">
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $50실속
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
+                $50 VALUE
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $100스탠
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
+                $100 STANDARD
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $200플래
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
+                $200 FLAGSHIP
               </button>
-              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 4px; padding: 4px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
-                $400럭셔
+              <button type="button" class="btn-sidebar-preset" onclick="window.applySidebarPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 4px; padding: 5px 1px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center;">
+                $400 LUXURY
               </button>
             </div>
 
@@ -2532,6 +2542,67 @@ window.navigateToTab = function(tabName, productIdx = null) {
   if (screenViewport) screenViewport.scrollTop = 0;
 };
 
+let currentCalcMode = 'auto'; // 'auto' | 'manual'
+
+window.setCalcMode = function(mode) {
+  currentCalcMode = mode;
+  
+  // Update sidebar mode buttons
+  const btnAuto = document.getElementById("btn-calc-mode-auto");
+  const btnManual = document.getElementById("btn-calc-mode-manual");
+  if (btnAuto && btnManual) {
+    if (mode === 'auto') {
+      btnAuto.classList.add("active");
+      btnAuto.style.borderColor = "#38bdf8";
+      btnAuto.style.background = "rgba(56, 189, 248, 0.25)";
+      btnAuto.style.color = "#38bdf8";
+      btnManual.classList.remove("active");
+      btnManual.style.borderColor = "transparent";
+      btnManual.style.background = "transparent";
+      btnManual.style.color = "#94a3b8";
+    } else {
+      btnManual.classList.add("active");
+      btnManual.style.borderColor = "#f59e0b";
+      btnManual.style.background = "rgba(245, 158, 11, 0.25)";
+      btnManual.style.color = "#f59e0b";
+      btnAuto.classList.remove("active");
+      btnAuto.style.borderColor = "transparent";
+      btnAuto.style.background = "transparent";
+      btnAuto.style.color = "#94a3b8";
+    }
+  }
+
+  // Update studio mode buttons if present
+  const csBtnAuto = document.getElementById("cs-btn-mode-auto");
+  const csBtnManual = document.getElementById("cs-btn-mode-manual");
+  if (csBtnAuto && csBtnManual) {
+    if (mode === 'auto') {
+      csBtnAuto.classList.add("active");
+      csBtnAuto.style.borderColor = "#38bdf8";
+      csBtnAuto.style.background = "rgba(56, 189, 248, 0.25)";
+      csBtnAuto.style.color = "#38bdf8";
+      csBtnManual.classList.remove("active");
+      csBtnManual.style.borderColor = "transparent";
+      csBtnManual.style.background = "transparent";
+      csBtnManual.style.color = "#94a3b8";
+    } else {
+      csBtnManual.classList.add("active");
+      csBtnManual.style.borderColor = "#f59e0b";
+      csBtnManual.style.background = "rgba(245, 158, 11, 0.25)";
+      csBtnManual.style.color = "#f59e0b";
+      csBtnAuto.classList.remove("active");
+      csBtnAuto.style.borderColor = "transparent";
+      csBtnAuto.style.background = "transparent";
+      csBtnAuto.style.color = "#94a3b8";
+    }
+  }
+
+  runUnifiedSync('init');
+  if (currentTab === 'calculator') {
+    runCalculatorStudioSync('init');
+  }
+};
+
 // Unified Profit & ROAS Real-Time Synchronization (Storefront & Studio Synced)
 function runUnifiedSync(triggerSource) {
   if (isUpdating) return;
@@ -2578,11 +2649,17 @@ function runUnifiedSync(triggerSource) {
     price = (cost * (1 + (marginPct / 100))) + activeBuffer;
     if (elPrice) elPrice.value = price.toFixed(2);
   } else if (triggerSource === 'price' || triggerSource === 'retail') {
-    // Manual price input: keep cost as is and compute real resulting profit
     if (elPrice) price = parseFloat(elPrice.value) || price;
+    if (currentCalcMode === 'auto') {
+      cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
+      if (elCost) elCost.value = cost.toFixed(2);
+    }
   } else if (triggerSource === 'cost') {
-    // Manual cost input: keep price as is and compute real resulting profit
     if (elCost) cost = parseFloat(elCost.value) || cost;
+    if (currentCalcMode === 'auto') {
+      price = (cost * (1 + (marginPct / 100))) + activeBuffer;
+      if (elPrice) elPrice.value = price.toFixed(2);
+    }
   }
 
   currentCost = cost;
@@ -4285,24 +4362,34 @@ function renderCalculatorStudioView(b) {
               <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-weight: 800;">2-Way Synced</span>
             </div>
 
-            <!-- 1-Click D2C Price Tier Presets -->
+            <!-- Mode Switcher: AUTO vs MANUAL -->
+            <div style="display: flex; gap: 6px; margin-bottom: 12px; background: rgba(0,0,0,0.45); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+              <button type="button" id="cs-btn-mode-auto" class="calc-mode-btn ${currentCalcMode === 'auto' ? 'active' : ''}" onclick="window.setCalcMode('auto')" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 800; border-radius: 6px; border: 1px solid ${currentCalcMode === 'auto' ? '#38bdf8' : 'transparent'}; background: ${currentCalcMode === 'auto' ? 'rgba(56, 189, 248, 0.25)' : 'transparent'}; color: ${currentCalcMode === 'auto' ? '#38bdf8' : '#94a3b8'}; cursor: pointer; text-align: center; transition: all 0.2s;">
+                ⚡ AUTO (자동 연동)
+              </button>
+              <button type="button" id="cs-btn-mode-manual" class="calc-mode-btn ${currentCalcMode === 'manual' ? 'active' : ''}" onclick="window.setCalcMode('manual')" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 800; border-radius: 6px; border: 1px solid ${currentCalcMode === 'manual' ? '#f59e0b' : 'transparent'}; background: ${currentCalcMode === 'manual' ? 'rgba(245, 158, 11, 0.25)' : 'transparent'}; color: ${currentCalcMode === 'manual' ? '#f59e0b' : '#94a3b8'}; cursor: pointer; text-align: center; transition: all 0.2s;">
+                ✍️ MANUAL (수동 입력)
+              </button>
+            </div>
+
+            <!-- 1-Click D2C Price Tier Presets (English Benchmarks) -->
             <div style="margin-bottom: 12px; background: rgba(0,0,0,0.35); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
               <div style="font-size: 10px; color: #94a3b8; font-weight: 700; margin-bottom: 6px; display: flex; justify-content: space-between;">
-                <span>⚡ 가격대별 D2C 황금 마진 원터치 프리셋:</span>
+                <span>⚡ D2C Golden Margin Benchmark Presets:</span>
                 <span style="color: #38bdf8; font-weight: 800;">1-Click Auto Config</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
                 <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(49.99, 60, 12.0, 15.0)" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  ⚡ $50 실속형<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">마진?v=5.02/광고?v=5.05</span>
+                  ⚡ $50 VALUE<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf ?v=5.02 / CPA ?v=5.05</span>
                 </button>
                 <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(99.99, 65, 25.0, 20.0)" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  🔥 ?v=5.000 스탠다드<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">마진$25/광고$20</span>
+                  🔥 ?v=5.000 STANDARD<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $25 / CPA $20</span>
                 </button>
                 <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(209.99, 65, 50.0, 25.0)" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  👑 $200 플래그십<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">마진$50/광고$25</span>
+                  👑 $200 FLAGSHIP<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $50 / CPA $25</span>
                 </button>
                 <button type="button" class="btn-calc-preset" onclick="window.applyPricingPreset(399.99, 65, 80.0, 35.0)" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; border-radius: 6px; padding: 6px 2px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center;">
-                  💎 $400 럭셔리<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">마진$80/광고$35</span>
+                  💎 $400 LUXURY<br><span style="font-size: 9px; opacity: 0.8; font-weight: normal;">Buf $80 / CPA $35</span>
                 </button>
               </div>
             </div>
@@ -4586,8 +4673,16 @@ function runCalculatorStudioSync(triggerSource) {
     csPrice.value = price.toFixed(2);
   } else if (triggerSource === 'price') {
     if (csPrice) price = parseFloat(csPrice.value) || price;
+    if (currentCalcMode === 'auto') {
+      cost = Math.max(0, (price - activeBuffer) / (1 + (marginPct / 100)));
+      if (csCost) csCost.value = cost.toFixed(2);
+    }
   } else if (triggerSource === 'cost') {
     if (csCost) cost = parseFloat(csCost.value) || cost;
+    if (currentCalcMode === 'auto') {
+      price = (cost * (1 + (marginPct / 100))) + activeBuffer;
+      if (csPrice) csPrice.value = price.toFixed(2);
+    }
   }
 
   currentCost = cost;
