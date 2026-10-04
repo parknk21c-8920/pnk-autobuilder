@@ -4200,7 +4200,7 @@ function renderCalculatorStudioView(b) {
 
             <!-- Smart Dynamic Buffer / CPA Ratio Guide Hint -->
             <div id="cs-buffer-smart-hint" style="font-size: 11px; color: #94a3b8; background: rgba(0,0,0,0.4); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-              <span>💡 안전마진 비중: <strong id="cs-buffer-ratio-txt" style="color: #38bdf8;">24%</strong> (판매가 $209.99 대비)</span>
+              <span id="cs-buffer-hint-txt">💡 안전마진 비중: <strong id="cs-buffer-ratio-txt" style="color: #38bdf8;">24% ($12.00)</strong> (현재 판매가 ${parsedPrice.toFixed(2)} 대비)</span>
               <button type="button" id="btn-auto-fix-buffer" style="display: none; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
                 ✨ 추천 안전마진(25%) 자동적용
               </button>
@@ -4567,13 +4567,14 @@ function runCalculatorStudioSync(triggerSource) {
     b3n.style.color = net3 >= 0 ? '#f59e0b' : '#ef4444';
   }
   // Smart Buffer Ratio Guide & Auto-Fix Trigger
-  const elBufferRatioTxt = document.getElementById("cs-buffer-ratio-txt");
+  const elBufferHintTxt = document.getElementById("cs-buffer-hint-txt");
   const btnAutoFixBuffer = document.getElementById("btn-auto-fix-buffer");
-  if (elBufferRatioTxt && cleanPrice > 0) {
+  if (elBufferHintTxt && cleanPrice > 0) {
     const ratio = Math.round((buffer / cleanPrice) * 100);
-    elBufferRatioTxt.textContent = `${ratio}% (${buffer.toFixed(2)})`;
+    const color = (ratio > 40 || buffer >= cleanPrice) ? '#ef4444' : '#38bdf8';
+    elBufferHintTxt.innerHTML = `💡 안전마진 비중: <strong style="color: ${color};">${ratio}% (${buffer.toFixed(2)})</strong> (현재 판매가 ${cleanPrice.toFixed(2)} 대비)`;
+    
     if (ratio > 40 || buffer >= cleanPrice) {
-      elBufferRatioTxt.style.color = "#ef4444";
       if (btnAutoFixBuffer) {
         btnAutoFixBuffer.style.display = "inline-block";
         const recBuffer = (cleanPrice * 0.25).toFixed(2);
@@ -4586,7 +4587,6 @@ function runCalculatorStudioSync(triggerSource) {
         };
       }
     } else {
-      elBufferRatioTxt.style.color = "#38bdf8";
       if (btnAutoFixBuffer) btnAutoFixBuffer.style.display = "none";
     }
   }
